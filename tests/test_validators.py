@@ -31,9 +31,10 @@ import pytest
 from invenio_userprofiles.validators import validate_username
 
 test_usernames = {
-    'valid': 'GoodName9',
+    'valid': 'Good-Name_9',
     'invalid_begins_with_number': '9CantStartWithNumber',
     'invalid_characters': '_Containsi!!ega!Char acters*',
+    'invalid_short': 'ab',
 }
 
 
@@ -49,3 +50,6 @@ def test_validate_username(app):
     # Can only contain latin letters and numbers
     with pytest.raises(ValueError):
         validate_username(test_usernames['invalid_characters'])
+
+    with pytest.raises(ValueError):
+        validate_username(test_usernames['invalid_short'])

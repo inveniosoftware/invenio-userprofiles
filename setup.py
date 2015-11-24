@@ -36,6 +36,7 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
+    'invenio-i18n>=1.0.0a1',
     'isort>=4.2.2',
     'pep257>=0.7.0',
     'pytest-cache>=1.0',
@@ -46,13 +47,24 @@ tests_require = [
 
 extras_require = {
     'docs': [
-        "Sphinx>=1.3",
+        'Sphinx>=1.3',
+    ],
+    'mysql': [
+        'invenio-db[mysql]>=1.0.0a6',
+    ],
+    'postgresql': [
+        'invenio-db[postgresql]>=1.0.0a6',
+    ],
+    'sqlite': [
+        'invenio-db>=1.0.0a6',
     ],
     'tests': tests_require,
 }
 
 extras_require['all'] = []
-for reqs in extras_require.values():
+for name, reqs in extras_require.items():
+    if name in ('mysql', 'postgresql', 'sqlite'):
+        continue
     extras_require['all'].extend(reqs)
 
 setup_requires = [
@@ -64,9 +76,7 @@ install_requires = [
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
     'Flask-WTF>=0.10.2',
-    'invenio-accounts>=0.2.0',
-    'invenio-db>=1.0.0a4',
-    'SQLAlchemy>=1.0',
+    'invenio-accounts>=1.0.0a5',
     'WTForms>=2.0.1',
 ]
 
@@ -74,7 +84,6 @@ packages = find_packages()
 
 
 class PyTest(TestCommand):
-
     """PyTest Test."""
 
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]

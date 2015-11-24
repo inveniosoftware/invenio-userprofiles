@@ -41,7 +41,7 @@
         :target: https://github.com/inveniosoftware/invenio-userprofiles/blob/master/LICENSE
 
 
-Invenio module that adds userprofiless to the platform.
+User profiles module for Invenio.
 
 *This is an experimental developer preview release.*
 

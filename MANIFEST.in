@@ -26,7 +26,7 @@
 include .dockerignore
 include .editorconfig
 include .tx/config
-recursive-include invenio_userprofiles *.po
+recursive-include invenio_userprofiles *.po *.pot
 recursive-include invenio_userprofiles *.mo
 
 # added by check_manifest.py
@@ -50,3 +50,4 @@ recursive-include invenio_userprofiles *.html
 recursive-include misc *.py
 recursive-include misc *.rst
 recursive-include tests *.py
+recursive-include examples *.txt

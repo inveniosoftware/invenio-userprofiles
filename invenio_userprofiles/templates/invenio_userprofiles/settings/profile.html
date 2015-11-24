@@ -27,24 +27,27 @@
 {% from "invenio_userprofiles/settings/_macros.html" import render_field, form_errors %}
 
 {% block settings_form %}
-
-{% set text_username = _('Username') %}
-{% set text_full_name = _('Full Name') %}
-{% set text_update_profile = _('Update Profile') %}
-
-<form action="{{ url_for('invenio_userprofiles.profile') }}" method="Post" name="profile_form">
-{{ form_errors(form) }}
-{{ form.hidden_tag() }}
-<div class="form-group">
-    <label class="control-label" for="username">{{ text_username }}</label>
-    {{ render_field(form.username, autofocus=True, placeholder=text_username) }}
+{% if not current_user.confirmed_at %}
+<form method="POST" role="form">
+{{ verification_form.csrf_token }}
+<div class="alert alert-warning">
+  {{ _("You have not yet verified your email address.") }} {{ verification_form.send_verification_email(class_="btn btn-default btn-xs") }}
 </div>
-<div class="form-group">
-    <label class="control-label" for="full_name">{{ text_full_name }}</label>
-    {{ render_field(form.full_name, autofocus=True, placeholder=text_full_name) }}
-</div>
+<input type="hidden" name="submit" value="verification" />
+</form>
+{% endif %}
+{%- set form = profile_form %}
+<form method="POST" name="profile_form">
+{%- for field in form %}
+{%- if field.widget.input_type == 'hidden' %}
+{{ field() }}
+{%- else %}
+{{ render_field(field, autofocus=True, placeholder=field.label.text) }}
+{%- endif %}
+{%- endfor %}
 <div class="form-actions">
-    <button type="submit" class="btn btn-primary">{{ text_update_profile }}</button>
+  <a href="." class="btn btn-default"><i class="fa fa-times"></i> {{ _('Cancel') }}</a>
+  <button type="submit" name="submit" value="profile" class="btn btn-primary"><i class="fa fa-check"></i> {{ _('Update profile') }}</button>
 </div>
 </form>
 {% endblock settings_form %}

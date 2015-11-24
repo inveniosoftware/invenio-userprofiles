@@ -28,8 +28,7 @@ from __future__ import absolute_import, print_function
 
 from invenio_accounts.models import User
 from invenio_db import db
-
-from sqlalchemy.orm import validates
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from .validators import validate_username
 
@@ -50,19 +49,47 @@ class UserProfile(db.Model):
 
     __tablename__ = 'userprofiles_userprofile'
 
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey(User.id, ondelete="CASCADE"),
+        primary_key=True)
+    """Foreign key to user."""
 
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user = db.relationship(User)
+    """User relationship."""
 
-    username = db.Column(db.String(255), unique=True)
+    _username = db.Column(db.String(255), unique=True)
+    """Lower-case version of username to assert uniqueness."""
 
-    full_name = db.Column(db.String(255))
+    _displayname = db.Column(db.String(255))
+    """Case preserving version of username."""
 
-    @validates('username')
-    def _validate_username(self, key, username):
-        """Wrap username validator for SQLAlchemy."""
+    full_name = db.Column(db.String(255), nullable=False, default='')
+    """Full name of person."""
+
+    @hybrid_property
+    def username(self):
+        """Get username."""
+        return self._displayname
+
+    @username.setter
+    def username(self, username):
+        """Set username."""
         validate_username(username)
-        return username
+        self._username = username.lower()
+        self._displayname = username
+
+    @classmethod
+    def get_by_username(cls, username):
+        """Get profile by username."""
+        return cls.query.filter(
+            UserProfile._username == username.lower()
+        ).one()
+
+    @classmethod
+    def get_by_userid(cls, user_id):
+        """Get profile by username."""
+        return cls.query.filter_by(user_id=user_id).one_or_none()
 
     def is_anonymous(self):
         """Return whether this UserProfile is anonymous."""

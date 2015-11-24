@@ -1,4 +1,4 @@
-{# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
 # Copyright (C) 2015 CERN.
@@ -21,9 +21,19 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
-#}
-{%- extends config.USERPROFILES_BASE_TEMPLATE %}
 
-{%- block page_body %}
-{%- block panel %}{%- endblock panel %}
-{%- endblock page_body %}
+"""Flask-BabelEx temporary fix.
+
+Fix for problem in Flask-BabelEx. See
+https://github.com/mrjoes/flask-babelex/pull/8
+"""
+
+from __future__ import absolute_import, print_function
+
+from flask_babelex import gettext
+from speaklater import make_lazy_string
+
+
+def lazy_gettext(*args, **kwargs):
+    """Lazy gettext."""
+    return make_lazy_string(gettext, *args, **kwargs)

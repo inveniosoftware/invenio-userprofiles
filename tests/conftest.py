@@ -22,57 +22,64 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-
 """Pytest configuration."""
 
 from __future__ import absolute_import, print_function
 
-import pytest
-
 import os
+import shutil
+import tempfile
 
+import pytest
 from flask import Flask
 from flask_babelex import Babel
 from flask_cli import FlaskCLI
 from flask_mail import Mail
 from flask_menu import Menu
-
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint
 from invenio_db import InvenioDB, db
+from sqlalchemy_utils.functions import create_database, database_exists, \
+    drop_database
+
 from invenio_userprofiles import InvenioUserProfiles
 
 
 @pytest.fixture()
 def app():
     """Flask application fixture."""
-    app = Flask('testapp')
+    instance_path = tempfile.mkdtemp()
+    app = Flask(__name__, instance_path=instance_path)
 
     app.config.update(
-        TESTING=True,
+        ACCOUNTS_USE_CELERY=False,
         LOGIN_DISABLED=False,
         SECRET_KEY='testing_key',
-        TEST_USER_EMAIL='test_user@example.com',
-        TEST_USER_PASSWORD='test_password',
-        WTF_CSRF_ENABLED=False,
-        ACCOUNTS_USE_CELERY=False,
         SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI',
                                           'sqlite://'),
-        SERVER_NAME='example.com',
+        TEST_USER_EMAIL='test_user@example.com',
+        TEST_USER_PASSWORD='test_password',
+        TESTING=True,
+        WTF_CSRF_ENABLED=False,
     )
     FlaskCLI(app)
     Babel(app)
     Mail(app)
     Menu(app)
     InvenioDB(app)
-    with app.app_context():
-        db.create_all()
-
-    def teardown():
-        with app.app_context():
-            db.drop_all()
-
     InvenioAccounts(app)
     app.register_blueprint(blueprint)
     InvenioUserProfiles(app)
+
+    with app.app_context():
+        if str(db.engine.url) != "sqlite://" and \
+           not database_exists(str(db.engine.url)):
+            create_database(str(db.engine.url))
+        db.drop_all()
+        db.create_all()
+
+    def teardown():
+        drop_database(str(db.engine.url))
+        shutil.rmtree(instance_path)
+
     return app

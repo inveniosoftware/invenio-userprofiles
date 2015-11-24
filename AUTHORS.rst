@@ -25,6 +25,7 @@
 Authors
 =======
 
-Invenio module that adds userprofiles to the platform.
+User profiles module for Invenio.
 
 - Sami Hiltunen <sami.mikael.hiltunen@cern.ch>
+- Lars Holm Nielsen <lars.holm.nielsen@cern.ch>

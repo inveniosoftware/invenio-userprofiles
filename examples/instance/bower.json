@@ -1,9 +1,0 @@
-{
-    "version": "", 
-    "name": "app", 
-    "dependencies": {
-        "font-awesome": "~4.4.0", 
-        "almond": "~0.3.1", 
-        "bootstrap": "~3.3.5"
-    }
-}

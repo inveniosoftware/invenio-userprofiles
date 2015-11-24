@@ -2,12 +2,12 @@
  Invenio-UserProfiles v1.0.0
 =============================
 
-Invenio-UserProfile v1.0.0 was released on TBD, 2015.
+Invenio-UserProfile v1.0.0 was released on November 24, 2015.
 
 About
 -----
 
-Invenio module that adds userprofiles to the platform.
+User profiles module for Invenio.
 
 *This is an experimental developer preview release.*
 

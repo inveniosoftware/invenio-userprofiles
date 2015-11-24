@@ -24,10 +24,10 @@
 
 """API for user profiles."""
 
+from __future__ import absolute_import, print_function
+
+from flask import g
 from flask_security import current_user
-
-from invenio_db import db
-
 from werkzeug.local import LocalProxy
 
 from .models import AnonymousUserProfile, UserProfile
@@ -37,14 +37,14 @@ def _get_current_userprofile():
     if current_user.is_anonymous():
         return AnonymousUserProfile()
 
-    profile = UserProfile.query.get(current_user.get_id())
-    if not profile:
-        with db.session.begin_nested():
-            profile = UserProfile()
-            profile.user_id = current_user.get_id()
-            db.session.add(profile)
+    profile = g.get(
+        'userprofile',
+        UserProfile.get_by_userid(current_user.get_id()))
 
+    if profile is None:
+        profile = UserProfile(user_id=int(current_user.get_id()))
+        g.userprofile = profile
     return profile
 
-
 current_userprofile = LocalProxy(lambda: _get_current_userprofile())
+"""Proxy to the current_userprofile."""

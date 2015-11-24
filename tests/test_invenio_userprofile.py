@@ -22,7 +22,6 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-
 """Module tests."""
 
 from __future__ import absolute_import, print_function
@@ -32,9 +31,9 @@ from flask_babelex import Babel
 from flask_cli import FlaskCLI
 from flask_mail import Mail
 from flask_menu import Menu
-
 from invenio_accounts import InvenioAccounts
 from invenio_db import InvenioDB
+
 from invenio_userprofiles import InvenioUserProfiles
 
 

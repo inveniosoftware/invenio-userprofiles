@@ -22,7 +22,7 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Invenio module that adds userprofiles to the platform."""
+"""User profiles module for Invenio."""
 
 from __future__ import absolute_import, print_function
 
@@ -43,7 +43,8 @@ class InvenioUserProfiles(object):
         self.init_config(app)
 
         # Register blueprint for templates
-        app.register_blueprint(blueprint)
+        app.register_blueprint(
+            blueprint, url_prefix=app.config['USERPROFILES_PROFILE_URL'])
 
         # Register current_profile
         app.context_processor(lambda: dict(
@@ -54,13 +55,20 @@ class InvenioUserProfiles(object):
     def init_config(self, app):
         """Initialize configuration."""
         app.config.setdefault(
+            'USERPROFILES_PROFILE_URL',
+            '/account/settings/profile/')
+
+        app.config.setdefault('USERPROFILES_EMAIL_ENABLED', True)
+
+        app.config.setdefault(
+            'USERPROFILES_PROFILE_TEMPLATE',
+            'invenio_userprofiles/settings/profile.html')
+
+        app.config.setdefault(
             'USERPROFILES_BASE_TEMPLATE',
             app.config.get('BASE_TEMPLATE',
                            'invenio_userprofiles/base.html'))
-        app.config.setdefault(
-            'USERPROFILES_COVER_TEMPLATE',
-            app.config.get('COVER_TEMPLATE',
-                           'invenio_userprofiles/base_cover.html'))
+
         app.config.setdefault(
             'USERPROFILES_SETTINGS_TEMPLATE',
             app.config.get('SETTINGS_TEMPLATE',

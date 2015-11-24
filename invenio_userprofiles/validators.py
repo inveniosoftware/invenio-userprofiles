@@ -24,12 +24,18 @@
 
 """Validators for user profiles."""
 
+from __future__ import absolute_import, print_function
+
 import re
 
-from flask_babelex import gettext as _
+from .gettext import lazy_gettext as _
 
+username_regex = re.compile('^[a-zA-Z][a-zA-Z0-9-_]{2}[a-zA-Z0-9-_]*$')
 
-username_regex = re.compile('^[a-zA-Z][a-zA-Z0-9]*$')
+# NOTE: Used for both form help text and for form validation error.
+USERNAME_RULES = _(
+    'Username must start with a letter, be at least three characters long and'
+    ' only contain alphanumeric characters, dashes and underscores.')
 
 
 def validate_username(username):
@@ -39,5 +45,4 @@ def validate_username(username):
     start with a letter.
     """
     if not username_regex.match(username):
-        raise ValueError(_('Username has to be alphanumeric '
-                           'and start with a letter'))
+        raise ValueError(USERNAME_RULES)

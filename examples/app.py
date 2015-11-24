@@ -22,28 +22,31 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-
-u"""Minimal Flask application example for development.
+"""Minimal Flask application example for development.
 
 Install the Invenio default theme
 
-You should execute these commands in the examples-directory.
+You should execute these commands in the examples directory.
 
 .. code-block:: console
-   $ pip install -r requirements.txt
-   $ flask -a app.py bower
-   $ cd instance
-   $ bower install
+
+   $ pip install -r requirements.txt
+   $ flask -a app.py npm
+   $ cd static
+   $ npm install
    $ cd ..
-   $ flask -a app.py collect -v
+   $ flask -a app.py collect -v
    $ flask -a app.py assets build
 
-Create database and tables:
+Create the database and add a user:
 
 .. code-block:: console
 
+   $ mkdir instance
    $ flask -a app.py db init
    $ flask -a app.py db create
+   $ flask -a app.py users create -e info@invenio-software.org -a
+   $ flask -a app.py users create -e another@invenio-software.org -a
 
 Run the development server:
 
@@ -55,15 +58,16 @@ Run the development server:
 from __future__ import absolute_import, print_function
 
 import pkg_resources
-
 from flask import Flask, redirect, url_for
 from flask_babelex import Babel
 from flask_cli import FlaskCLI
-from flask_mail import Mail
-
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint
 from invenio_db import InvenioDB
+from invenio_i18n import InvenioI18N
+from invenio_mail import InvenioMail
+from wtforms.i18n import messages_path
+
 from invenio_userprofiles import InvenioUserProfiles
 
 try:
@@ -87,10 +91,14 @@ app.config.update(
     MAIL_SUPPRESS_SEND=True,
     SECRET_KEY='CHANGE_ME',
     ACCOUNTS_USE_CELERY=False,
+    BABEL_DEFAULT_LOCALE='en',
+    I18N_TRASNLATION_PATHS=[
+        messages_path(), ]
 )
 FlaskCLI(app)
 Babel(app)
-Mail(app)
+InvenioMail(app)
+InvenioI18N(app)
 InvenioDB(app)
 if INVENIO_ASSETS_AVAILABLE:
     InvenioAssets(app)

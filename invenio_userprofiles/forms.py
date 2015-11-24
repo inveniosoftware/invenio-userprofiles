@@ -24,13 +24,21 @@
 
 """Forms for user profiles."""
 
-from flask_babelex import gettext as _
+from __future__ import absolute_import, print_function
+
+from flask_login import current_user
+from flask_security.forms import email_required, email_validator, \
+    unique_user_email
 from flask_wtf import Form
+from sqlalchemy.orm.exc import NoResultFound
+from wtforms import StringField, SubmitField
+from wtforms.validators import EqualTo, StopValidation, ValidationError, \
+    required
 
-from wtforms import StringField
-from wtforms.validators import ValidationError
-
-from .validators import validate_username
+from .api import current_userprofile
+from .gettext import lazy_gettext as _
+from .models import UserProfile
+from .validators import USERNAME_RULES, validate_username
 
 
 def strip_filter(text):
@@ -38,11 +46,28 @@ def strip_filter(text):
     return text.strip() if text else text
 
 
+def current_user_email(form, field):
+    """Stop validation if email equals current user's email."""
+    if current_user.email == field.data:
+        raise StopValidation()
+
+
 class ProfileForm(Form):
     """Form for editing user profile."""
 
-    username = StringField(_('Username'), filters=[strip_filter])
-    full_name = StringField(_('Full Name'), filters=[strip_filter])
+    username = StringField(
+        # NOTE: Form field label
+        _('Username'),
+        # NOTE: Form field help text
+        description=_('Required. %(username_rules)s',
+                      username_rules=USERNAME_RULES),
+        validators=[required()],
+        filters=[strip_filter], )
+
+    full_name = StringField(
+        # NOTE: Form label
+        _('Full name'),
+        filters=[strip_filter], )
 
     def validate_username(form, field):
         """Wrap username validator for WTForms."""
@@ -50,3 +75,47 @@ class ProfileForm(Form):
             validate_username(field.data)
         except ValueError as e:
             raise ValidationError(e)
+
+        try:
+            UserProfile.get_by_username(field.data)
+            if field.data != current_userprofile.username:
+                # NOTE: Form validation error.
+                raise ValidationError(_('Username already exists.'))
+        except NoResultFound:
+            return
+
+
+class EmailProfileForm(ProfileForm):
+    """Form to allow editing of email address."""
+
+    email = StringField(
+        # NOTE: Form field label
+        _("Email address"),
+        filters=[lambda x: x.lower() if x is not None else x, ],
+        validators=[
+            email_required,
+            current_user_email,
+            email_validator,
+            unique_user_email,
+        ],
+    )
+
+    email_repeat = StringField(
+        # NOTE: Form field label
+        _("Re-enter email address"),
+        # NOTE: Form field help text
+        description=_("Please re-enter your email address."),
+        filters=[lambda x: x.lower() if x else x, ],
+        validators=[
+            email_required,
+            # NOTE: Form validation error.
+            EqualTo('email', message=_("Email addresses do not match."))
+        ]
+    )
+
+
+class VerificationForm(Form):
+    """Form to render a button to request email confirmation."""
+
+    # NOTE: Form button label
+    send_verification_email = SubmitField(_("Send verification email"))
