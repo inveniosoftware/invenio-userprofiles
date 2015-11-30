@@ -2,7 +2,7 @@
  Invenio-UserProfiles v1.0.0
 =============================
 
-Invenio-UserProfile v1.0.0 was released on November 24, 2015.
+Invenio-UserProfile v1.0.0 was released on November 30, 2015.
 
 About
 -----
