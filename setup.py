@@ -140,14 +140,11 @@ setup(
         'invenio_base.apps': [
             'invenio_userprofiles = invenio_userprofiles:InvenioUserProfiles',
         ],
-        'invenio_base.blueprints': [
-            'invenio_userprofiles = invenio_userprofiles.views:blueprint',
-        ],
         'invenio_db.models': [
             'invenio_userprofiles = invenio_userprofiles.models',
         ],
         'invenio_i18n.translations': [
-            'invenio_userprofiles = invenio_userprofiles',
+            'messages = invenio_userprofiles',
         ],
     },
     extras_require=extras_require,
