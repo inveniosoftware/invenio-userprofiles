@@ -26,10 +26,10 @@
 
 from __future__ import absolute_import, print_function
 
-import pkg_resources
 from flask import Blueprint, current_app, flash, render_template, request
 from flask_babelex import gettext as _
 from flask_login import current_user, login_required
+from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
 
@@ -43,27 +43,12 @@ blueprint = Blueprint(
 )
 
 
-@blueprint.before_app_first_request
-def init_menu():
-    """Initialize menu before first request."""
-    try:
-        pkg_resources.get_distribution('flask-menu')
-        from flask_menu import current_menu
-        item = current_menu.submenu('settings.userprofiles')
-        item.register(None, _('User Profile'))
-
-        item = current_menu.submenu('settings.userprofiles.profile')
-        item.register(
-            'invenio_userprofiles.profile',
-            # NOTE: Menu item text (icon replaced by a user icon).
-            _('%(icon)s Profile', icon='<i class="fa fa-user fa-fw"></i>'))
-    except pkg_resources.DistributionNotFound:  # pragma: no cover
-        # nothing to do.
-        pass
-
-
 @blueprint.route('', methods=['GET', 'POST'])
 @login_required
+@register_menu(
+    blueprint, 'settings.profile',
+    # NOTE: Menu item text (icon replaced by a user icon).
+    _('%(icon)s Profile', icon='<i class="fa fa-user fa-fw"></i>'))
 def profile():
     """View for editing profile."""
     # Create forms

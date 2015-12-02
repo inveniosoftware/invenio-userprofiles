@@ -118,4 +118,4 @@ class VerificationForm(Form):
     """Form to render a button to request email confirmation."""
 
     # NOTE: Form button label
-    send_verification_email = SubmitField(_("Send verification email"))
+    send_verification_email = SubmitField(_("Resend verification email"))

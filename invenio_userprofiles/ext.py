@@ -54,6 +54,8 @@ class InvenioUserProfiles(object):
 
     def init_config(self, app):
         """Initialize configuration."""
+        app.config.setdefault('USERPROFILES', True)
+
         app.config.setdefault(
             'USERPROFILES_PROFILE_URL',
             '/account/settings/profile/')
