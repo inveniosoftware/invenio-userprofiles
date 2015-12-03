@@ -40,8 +40,8 @@ def test_logged_out_user_has_anonymous_profile(app):
         resp = client.get(profile_url, follow_redirects=True)
         assert resp.status_code == 200
         assert 'name="login_user_form"' in resp.get_data(as_text=True)
-        assert current_user.is_anonymous() and \
-            current_userprofile.is_anonymous()
+        assert current_user.is_anonymous and \
+            current_userprofile.is_anonymous
 
 
 def test_get_current_userprofile(app):
@@ -55,5 +55,5 @@ def test_get_current_userprofile(app):
         login(app, client)
         resp = client.get(profile_url)
         assert 'name="profile_form"' in resp.get_data(as_text=True)
-        assert current_userprofile.is_anonymous() is False
+        assert current_userprofile.is_anonymous is False
         assert current_user.id == current_userprofile.user_id

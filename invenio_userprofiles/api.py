@@ -34,7 +34,7 @@ from .models import AnonymousUserProfile, UserProfile
 
 
 def _get_current_userprofile():
-    if current_user.is_anonymous():
+    if current_user.is_anonymous:
         return AnonymousUserProfile()
 
     profile = g.get(

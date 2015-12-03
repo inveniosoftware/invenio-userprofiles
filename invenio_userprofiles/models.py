@@ -36,6 +36,7 @@ from .validators import validate_username
 class AnonymousUserProfile():
     """Anonymous user profile."""
 
+    @property
     def is_anonymous(self):
         """Return whether this UserProfile is anonymous."""
         return True
@@ -91,6 +92,7 @@ class UserProfile(db.Model):
         """Get profile by username."""
         return cls.query.filter_by(user_id=user_id).one_or_none()
 
+    @property
     def is_anonymous(self):
         """Return whether this UserProfile is anonymous."""
         return False
