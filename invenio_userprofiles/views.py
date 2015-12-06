@@ -35,12 +35,19 @@ from invenio_db import db
 
 from .api import current_userprofile
 from .forms import EmailProfileForm, ProfileForm, VerificationForm
+from .models import UserProfile
 
 blueprint = Blueprint(
     'invenio_userprofiles',
     __name__,
     template_folder='templates',
 )
+
+
+@blueprint.app_template_filter()
+def userprofile(value):
+    """Retrieve user profile for a given user id."""
+    return UserProfile.get_by_userid(int(value))
 
 
 @blueprint.route('', methods=['GET', 'POST'])
