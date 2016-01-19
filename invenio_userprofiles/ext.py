@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -27,6 +27,8 @@
 from __future__ import absolute_import, print_function
 
 from .api import current_userprofile
+from .forms import confirm_register_form_factory, register_form_factory
+from .models import UserProfile
 from .views import blueprint
 
 
@@ -55,6 +57,7 @@ class InvenioUserProfiles(object):
     def init_config(self, app):
         """Initialize configuration."""
         app.config.setdefault('USERPROFILES', True)
+        app.config.setdefault('USERPROFILES_EXTEND_SECURITY_FORMS', False)
 
         app.config.setdefault(
             'USERPROFILES_PROFILE_URL',
@@ -75,3 +78,13 @@ class InvenioUserProfiles(object):
             'USERPROFILES_SETTINGS_TEMPLATE',
             app.config.get('SETTINGS_TEMPLATE',
                            'invenio_userprofiles/settings/base.html'))
+
+        app.config['SECURITY_REGISTER_USER_TEMPLATE'] = \
+            'invenio_userprofiles/register_user.html'
+
+        if app.config['USERPROFILES_EXTEND_SECURITY_FORMS']:
+            security_ext = app.extensions['security']
+            security_ext.confirm_register_form = confirm_register_form_factory(
+                security_ext.confirm_register_form)
+            security_ext.register_form = register_form_factory(
+                security_ext.register_form)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@ from invenio_db import db
 from sqlalchemy.exc import IntegrityError
 from test_validators import test_usernames
 
-from invenio_userprofiles import UserProfile
+from invenio_userprofiles import InvenioUserProfiles, UserProfile
 
 
 def test_userprofiles(app):
@@ -51,6 +51,28 @@ def test_userprofiles(app):
     profile.last_name = 'User'
     assert profile.first_name == 'Test'
     assert profile.last_name == 'User'
+
+
+def test_profile_updating(base_app):
+    base_app.config.update(USERPROFILES_EXTEND_SECURITY_FORMS=True)
+    InvenioUserProfiles(base_app)
+    app = base_app
+
+    with app.app_context():
+        user = User(email='lollorosso', password='test_password')
+        db.session.add(user)
+        db.session.commit()
+
+        assert user.profile is None
+
+        profile = UserProfile(
+            username='Test_User',
+            full_name='Test T. User'
+        )
+        user.profile = profile
+        user.profile.username = 'Different_Name'
+        assert user.profile.username == 'Different_Name'
+        assert profile.username == 'Different_Name'
 
 
 def test_case_insensitive_username(app):

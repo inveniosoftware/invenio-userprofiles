@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -27,8 +27,16 @@
 from __future__ import absolute_import, print_function
 
 from flask import url_for
+from flask_security import url_for_security
 from helpers import login, sign_up
 from test_validators import test_usernames
+
+from invenio_accounts.models import User
+from invenio_db import db
+
+from invenio_userprofiles import InvenioUserProfiles
+from invenio_userprofiles.models import UserProfile
+from invenio_userprofiles.views import userprofile
 
 
 def prefix(name, data):
@@ -36,6 +44,41 @@ def prefix(name, data):
     data = {"{0}-{1}".format(name, k): v for (k, v) in data.items()}
     data['submit'] = name
     return data
+
+
+def test_profile_in_registration(base_app):
+    base_app.config.update(USERPROFILES_EXTEND_SECURITY_FORMS=True)
+    InvenioUserProfiles(base_app)
+    app = base_app
+
+    with app.test_request_context():
+        register_url = url_for_security('register')
+        profile_url = url_for('invenio_userprofiles.profile')
+
+    with app.test_client() as client:
+        data = {
+            'email': 'test_user@example.com',
+            'password': 'test_password',
+            'profile.username': 'TestUser',
+            'profile.full_name': 'Test C. User',
+        }
+        resp = client.post(register_url, data=data, follow_redirects=True)
+
+    with app.test_request_context():
+        user = User.query.filter_by(email='test_user@example.com').one()
+        assert user.profile.username == 'TestUser'
+        assert user.profile.full_name == 'Test C. User'
+
+
+def test_template_filter(app):
+    with app.app_context():
+        user = User(email='test@example.com', password='test_password')
+        db.session.add(user)
+        db.session.commit()
+        user.profile = UserProfile(username='test_username', full_name='name')
+        db.session.commit()
+
+        assert userprofile(user.profile.user_id) == user.profile
 
 
 def test_profile_view_not_accessible_without_login(app):

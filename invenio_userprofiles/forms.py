@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -31,7 +31,7 @@ from flask_security.forms import email_required, email_validator, \
     unique_user_email
 from flask_wtf import Form
 from sqlalchemy.orm.exc import NoResultFound
-from wtforms import StringField, SubmitField
+from wtforms import FormField, StringField, SubmitField
 from wtforms.validators import EqualTo, StopValidation, ValidationError, \
     required
 
@@ -119,3 +119,23 @@ class VerificationForm(Form):
 
     # NOTE: Form button label
     send_verification_email = SubmitField(_("Resend verification email"))
+
+
+def register_form_factory(Form):
+    """Return extended registration form."""
+    class RegisterForm(Form):
+        """RegisterForm extended with UserProfile details."""
+
+        profile = FormField(ProfileForm, separator='.')
+
+    return RegisterForm
+
+
+def confirm_register_form_factory(Form):
+    """Return extended confirmation of registration form."""
+    class ConfirmRegisterForm(Form):
+        """RegisterForm extended with UserProfile details."""
+
+        profile = FormField(ProfileForm, separator='.')
+
+    return ConfirmRegisterForm

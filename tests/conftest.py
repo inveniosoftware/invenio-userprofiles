@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -45,13 +45,13 @@ from sqlalchemy_utils.functions import create_database, database_exists, \
 from invenio_userprofiles import InvenioUserProfiles
 
 
-@pytest.fixture()
-def app():
+@pytest.fixture
+def base_app():
     """Flask application fixture."""
     instance_path = tempfile.mkdtemp()
-    app = Flask(__name__, instance_path=instance_path)
+    base_app = Flask(__name__, instance_path=instance_path)
 
-    app.config.update(
+    base_app.config.update(
         ACCOUNTS_USE_CELERY=False,
         LOGIN_DISABLED=False,
         SECRET_KEY='testing_key',
@@ -62,16 +62,15 @@ def app():
         TESTING=True,
         WTF_CSRF_ENABLED=False,
     )
-    FlaskCLI(app)
-    Babel(app)
-    Mail(app)
-    Menu(app)
-    InvenioDB(app)
-    InvenioAccounts(app)
-    app.register_blueprint(blueprint)
-    InvenioUserProfiles(app)
+    FlaskCLI(base_app)
+    Babel(base_app)
+    Mail(base_app)
+    Menu(base_app)
+    InvenioDB(base_app)
+    InvenioAccounts(base_app)
+    base_app.register_blueprint(blueprint)
 
-    with app.app_context():
+    with base_app.app_context():
         if str(db.engine.url) != "sqlite://" and \
            not database_exists(str(db.engine.url)):
             create_database(str(db.engine.url))
@@ -82,4 +81,10 @@ def app():
         drop_database(str(db.engine.url))
         shutil.rmtree(instance_path)
 
-    return app
+    return base_app
+
+
+@pytest.fixture
+def app(base_app):
+    InvenioUserProfiles(base_app)
+    return base_app
