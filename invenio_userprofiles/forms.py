@@ -26,6 +26,7 @@
 
 from __future__ import absolute_import, print_function
 
+from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \
     unique_user_email
@@ -36,7 +37,6 @@ from wtforms.validators import EqualTo, StopValidation, ValidationError, \
     required
 
 from .api import current_userprofile
-from .gettext import lazy_gettext as _
 from .models import UserProfile
 from .validators import USERNAME_RULES, validate_username
 

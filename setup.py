@@ -72,10 +72,10 @@ setup_requires = [
 ]
 
 install_requires = [
-    'Flask-BabelEx>=0.9.2',
+    'Flask-BabelEx>=0.9.3',
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
-    'Flask-WTF>=0.10.2',
+    'Flask-WTF>=0.12',
     'invenio-accounts>=1.0.0a6',
     'WTForms>=2.0.1',
 ]
