@@ -27,7 +27,7 @@
 from __future__ import absolute_import, print_function
 
 from flask import Blueprint, current_app, flash, render_template, request
-from flask_babelex import gettext as _
+from flask_babelex import lazy_gettext as _
 from flask_login import current_user, login_required
 from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
@@ -55,7 +55,8 @@ def userprofile(value):
 @register_menu(
     blueprint, 'settings.profile',
     # NOTE: Menu item text (icon replaced by a user icon).
-    _('%(icon)s Profile', icon='<i class="fa fa-user fa-fw"></i>'))
+    _('%(icon)s Profile', icon='<i class="fa fa-user fa-fw"></i>'),
+    order=0)
 def profile():
     """View for editing profile."""
     # Create forms

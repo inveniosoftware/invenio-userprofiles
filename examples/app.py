@@ -89,12 +89,12 @@ except pkg_resources.DistributionNotFound:
 # Create Flask application
 app = Flask(__name__)
 app.config.update(
+    ACCOUNTS_USE_CELERY=False,
+    BABEL_DEFAULT_LOCALE='da',
+    I18N_TRASNLATION_PATHS=[messages_path()],
     MAIL_SUPPRESS_SEND=True,
     SECRET_KEY='CHANGE_ME',
-    ACCOUNTS_USE_CELERY=False,
-    BABEL_DEFAULT_LOCALE='en',
-    I18N_TRASNLATION_PATHS=[
-        messages_path(), ]
+    SQLALCHEMY_TRACK_MODIFICATIONS=True,
 )
 FlaskCLI(app)
 Babel(app)
