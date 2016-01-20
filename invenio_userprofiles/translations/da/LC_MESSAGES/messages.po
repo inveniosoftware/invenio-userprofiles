@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: invenio-userprofiles 1.0.0.dev20150000\n"
 "Report-Msgid-Bugs-To: info@invenio-software.org\n"
-"POT-Creation-Date: 2015-11-27 01:17+0100\n"
+"POT-Creation-Date: 2016-01-20 08:16+0100\n"
 "PO-Revision-Date: 2015-11-24 13:19+0100\n"
 "Last-Translator: Lars Holm Nielsen <lars.holm.nielsen@cern.ch>\n"
 "Language: da\n"
@@ -62,7 +62,7 @@ msgstr "Email adresserne skal være ens."
 
 #. NOTE: Form button label
 #: invenio_userprofiles/forms.py:121
-msgid "Send verification email"
+msgid "Resend verification email"
 msgstr "Send bekræftelses email"
 
 #. NOTE: Used for both form help text and for form validation error.
@@ -74,32 +74,27 @@ msgstr ""
 "Brugernavn skal starte med et bogstav, have minimum tre tegn, og må kun "
 "indeholde alfanumeriske tegn, bindestreg og understregningstegn."
 
-#: invenio_userprofiles/views.py:53
-msgid "User Profile"
-msgstr "Brugerprofil"
-
 #. NOTE: Menu item text (icon replaced by a user icon).
-#: invenio_userprofiles/views.py:59
+#: invenio_userprofiles/views.py:58
 #, python-format
 msgid "%(icon)s Profile"
 msgstr "%(icon)s Profil"
 
 #. NOTE: Flash message.
-#: invenio_userprofiles/views.py:110
+#: invenio_userprofiles/views.py:103
 msgid "Verification email sent."
 msgstr "Bekræftelses email sendt."
 
 #. NOTE: Flash message after successful update of profile.
-#: invenio_userprofiles/views.py:137
+#: invenio_userprofiles/views.py:130
 #, python-format
 msgid ""
 "Profile was updated. We have sent a verification email to %(email)s. "
 "Please check it."
-msgstr ""
-"Profil opdateret. Vi har sendt en bekræftelses email til %(email)s."
+msgstr "Profil opdateret. Vi har sendt en bekræftelses email til %(email)s."
 
 #. NOTE: Flash message after successful update of profile.
-#: invenio_userprofiles/views.py:143
+#: invenio_userprofiles/views.py:136
 msgid "Profile was updated."
 msgstr "Profil opdateret."
 
@@ -114,4 +109,7 @@ msgstr "Afbryd"
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:50
 msgid "Update profile"
 msgstr "Opdater profil"
+
+#~ msgid "User Profile"
+#~ msgstr "Brugerprofil"
 

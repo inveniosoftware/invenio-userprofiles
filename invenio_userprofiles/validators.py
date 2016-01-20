@@ -28,7 +28,7 @@ from __future__ import absolute_import, print_function
 
 import re
 
-from .gettext import lazy_gettext as _
+from flask_babelex import lazy_gettext as _
 
 username_regex = re.compile('^[a-zA-Z][a-zA-Z0-9-_]{2}[a-zA-Z0-9-_]*$')
 
