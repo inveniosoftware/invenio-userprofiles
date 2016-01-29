@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -46,6 +46,9 @@ tests_require = [
 ]
 
 extras_require = {
+    'admin': [
+        'invenio-admin>=1.0.0a2',
+    ],
     'docs': [
         'Sphinx>=1.3',
     ],
@@ -76,7 +79,7 @@ install_requires = [
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
     'Flask-WTF>=0.10.2',
-    'invenio-accounts>=1.0.0a6',
+    'invenio-accounts>=1.0.0a8',
     'WTForms>=2.0.1',
 ]
 
@@ -145,6 +148,10 @@ setup(
         ],
         'invenio_i18n.translations': [
             'messages = invenio_userprofiles',
+        ],
+        'invenio_admin.views': [
+            'invenio_userprofiles_view = '
+            'invenio_userprofiles.admin:user_profile_adminview',
         ],
     },
     extras_require=extras_require,

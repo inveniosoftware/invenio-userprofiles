@@ -29,10 +29,9 @@ from __future__ import absolute_import, print_function
 from flask import url_for
 from flask_security import url_for_security
 from helpers import login, sign_up
-from test_validators import test_usernames
-
 from invenio_accounts.models import User
 from invenio_db import db
+from test_validators import test_usernames
 
 from invenio_userprofiles import InvenioUserProfiles
 from invenio_userprofiles.models import UserProfile
@@ -168,7 +167,7 @@ def test_profile_name_exists(app):
 
         resp = client.post(profile_url, data=prefix('profile', dict(
             username='existingname', full_name='Another name',
-            )))
+        )))
         assert resp.status_code == 200
         assert 'Username already exists.' in resp.get_data(as_text=True)
 
