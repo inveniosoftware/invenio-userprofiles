@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -63,6 +63,7 @@ from flask_babelex import Babel
 from flask_cli import FlaskCLI
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint
+from invenio_admin import InvenioAdmin
 from invenio_db import InvenioDB
 from invenio_i18n import InvenioI18N
 from invenio_mail import InvenioMail
@@ -107,6 +108,8 @@ if INVENIO_THEME_AVAILABLE:
 InvenioAccounts(app)
 app.register_blueprint(blueprint)
 InvenioUserProfiles(app)
+InvenioAdmin(app, permission_factory=lambda x: x,
+             view_class_factory=lambda x: x)
 
 
 @app.route('/')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -125,7 +125,7 @@ def test_profile_name_exists(app):
 
         resp = client.post(profile_url, data=prefix('profile', dict(
             username='existingname', full_name='Another name',
-            )))
+        )))
         assert resp.status_code == 200
         assert 'Username already exists.' in resp.get_data(as_text=True)
 
