@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,31 +22,40 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-# Check manifest will not automatically add these two files:
-include .dockerignore
-include .editorconfig
-include .tx/config
-recursive-include invenio_userprofiles *.po *.pot
-recursive-include invenio_userprofiles *.mo
+"""Admin views for invenio-userprofiles."""
 
-# added by check_manifest.py
-include *.rst
-include *.sh
-include *.txt
-include LICENSE
-include babel.ini
-include pytest.ini
-recursive-include docs *.bat
-recursive-include docs *.py
-recursive-include docs *.rst
-recursive-include docs Makefile
-recursive-include examples *.bowerrc
-recursive-include examples *.html
-recursive-include examples *.json
-recursive-include examples *.py
-recursive-include instance *.db
-recursive-include invenio_userprofiles *.html
-recursive-include misc *.py
-recursive-include misc *.rst
-recursive-include tests *.py
-recursive-include examples *.txt
+from flask_admin.contrib.sqla import ModelView
+from flask_babelex import gettext as _
+
+from .models import UserProfile
+
+
+class UserProfileView(ModelView):
+    """Userprofiles view. Links User ID to user/full/display name."""
+
+    can_view_details = True
+    can_delete = False
+
+    column_list = (
+        'user_id',
+        'username',
+        'displayname',
+        'full_name',
+    )
+
+    form_columns = \
+        column_searchable_list = \
+        column_filters = \
+        column_details_list = \
+        columns_sortable_list = \
+        column_list
+
+    column_labels = {
+        "displayname": _('Display Name'),
+    }
+
+user_profile_adminview = {
+    'model': UserProfile,
+    'modelview': UserProfileView,
+    'category': _('User Management'),
+}

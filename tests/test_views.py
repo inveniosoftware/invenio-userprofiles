@@ -168,7 +168,7 @@ def test_profile_name_exists(app):
 
         resp = client.post(profile_url, data=prefix('profile', dict(
             username='existingname', full_name='Another name',
-            )))
+        )))
         assert resp.status_code == 200
         assert 'Username already exists.' in resp.get_data(as_text=True)
 
