@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,9 +22,40 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-pep257 invenio_userprofiles && \
-isort -rc -c -df **/*.py && \
-check-manifest --ignore ".travis-*" && \
-sphinx-build -qnNW docs docs/_build/html && \
-python setup.py test && \
-sphinx-build -qnNW -b doctest docs docs/_build/doctest
+"""Admin views for invenio-userprofiles."""
+
+from flask_admin.contrib.sqla import ModelView
+from flask_babelex import gettext as _
+
+from .models import UserProfile
+
+
+class UserProfileView(ModelView):
+    """Userprofiles view. Links User ID to user/full/display name."""
+
+    can_view_details = True
+    can_delete = False
+
+    column_list = (
+        'user_id',
+        'username',
+        '_displayname',
+        'full_name',
+    )
+
+    form_columns = \
+        column_searchable_list = \
+        column_filters = \
+        column_details_list = \
+        columns_sortable_list = \
+        column_list
+
+    column_labels = {
+        "_displayname": _('Display Name'),
+    }
+
+user_profile_adminview = {
+    'model': UserProfile,
+    'modelview': UserProfileView,
+    'category': _('User Management'),
+}
