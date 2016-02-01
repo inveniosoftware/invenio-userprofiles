@@ -58,6 +58,7 @@ class InvenioUserProfiles(object):
         """Initialize configuration."""
         app.config.setdefault('USERPROFILES', True)
         app.config.setdefault('USERPROFILES_EXTEND_SECURITY_FORMS', False)
+        app.config.setdefault('USERPROFILES_EXTEND_RECAPTCHA', False)
 
         app.config.setdefault(
             'USERPROFILES_PROFILE_URL',
@@ -90,3 +91,6 @@ class InvenioUserProfiles(object):
                 security_ext.confirm_register_form)
             security_ext.register_form = register_form_factory(
                 security_ext.register_form)
+
+        # if app.config['USERPROFILES_EXTEND_RECAPTCHA']:
+        #     security_ext = app.extensions['security']
