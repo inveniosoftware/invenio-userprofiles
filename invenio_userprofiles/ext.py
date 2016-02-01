@@ -79,8 +79,10 @@ class InvenioUserProfiles(object):
             app.config.get('SETTINGS_TEMPLATE',
                            'invenio_userprofiles/settings/base.html'))
 
-        app.config['SECURITY_REGISTER_USER_TEMPLATE'] = \
-            'invenio_userprofiles/register_user.html'
+        app.config.setdefault(
+            'SECURITY_REGISTER_USER_TEMPLATE',
+            app.config.get('SECURITY_REGISTER_USER_TEMPLATE',
+                           'invenio_userprofiles/register_user.html'))
 
         if app.config['USERPROFILES_EXTEND_SECURITY_FORMS']:
             security_ext = app.extensions['security']
