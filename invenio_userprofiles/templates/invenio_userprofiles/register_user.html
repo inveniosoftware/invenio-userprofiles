@@ -30,6 +30,7 @@
 {% block registration_form_fields %}
 {%- with form = register_user_form %}
 {{ render_field(form.profile, icon="glyphicon glyphicon-lock", errormsg=False) }}
+{{ render_field(form.recaptcha, icon="glyphicon glyphicon-lock", errormsg=False) }}
 {%- endwith %}
 {{ super() }}
 {% endblock %}

@@ -109,6 +109,7 @@ def set_userprofile(target, value, oldvalue, initiator):
         return UserProfile(**value)
     return value
 
+
 User.profile = db.relationship(
     UserProfile, back_populates='user', uselist=False,
     cascade='all, delete-orphan',

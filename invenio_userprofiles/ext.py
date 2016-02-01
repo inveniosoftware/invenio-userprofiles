@@ -22,9 +22,21 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""User profiles module for Invenio."""
+"""User profiles module for Invenio.
+
+To use recaptcha during registration:
+Get public and private key at https://www.google.com/recaptcha/
+
+Set public and private key as environmental variables USERPROFILES_PUBLIC_KEY,
+USERPROFILES_PUBLIC_KEY or set them using
+
+app.config.setdefault('USERPROFILES_PUBLIC_KEY', 'recaptcha public key')
+app.config.setdefault('USERPROFILES_PRIVATE_KEY', 'recaptcha private key')
+"""
 
 from __future__ import absolute_import, print_function
+
+import os
 
 from .api import current_userprofile
 from .forms import confirm_register_form_factory, register_form_factory
@@ -88,3 +100,13 @@ class InvenioUserProfiles(object):
                 security_ext.confirm_register_form)
             security_ext.register_form = register_form_factory(
                 security_ext.register_form)
+
+        if os.environ.get('USERPROFILES_PUBLIC_KEY') is not None \
+                and os.environ.get('USERPROFILES_PRIVATE_KEY') is not None:
+            app.config.setdefault('USERPROFILES_PUBLIC_KEY',
+                                  os.environ['USERPROFILES_PUBLIC_KEY'])
+            app.config.setdefault('USERPROFILES_PRIVATE_KEY',
+                                  os.environ['USERPROFILES_PRIVATE_KEY'])
+
+            # if app.config['USERPROFILES_EXTEND_RECAPTCHA']:
+            #     security_ext = app.extensions['security']

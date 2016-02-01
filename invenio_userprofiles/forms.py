@@ -26,10 +26,11 @@
 
 from __future__ import absolute_import, print_function
 
+from flask import current_app
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \
     unique_user_email
-from flask_wtf import Form
+from flask_wtf import Form, RecaptchaField
 from sqlalchemy.orm.exc import NoResultFound
 from wtforms import FormField, StringField, SubmitField
 from wtforms.validators import EqualTo, StopValidation, ValidationError, \
@@ -127,6 +128,9 @@ def register_form_factory(Form):
         """RegisterForm extended with UserProfile details."""
 
         profile = FormField(ProfileForm, separator='.')
+        if current_app.config.get('USERPROFILES_PUBLIC_KEY') \
+                and current_app.config.get('USERPROFILES_PRIVATE_KEY'):
+            recaptcha = RecaptchaField()
 
     return RegisterForm
 

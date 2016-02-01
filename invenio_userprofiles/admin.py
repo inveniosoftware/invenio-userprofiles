@@ -58,6 +58,7 @@ class UserProfileView(ModelView):
         "_displayname": _('Display Name'),
     }
 
+
 user_profile_adminview = {
     'model': UserProfile,
     'modelview': UserProfileView,
