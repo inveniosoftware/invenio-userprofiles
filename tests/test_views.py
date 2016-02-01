@@ -55,6 +55,10 @@ def test_profile_in_registration(base_app):
         profile_url = url_for('invenio_userprofiles.profile')
 
     with app.test_client() as client:
+        resp = client.get(register_url)
+        assert 'profile.username' in resp.get_data(as_text=True)
+        assert 'profile.full_name' in resp.get_data(as_text=True)
+
         data = {
             'email': 'test_user@example.com',
             'password': 'test_password',

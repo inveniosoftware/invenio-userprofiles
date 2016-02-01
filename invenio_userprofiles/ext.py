@@ -79,12 +79,17 @@ class InvenioUserProfiles(object):
             app.config.get('SETTINGS_TEMPLATE',
                            'invenio_userprofiles/settings/base.html'))
 
-        app.config.setdefault(
-            'SECURITY_REGISTER_USER_TEMPLATE',
-            app.config.get('SECURITY_REGISTER_USER_TEMPLATE',
-                           'invenio_userprofiles/register_user.html'))
-
         if app.config['USERPROFILES_EXTEND_SECURITY_FORMS']:
+            app.config.setdefault(
+                'USERPROFILES_REGISTER_USER_BASE_TEMPLATE',
+                app.config.get(
+                    'SECURITY_REGISTER_USER_TEMPLATE',
+                    'invenio_accounts/register_user.html'
+                )
+            )
+            app.config['SECURITY_REGISTER_USER_TEMPLATE'] = \
+                'invenio_userprofiles/register_user.html'
+
             security_ext = app.extensions['security']
             security_ext.confirm_register_form = confirm_register_form_factory(
                 security_ext.confirm_register_form)
