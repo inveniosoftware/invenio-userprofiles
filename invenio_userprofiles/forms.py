@@ -39,6 +39,7 @@ from .api import current_userprofile
 from .gettext import lazy_gettext as _
 from .models import UserProfile
 from .validators import USERNAME_RULES, validate_username
+from flask_wtf import RecaptchaField
 
 
 def strip_filter(text):
@@ -54,6 +55,8 @@ def current_user_email(form, field):
 
 class ProfileForm(Form):
     """Form for editing user profile."""
+    
+    recaptcha = RecaptchaField()
 
     username = StringField(
         # NOTE: Form field label

@@ -94,7 +94,12 @@ app.config.update(
     ACCOUNTS_USE_CELERY=False,
     BABEL_DEFAULT_LOCALE='en',
     I18N_TRASNLATION_PATHS=[
-        messages_path(), ]
+        messages_path(), ],
+    # TODO is there public combo of pub/priv. key for HW apps/demos??
+    RECAPTCHA_PUBLIC_KEY="6LcFCBcTAAAAAGCHz2_Pa1AEnY9GJwmix8nd_Z1R",
+    RECAPTCHA_PRIVATE_KEY = "6LcFCBcTAAAAABZmKhMwCBX4m-6y_6tzhSbkPjBJ",
+    USERPROFILES_EXTEND_SECURITY_FORMS= True,
+    USERPROFILES_EXTEND_RECAPTCHA = True,
 )
 FlaskCLI(app)
 Babel(app)
