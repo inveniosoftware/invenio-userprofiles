@@ -61,7 +61,7 @@ class ProfileForm(Form):
         # NOTE: Form field help text
         description=_('Required. %(username_rules)s',
                       username_rules=USERNAME_RULES),
-        validators=[required()],
+        validators=[required(message=_("Username not provided."))],
         filters=[strip_filter], )
 
     full_name = StringField(
@@ -78,7 +78,8 @@ class ProfileForm(Form):
 
         try:
             UserProfile.get_by_username(field.data)
-            if field.data != current_userprofile.username:
+            if current_userprofile.is_anonymous or \
+                    field.data != current_userprofile.username:
                 # NOTE: Form validation error.
                 raise ValidationError(_('Username already exists.'))
         except NoResultFound:

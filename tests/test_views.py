@@ -46,13 +46,13 @@ def prefix(name, data):
 
 
 def test_profile_in_registration(base_app):
+    """Test accounts registration form."""
     base_app.config.update(USERPROFILES_EXTEND_SECURITY_FORMS=True)
     InvenioUserProfiles(base_app)
     app = base_app
 
     with app.test_request_context():
         register_url = url_for_security('register')
-        profile_url = url_for('invenio_userprofiles.profile')
 
     with app.test_client() as client:
         resp = client.get(register_url)
@@ -72,8 +72,21 @@ def test_profile_in_registration(base_app):
         assert user.profile.username == 'TestUser'
         assert user.profile.full_name == 'Test C. User'
 
+    with app.test_client() as client:
+        resp = client.get(register_url)
+        data = {
+            'email': 'newuser@example.com',
+            'password': 'test_password',
+            'profile.username': 'TestUser',
+            'profile.full_name': 'Same Username',
+        }
+        resp = client.post(register_url, data=data)
+        assert resp.status_code == 200
+        assert 'profile.username' in resp.get_data(as_text=True)
+
 
 def test_template_filter(app):
+    """Test template filter."""
     with app.app_context():
         user = User(email='test@example.com', password='test_password')
         db.session.add(user)
