@@ -76,6 +76,7 @@ setup_requires = [
 
 install_requires = [
     'Flask-BabelEx>=0.9.3',
+    'Flask-Breadcrumbs>=0.3.0',
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
     'Flask-WTF>=0.12',

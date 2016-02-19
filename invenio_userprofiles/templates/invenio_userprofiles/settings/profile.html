@@ -1,7 +1,7 @@
 {# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -26,8 +26,11 @@
 
 {% from "invenio_userprofiles/settings/_macros.html" import render_field, form_errors %}
 
-{% block settings_form %}
-{% if not current_user.confirmed_at %}
+{% set panel_title = _("Profile") %}
+{% set panel_icon = "fa fa-user" %}
+
+{%- block settings_form %}
+{%- if not current_user.confirmed_at %}
 <form method="POST" role="form">
 {{ verification_form.csrf_token }}
 <div class="alert alert-warning">
@@ -35,7 +38,7 @@
 </div>
 <input type="hidden" name="submit" value="verification" />
 </form>
-{% endif %}
+{%- endif %}
 {%- set form = profile_form %}
 <form method="POST" name="profile_form">
 {%- for field in form %}
@@ -50,4 +53,4 @@
   <button type="submit" name="submit" value="profile" class="btn btn-primary"><i class="fa fa-check"></i> {{ _('Update profile') }}</button>
 </div>
 </form>
-{% endblock settings_form %}
+{%- endblock settings_form %}

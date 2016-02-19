@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -28,6 +28,7 @@ from __future__ import absolute_import, print_function
 
 from flask import Blueprint, current_app, flash, render_template, request
 from flask_babelex import lazy_gettext as _
+from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
 from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
@@ -57,6 +58,9 @@ def userprofile(value):
     # NOTE: Menu item text (icon replaced by a user icon).
     _('%(icon)s Profile', icon='<i class="fa fa-user fa-fw"></i>'),
     order=0)
+@register_breadcrumb(
+    blueprint, 'breadcrumbs.settings.profile', _('Profile')
+)
 def profile():
     """View for editing profile."""
     # Create forms
