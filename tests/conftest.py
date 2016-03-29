@@ -37,12 +37,13 @@ from flask_cli import FlaskCLI
 from flask_mail import Mail
 from flask_menu import Menu
 from invenio_accounts import InvenioAccounts
-from invenio_accounts.views import blueprint
+from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_db import InvenioDB, db
 from sqlalchemy_utils.functions import create_database, database_exists, \
     drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
+from invenio_userprofiles.views import blueprint_init as userprofiles_blueprint
 
 
 @pytest.fixture
@@ -68,7 +69,7 @@ def base_app():
     Menu(base_app)
     InvenioDB(base_app)
     InvenioAccounts(base_app)
-    base_app.register_blueprint(blueprint)
+    base_app.register_blueprint(accounts_blueprint)
 
     with base_app.app_context():
         if str(db.engine.url) != "sqlite://" and \
@@ -86,5 +87,7 @@ def base_app():
 
 @pytest.fixture
 def app(base_app):
+    """Flask application."""
     InvenioUserProfiles(base_app)
+    base_app.register_blueprint(userprofiles_blueprint)
     return base_app

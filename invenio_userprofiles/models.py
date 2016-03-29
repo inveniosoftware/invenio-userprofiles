@@ -30,7 +30,6 @@ from invenio_accounts.models import User
 from invenio_db import db
 from sqlalchemy.event import listen
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import backref
 
 from .validators import validate_username
 

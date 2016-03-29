@@ -27,8 +27,6 @@
 from __future__ import absolute_import, print_function
 
 from .api import current_userprofile
-from .forms import confirm_register_form_factory, register_form_factory
-from .models import UserProfile
 from .views import blueprint
 
 
@@ -89,9 +87,3 @@ class InvenioUserProfiles(object):
             )
             app.config['SECURITY_REGISTER_USER_TEMPLATE'] = \
                 'invenio_userprofiles/register_user.html'
-
-            security_ext = app.extensions['security']
-            security_ext.confirm_register_form = confirm_register_form_factory(
-                security_ext.confirm_register_form)
-            security_ext.register_form = register_form_factory(
-                security_ext.register_form)

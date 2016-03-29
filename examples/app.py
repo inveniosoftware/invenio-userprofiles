@@ -70,6 +70,7 @@ from invenio_mail import InvenioMail
 from wtforms.i18n import messages_path
 
 from invenio_userprofiles import InvenioUserProfiles
+from invenio_userprofiles.views import blueprint_init
 
 try:
     pkg_resources.get_distribution('invenio_assets')
@@ -108,6 +109,7 @@ if INVENIO_THEME_AVAILABLE:
 InvenioAccounts(app)
 app.register_blueprint(blueprint)
 InvenioUserProfiles(app)
+app.register_blueprint(blueprint_init)
 InvenioAdmin(app, permission_factory=lambda x: x,
              view_class_factory=lambda x: x)
 

@@ -144,6 +144,9 @@ setup(
         'invenio_base.apps': [
             'invenio_userprofiles = invenio_userprofiles:InvenioUserProfiles',
         ],
+        'invenio_base.blueprints': [
+            'invenio_userprofiles = invenio_userprofiles.views:blueprint_init',
+        ],
         'invenio_db.models': [
             'invenio_userprofiles = invenio_userprofiles.models',
         ],

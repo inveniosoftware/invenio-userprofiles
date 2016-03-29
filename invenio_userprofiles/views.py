@@ -35,7 +35,8 @@ from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
 
 from .api import current_userprofile
-from .forms import EmailProfileForm, ProfileForm, VerificationForm
+from .forms import EmailProfileForm, ProfileForm, VerificationForm, \
+    confirm_register_form_factory, register_form_factory
 from .models import UserProfile
 
 blueprint = Blueprint(
@@ -43,6 +44,23 @@ blueprint = Blueprint(
     __name__,
     template_folder='templates',
 )
+
+blueprint_init = Blueprint(
+    'invenio_userprofiles_init',
+    __name__,
+)
+
+
+@blueprint_init.record_once
+def init(state):
+    """Post initialization."""
+    app = state.app
+    if app.config['USERPROFILES_EXTEND_SECURITY_FORMS']:
+        security_ext = app.extensions['security']
+        security_ext.confirm_register_form = confirm_register_form_factory(
+            security_ext.confirm_register_form)
+        security_ext.register_form = register_form_factory(
+            security_ext.register_form)
 
 
 @blueprint.app_template_filter()
