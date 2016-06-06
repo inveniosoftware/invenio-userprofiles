@@ -30,7 +30,7 @@
 {% set panel_icon = "fa fa-user" %}
 
 {%- block settings_form %}
-{%- if not current_user.confirmed_at %}
+{%- if security.confirmable and not current_user.confirmed_at %}
 <form method="POST" role="form">
 {{ verification_form.csrf_token }}
 <div class="alert alert-warning">
