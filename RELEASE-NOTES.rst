@@ -1,8 +1,8 @@
 ===============================
- Invenio-UserProfiles v1.0.0a5
+ Invenio-UserProfiles v1.0.0a6
 ===============================
 
-Invenio-UserProfile v1.0.0a5 was released on April 22, 2016.
+Invenio-UserProfile v1.0.0a6 was released on June 13, 2016.
 
 About
 -----
@@ -19,7 +19,7 @@ What's new
 Installation
 ------------
 
-   $ pip install invenio-userprofiles==1.0.0a5
+   $ pip install invenio-userprofiles==1.0.0a6
 
 Documentation
 -------------
