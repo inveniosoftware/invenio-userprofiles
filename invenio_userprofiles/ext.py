@@ -27,7 +27,6 @@
 from __future__ import absolute_import, print_function
 
 from .api import current_userprofile
-from .views import blueprint
 
 
 class InvenioUserProfiles(object):
@@ -41,10 +40,6 @@ class InvenioUserProfiles(object):
     def init_app(self, app):
         """Flask application initialization."""
         self.init_config(app)
-
-        # Register blueprint for templates
-        app.register_blueprint(
-            blueprint, url_prefix=app.config['USERPROFILES_PROFILE_URL'])
 
         # Register current_profile
         app.context_processor(lambda: dict(

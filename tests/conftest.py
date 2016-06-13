@@ -43,7 +43,7 @@ from sqlalchemy_utils.functions import create_database, database_exists, \
     drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
-from invenio_userprofiles.views import blueprint_init as userprofiles_blueprint
+from invenio_userprofiles.views import blueprint_ui_init
 
 
 @pytest.fixture
@@ -89,5 +89,5 @@ def base_app():
 def app(base_app):
     """Flask application."""
     InvenioUserProfiles(base_app)
-    base_app.register_blueprint(userprofiles_blueprint)
+    base_app.register_blueprint(blueprint_ui_init)
     return base_app

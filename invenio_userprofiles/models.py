@@ -28,7 +28,7 @@ from __future__ import absolute_import, print_function
 
 from invenio_accounts.models import User
 from invenio_db import db
-from sqlalchemy.event import listen
+from sqlalchemy import event
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from .validators import validate_username
@@ -59,7 +59,8 @@ class UserProfile(db.Model):
     """Foreign key to user."""
 
     user = db.relationship(
-        User, back_populates='profile',
+        User, backref=db.backref(
+            'profile', uselist=False, cascade='all, delete-orphan')
     )
     """User relationship."""
 
@@ -102,17 +103,15 @@ class UserProfile(db.Model):
         return False
 
 
-def set_userprofile(target, value, oldvalue, initiator):
-    """Create an instance of UserProfile when initializing User.profile."""
-    if not isinstance(value, UserProfile):
-        return UserProfile(**value)
-    return value
+@event.listens_for(User, 'init')
+def on_user_init(target, args, kwargs):
+    """Hook into User initialization.
 
-User.profile = db.relationship(
-    UserProfile, back_populates='user', uselist=False,
-    cascade='all, delete-orphan',
-)
-
-# Setup listener on User.userprofile attribute, instructing
-# it to use the return value.
-listen(User.profile, 'set', set_userprofile, retval=True)
+    Automagically convert a dict to a UserProfile instance. This is needed
+    during e.g. user registration where Flask-Security will initialize a
+    User model with all the form data (which when Invenio-UserProfiles is
+    enabled includes a ``profile`` key). This will make the User creation fail
+    unless we convert the profile dict into a UserProfile object.
+    """
+    if 'profile' in kwargs and not isinstance(kwargs['profile'], UserProfile):
+        kwargs['profile'] = UserProfile(**kwargs['profile'])

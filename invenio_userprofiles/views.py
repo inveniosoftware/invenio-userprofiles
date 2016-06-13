@@ -45,22 +45,43 @@ blueprint = Blueprint(
     template_folder='templates',
 )
 
-blueprint_init = Blueprint(
-    'invenio_userprofiles_init',
+blueprint_api_init = Blueprint(
+    'invenio_userprofiles_api_init',
+    __name__,
+    template_folder='templates',
+)
+
+blueprint_ui_init = Blueprint(
+    'invenio_userprofiles_ui_init',
     __name__,
 )
 
 
-@blueprint_init.record_once
-def init(state):
+def init_common(app):
     """Post initialization."""
-    app = state.app
     if app.config['USERPROFILES_EXTEND_SECURITY_FORMS']:
         security_ext = app.extensions['security']
         security_ext.confirm_register_form = confirm_register_form_factory(
             security_ext.confirm_register_form)
         security_ext.register_form = register_form_factory(
             security_ext.register_form)
+
+
+@blueprint_ui_init.record_once
+def init_ui(state):
+    """Post initialization."""
+    app = state.app
+    init_common(app)
+
+    # Register blueprint for templates
+    app.register_blueprint(
+        blueprint, url_prefix=app.config['USERPROFILES_PROFILE_URL'])
+
+
+@blueprint_api_init.record_once
+def init_api(state):
+    """Post initialization."""
+    init_common(state.app)
 
 
 @blueprint.app_template_filter()
