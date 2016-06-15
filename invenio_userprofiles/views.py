@@ -90,7 +90,7 @@ def userprofile(value):
     return UserProfile.get_by_userid(int(value))
 
 
-@blueprint.route('', methods=['GET', 'POST'])
+@blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 @register_menu(
     blueprint, 'settings.profile',

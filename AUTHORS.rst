@@ -27,5 +27,6 @@ Authors
 
 User profiles module for Invenio.
 
-- Sami Hiltunen <sami.mikael.hiltunen@cern.ch>
 - Lars Holm Nielsen <lars.holm.nielsen@cern.ch>
+- Orestis Melkonian <melkon.or@gmail.com>
+- Sami Hiltunen <sami.mikael.hiltunen@cern.ch>
