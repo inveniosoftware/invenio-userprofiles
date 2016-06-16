@@ -33,8 +33,8 @@ from flask_security.forms import email_required, email_validator, \
 from flask_wtf import Form
 from sqlalchemy.orm.exc import NoResultFound
 from wtforms import FormField, StringField, SubmitField
-from wtforms.validators import EqualTo, StopValidation, ValidationError, \
-    required
+from wtforms.validators import DataRequired, EqualTo, StopValidation, \
+    ValidationError
 
 from .api import current_userprofile
 from .models import UserProfile
@@ -61,7 +61,7 @@ class ProfileForm(Form):
         # NOTE: Form field help text
         description=_('Required. %(username_rules)s',
                       username_rules=USERNAME_RULES),
-        validators=[required(message=_("Username not provided."))],
+        validators=[DataRequired(message=_("Username not provided."))],
         filters=[strip_filter], )
 
     full_name = StringField(
