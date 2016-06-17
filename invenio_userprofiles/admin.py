@@ -55,7 +55,7 @@ class UserProfileView(ModelView):
         column_list
 
     column_labels = {
-        "_displayname": _('Display Name'),
+        '_displayname': _('Display Name'),
     }
 
 user_profile_adminview = {

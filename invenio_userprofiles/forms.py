@@ -61,7 +61,7 @@ class ProfileForm(Form):
         # NOTE: Form field help text
         description=_('Required. %(username_rules)s',
                       username_rules=USERNAME_RULES),
-        validators=[DataRequired(message=_("Username not provided."))],
+        validators=[DataRequired(message=_('Username not provided.'))],
         filters=[strip_filter], )
 
     full_name = StringField(
@@ -92,7 +92,7 @@ class EmailProfileForm(ProfileForm):
 
     email = StringField(
         # NOTE: Form field label
-        _("Email address"),
+        _('Email address'),
         filters=[lambda x: x.lower() if x is not None else x, ],
         validators=[
             email_required,
@@ -104,14 +104,14 @@ class EmailProfileForm(ProfileForm):
 
     email_repeat = StringField(
         # NOTE: Form field label
-        _("Re-enter email address"),
+        _('Re-enter email address'),
         # NOTE: Form field help text
-        description=_("Please re-enter your email address."),
+        description=_('Please re-enter your email address.'),
         filters=[lambda x: x.lower() if x else x, ],
         validators=[
             email_required,
             # NOTE: Form validation error.
-            EqualTo('email', message=_("Email addresses do not match."))
+            EqualTo('email', message=_('Email addresses do not match.'))
         ]
     )
 
@@ -120,7 +120,7 @@ class VerificationForm(Form):
     """Form to render a button to request email confirmation."""
 
     # NOTE: Form button label
-    send_verification_email = SubmitField(_("Resend verification email"))
+    send_verification_email = SubmitField(_('Resend verification email'))
 
 
 def register_form_factory(Form):
