@@ -45,8 +45,8 @@ Create the database and add a user:
    $ mkdir instance
    $ flask -a app.py db init
    $ flask -a app.py db create
-   $ flask -a app.py users create info@invenio-software.org -a
-   $ flask -a app.py users create another@invenio-software.org -a
+   $ flask -a app.py users create info@inveniosoftware.org -a
+   $ flask -a app.py users create another@inveniosoftware.org -a
 
 Run the development server:
 
