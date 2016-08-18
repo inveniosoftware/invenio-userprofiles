@@ -36,7 +36,7 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
-    'invenio-i18n>=1.0.0a1',
+    'invenio-i18n>=1.0.0b1',
     'isort>=4.2.2',
     'pydocstyle>=1.0.0',
     'pytest-cache>=1.0',
@@ -53,13 +53,13 @@ extras_require = {
         'Sphinx>=1.4.2',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.0a6',
+        'invenio-db[mysql]>=1.0.0b1',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.0a6',
+        'invenio-db[postgresql]>=1.0.0b1',
     ],
     'sqlite': [
-        'invenio-db>=1.0.0a6',
+        'invenio-db>=1.0.0b1',
     ],
     'tests': tests_require,
 }
@@ -80,7 +80,8 @@ install_requires = [
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
     'Flask-WTF>=0.12',
-    'invenio-accounts>=1.0.0a8',
+    'Flask>=0.11.1',
+    'invenio-accounts>=1.0.0a13',
     'WTForms>=2.0.1',
 ]
 

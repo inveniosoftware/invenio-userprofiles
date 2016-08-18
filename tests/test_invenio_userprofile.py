@@ -28,7 +28,6 @@ from __future__ import absolute_import, print_function
 
 from flask import Flask
 from flask_babelex import Babel
-from flask_cli import FlaskCLI
 from flask_mail import Mail
 from flask_menu import Menu
 from invenio_accounts import InvenioAccounts
@@ -49,7 +48,6 @@ def test_init():
     app.config.update(
         ACCOUNTS_USE_CELERY=False
     )
-    FlaskCLI(app)
     Babel(app)
     Mail(app)
     Menu(app)
@@ -62,7 +60,6 @@ def test_init():
     app.config.update(
         ACCOUNTS_USE_CELERY=False
     )
-    FlaskCLI(app)
     Babel(app)
     Mail(app)
     Menu(app)

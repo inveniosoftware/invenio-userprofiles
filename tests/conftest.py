@@ -33,7 +33,6 @@ import tempfile
 import pytest
 from flask import Flask
 from flask_babelex import Babel
-from flask_cli import FlaskCLI
 from flask_mail import Mail
 from flask_menu import Menu
 from invenio_accounts import InvenioAccounts
@@ -63,7 +62,6 @@ def base_app():
         TESTING=True,
         WTF_CSRF_ENABLED=False,
     )
-    FlaskCLI(base_app)
     Babel(base_app)
     Mail(base_app)
     Menu(base_app)

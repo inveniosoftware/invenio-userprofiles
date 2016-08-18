@@ -60,7 +60,6 @@ from __future__ import absolute_import, print_function
 import pkg_resources
 from flask import Flask, redirect, url_for
 from flask_babelex import Babel
-from flask_cli import FlaskCLI
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint
 from invenio_admin import InvenioAdmin
@@ -98,7 +97,6 @@ app.config.update(
     SECRET_KEY='CHANGE_ME',
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
 )
-FlaskCLI(app)
 Babel(app)
 InvenioMail(app)
 InvenioI18N(app)
