@@ -137,8 +137,8 @@ html_theme_options = {
     'github_banner': True,
     'show_powered_by': False,
     'extra_nav_links': {
-        'invenio-userprofiles@GitHub': 'http://github.com/inveniosoftware/invenio-userprofiles',
-        'invenio-userprofiles@PyPI': 'http://pypi.python.org/pypi/invenio-userprofiles/',
+        'invenio-userprofiles@GitHub': 'https://github.com/inveniosoftware/invenio-userprofiles',
+        'invenio-userprofiles@PyPI': 'https://pypi.python.org/pypi/invenio-userprofiles/',
     }
 }
 
@@ -329,3 +329,6 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+# Autodoc configuraton.
+autoclass_content = 'both'
