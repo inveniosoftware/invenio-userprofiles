@@ -69,7 +69,7 @@ def init_common(app):
 
 @blueprint_ui_init.record_once
 def init_ui(state):
-    """Post initialization."""
+    """Post initialization for UI application."""
     app = state.app
     init_common(app)
 
@@ -80,7 +80,7 @@ def init_ui(state):
 
 @blueprint_api_init.record_once
 def init_api(state):
-    """Post initialization."""
+    """Post initialization for API application."""
     init_common(state.app)
 
 

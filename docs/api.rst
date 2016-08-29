@@ -25,6 +25,32 @@
 API Docs
 ========
 
-invenio_userprofiles
---------------------
+.. automodule:: invenio_userprofiles.ext
+   :members:
 
+Admin
+-----
+
+.. automodule:: invenio_userprofiles.admin
+   :members:
+
+API
+---
+
+.. automodule:: invenio_userprofiles.api
+   :members:
+
+Forms
+-----
+
+.. automodule:: invenio_userprofiles.forms
+   :members:
+
+.. automodule:: invenio_userprofiles.validators
+   :members:
+
+Views
+-----
+
+.. automodule:: invenio_userprofiles.views
+   :members:

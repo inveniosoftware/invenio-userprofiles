@@ -80,21 +80,33 @@ class UserProfile(db.Model):
 
     @username.setter
     def username(self, username):
-        """Set username."""
+        """Set username.
+
+        .. note:: The username will be converted to lowercase. The display name
+            will contain the original version.
+        """
         validate_username(username)
         self._username = username.lower()
         self._displayname = username
 
     @classmethod
     def get_by_username(cls, username):
-        """Get profile by username."""
+        """Get profile by username.
+
+        .. note:: The username is not case sensitive.
+        """
         return cls.query.filter(
             UserProfile._username == username.lower()
         ).one()
 
     @classmethod
     def get_by_userid(cls, user_id):
-        """Get profile by username."""
+        """Get profile by user identifier.
+
+        :param user_id: The :class:`invenio_accounts.models.User` ID.
+        :returns: A :class:`invenio_userprofiles.models.UserProfile` instance
+            or ``None``.
+        """
         return cls.query.filter_by(user_id=user_id).one_or_none()
 
     @property

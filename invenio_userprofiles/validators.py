@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -31,18 +31,24 @@ import re
 from flask_babelex import lazy_gettext as _
 
 username_regex = re.compile('^[a-zA-Z][a-zA-Z0-9-_]{2}[a-zA-Z0-9-_]*$')
+"""Username rules."""
 
-# NOTE: Used for both form help text and for form validation error.
 USERNAME_RULES = _(
     'Username must start with a letter, be at least three characters long and'
     ' only contain alphanumeric characters, dashes and underscores.')
+"""Description of username validation rules.
+
+.. note:: Used for both form help text and for form validation error."""
 
 
 def validate_username(username):
     """Validate the username.
 
-    Usernames can only contain numbers and latin letters. They must
-    start with a letter.
+    See :data:`invenio_userprofiles.validators.username_regex` to know which
+    rules are applied.
+
+    :param username: The user name.
+    :raises ValueError: If validation fails.
     """
     if not username_regex.match(username):
         raise ValueError(USERNAME_RULES)

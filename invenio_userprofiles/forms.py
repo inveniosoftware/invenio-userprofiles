@@ -42,7 +42,11 @@ from .validators import USERNAME_RULES, validate_username
 
 
 def strip_filter(text):
-    """Filter for trimming whitespace."""
+    """Filter for trimming whitespace.
+
+    :param text: The text to strip.
+    :returns: The stripped text.
+    """
     return text.strip() if text else text
 
 
