@@ -26,6 +26,7 @@
 
 from __future__ import absolute_import, print_function
 
+from . import config
 from .api import current_userprofile
 
 
@@ -49,18 +50,11 @@ class InvenioUserProfiles(object):
 
     def init_config(self, app):
         """Initialize configuration."""
+        for k in dir(config):
+            if k.startswith('USERPROFILES_'):
+                app.config.setdefault(k, getattr(config, k))
+
         app.config.setdefault('USERPROFILES', True)
-        app.config.setdefault('USERPROFILES_EXTEND_SECURITY_FORMS', False)
-
-        app.config.setdefault(
-            'USERPROFILES_PROFILE_URL',
-            '/account/settings/profile/')
-
-        app.config.setdefault('USERPROFILES_EMAIL_ENABLED', True)
-
-        app.config.setdefault(
-            'USERPROFILES_PROFILE_TEMPLATE',
-            'invenio_userprofiles/settings/profile.html')
 
         app.config.setdefault(
             'USERPROFILES_BASE_TEMPLATE',
