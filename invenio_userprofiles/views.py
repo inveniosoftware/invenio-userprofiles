@@ -37,7 +37,6 @@ from invenio_db import db
 from .api import current_userprofile
 from .forms import EmailProfileForm, ProfileForm, VerificationForm, \
     confirm_register_form_factory, register_form_factory
-from .models import UserProfile
 
 blueprint = Blueprint(
     'invenio_userprofiles',
@@ -87,7 +86,7 @@ def init_api(state):
 @blueprint.app_template_filter()
 def userprofile(value):
     """Retrieve user profile for a given user id."""
-    return UserProfile.get_by_userid(int(value))
+    return current_app.extensions['AUTH_USER_MODEL'].get_by_userid(int(value))
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -121,11 +120,13 @@ def profile():
 
 def profile_form_factory():
     """Create a profile form."""
+
     if current_app.config['USERPROFILES_EMAIL_ENABLED']:
         return EmailProfileForm(
             formdata=None,
             username=current_userprofile.username,
             full_name=current_userprofile.full_name,
+            experiments=current_userprofile.experiments,
             email=current_user.email,
             email_repeat=current_user.email,
             prefix='profile', )
@@ -156,6 +157,7 @@ def handle_profile_form(form):
             # Update profile.
             current_userprofile.username = form.username.data
             current_userprofile.full_name = form.full_name.data
+            current_userprofile.experiments = form.experiments.data
             db.session.add(current_userprofile)
 
             # Update email

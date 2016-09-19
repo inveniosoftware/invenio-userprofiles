@@ -23,10 +23,9 @@
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
 """Admin views for invenio-userprofiles."""
-
 from flask_admin.contrib.sqla import ModelView
 
-from .models import UserProfile
+from invenio_userprofiles.model_ext import UserProfile
 
 
 def _(x):
@@ -44,7 +43,7 @@ class UserProfileView(ModelView):
         'user_id',
         'username',
         '_displayname',
-        'full_name',
+        'full_name'
     )
 
     form_columns = \
@@ -59,7 +58,7 @@ class UserProfileView(ModelView):
     }
 
 user_profile_adminview = {
-    'model': UserProfile,
-    'modelview': UserProfileView,
-    'category': _('User Management'),
+        'model': UserProfile,
+        'modelview': UserProfileView,
+        'category': _('User Management'),
 }

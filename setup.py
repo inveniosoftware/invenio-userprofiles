@@ -130,7 +130,12 @@ setup(
         'invenio_i18n.translations': [
             'messages = invenio_userprofiles',
         ],
-        'invenio_admin.views': [
+
+        'invenio_userprofiles.auth_models': [
+            'invenio_userprofile_model = invenio_userprofiles.model_ext:UserProfile'
+        ],
+
+        'invenio_userprofiles.auth_admin': [
             'invenio_userprofiles_view = '
             'invenio_userprofiles.admin:user_profile_adminview',
         ],

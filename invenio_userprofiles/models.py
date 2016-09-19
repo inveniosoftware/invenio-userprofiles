@@ -26,9 +26,11 @@
 
 from __future__ import absolute_import, print_function
 
+from flask import current_app
 from invenio_accounts.models import User
 from invenio_db import db
 from sqlalchemy import event
+from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from .validators import validate_username
@@ -43,26 +45,33 @@ class AnonymousUserProfile():
         return True
 
 
-class UserProfile(db.Model):
-    """UserProfile model.
+class UserProfileMixin(object):
+    """
+    UserProfile model.
 
     UserProfiles store information about account users.
     """
 
     __tablename__ = 'userprofiles_userprofile'
 
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey(User.id),
-        primary_key=True
-    )
+    @declared_attr
+    def user_id(cls):
+        """User ID."""
+        return db.Column(
+            db.Integer,
+            db.ForeignKey(User.id),
+            primary_key=True
+        )
+
     """Foreign key to user."""
 
-    user = db.relationship(
-        User, backref=db.backref(
-            'profile', uselist=False, cascade='all, delete-orphan')
-    )
-    """User relationship."""
+    @declared_attr
+    def profile(cls):
+        """User relationship."""
+        return db.relationship(
+            User, backref=db.backref(
+                'profile', uselist=False, cascade='all, delete-orphan')
+        )
 
     _username = db.Column('username', db.String(255), unique=True)
     """Lower-case version of username to assert uniqueness."""
@@ -96,7 +105,7 @@ class UserProfile(db.Model):
         .. note:: The username is not case sensitive.
         """
         return cls.query.filter(
-            UserProfile._username == username.lower()
+            current_app.extensions['invenio-userprofile'].model._username == username.lower()
         ).one()
 
     @classmethod
@@ -125,5 +134,6 @@ def on_user_init(target, args, kwargs):
     enabled includes a ``profile`` key). This will make the User creation fail
     unless we convert the profile dict into a UserProfile object.
     """
-    if 'profile' in kwargs and not isinstance(kwargs['profile'], UserProfile):
-        kwargs['profile'] = UserProfile(**kwargs['profile'])
+
+    if 'profile' in kwargs and not isinstance(kwargs['profile'], current_app.extensions['AUTH_USER_MODEL']):
+        kwargs['profile'] = current_app.extensions['AUTH_USER_MODEL'](**kwargs['profile'])
