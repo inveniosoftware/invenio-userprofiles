@@ -26,11 +26,11 @@
 
 from __future__ import absolute_import, print_function
 
-from flask import g
+from flask import g, current_app
 from flask_security import current_user
 from werkzeug.local import LocalProxy
 
-from .models import AnonymousUserProfile, UserProfile
+from .models import AnonymousUserProfile
 
 
 def _get_current_userprofile():
@@ -47,10 +47,10 @@ def _get_current_userprofile():
 
     profile = g.get(
         'userprofile',
-        UserProfile.get_by_userid(current_user.get_id()))
+        current_app.extensions['invenio-userprofile'].model.get_by_userid(current_user.get_id()))
 
     if profile is None:
-        profile = UserProfile(user_id=int(current_user.get_id()))
+        profile = current_app.extensions['invenio-userprofile'].model(user_id=int(current_user.get_id()))
         g.userprofile = profile
     return profile
 

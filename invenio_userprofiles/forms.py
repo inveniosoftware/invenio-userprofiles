@@ -26,6 +26,7 @@
 
 from __future__ import absolute_import, print_function
 
+from flask import current_app
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \
@@ -37,7 +38,6 @@ from wtforms.validators import DataRequired, EqualTo, StopValidation, \
     ValidationError
 
 from .api import current_userprofile
-from .models import UserProfile
 from .validators import USERNAME_RULES, validate_username
 
 
@@ -73,6 +73,11 @@ class ProfileForm(Form):
         _('Full name'),
         filters=[strip_filter], )
 
+    experiments = StringField(
+        # NOTE: Form label
+        _('Experiments'),
+        filters=[strip_filter], )
+
     def validate_username(form, field):
         """Wrap username validator for WTForms."""
         try:
@@ -81,10 +86,10 @@ class ProfileForm(Form):
             raise ValidationError(e)
 
         try:
-            user_profile = UserProfile.get_by_username(field.data)
+            user_profile = current_app.extensions['invenio-userprofile'].model.get_by_username(field.data)
             if current_userprofile.is_anonymous or \
-                    (current_userprofile.user_id != user_profile.user_id and
-                     field.data != current_userprofile.username):
+                (current_userprofile.user_id != user_profile.user_id and
+                         field.data != current_userprofile.username):
                 # NOTE: Form validation error.
                 raise ValidationError(_('Username already exists.'))
         except NoResultFound:
@@ -129,6 +134,7 @@ class VerificationForm(Form):
 
 def register_form_factory(Form):
     """Return extended registration form."""
+
     class RegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
@@ -139,6 +145,7 @@ def register_form_factory(Form):
 
 def confirm_register_form_factory(Form):
     """Return extended confirmation of registration form."""
+
     class ConfirmRegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 

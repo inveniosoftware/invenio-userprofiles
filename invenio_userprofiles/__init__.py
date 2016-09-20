@@ -28,8 +28,7 @@ from __future__ import absolute_import, print_function
 
 from .api import current_userprofile
 from .ext import InvenioUserProfiles
-from .models import AnonymousUserProfile, UserProfile
+from .models import AnonymousUserProfile
 from .version import __version__
 
-__all__ = ('__version__', 'InvenioUserProfiles', 'AnonymousUserProfile',
-           'UserProfile', 'current_userprofile')
+__all__ = ('__version__', 'InvenioUserProfiles', 'AnonymousUserProfile', 'current_userprofile')
