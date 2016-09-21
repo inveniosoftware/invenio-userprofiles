@@ -40,13 +40,6 @@ recursive-include docs *.bat
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
-recursive-include examples *.bowerrc
-recursive-include examples *.html
-recursive-include examples *.json
-recursive-include examples *.py
-recursive-include instance *.db
+recursive-include examples *.py *.sh .json .html *.txt
 recursive-include invenio_userprofiles *.html
-recursive-include misc *.py
-recursive-include misc *.rst
 recursive-include tests *.py
-recursive-include examples *.txt

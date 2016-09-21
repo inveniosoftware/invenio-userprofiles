@@ -24,35 +24,29 @@
 
 """Minimal Flask application example for development.
 
-Install the Invenio default theme
+Start the Redis server.
 
-You should execute these commands in the examples directory.
-
-.. code-block:: console
-
-   $ pip install -r requirements.txt
-   $ flask -a app.py npm
-   $ cd static
-   $ npm install
-   $ cd ..
-   $ flask -a app.py collect -v
-   $ flask -a app.py assets build
-
-Create the database and add a user:
+Install the Invenio default theme and build assets:
 
 .. code-block:: console
 
-   $ mkdir instance
-   $ flask -a app.py db init
-   $ flask -a app.py db create
-   $ flask -a app.py users create info@inveniosoftware.org -a
-   $ flask -a app.py users create another@inveniosoftware.org -a
+   $ pip install -e .[all]
+   $ cd examples
+   $ ./app-setup.sh
+   $ ./app-fixtures.sh
 
 Run the development server:
 
 .. code-block:: console
 
-   $ flask -a app.py --debug run
+   $ FLASK_APP=app.py flask run --debugger -p 5000
+
+To be able to uninstall the example app:
+
+.. code-block:: console
+
+    $ ./app-teardown.sh
+
 """
 
 from __future__ import absolute_import, print_function
@@ -96,6 +90,7 @@ app.config.update(
     MAIL_SUPPRESS_SEND=True,
     SECRET_KEY='CHANGE_ME',
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
+    WTF_CSRF_ENABLED=False,
 )
 Babel(app)
 InvenioMail(app)
