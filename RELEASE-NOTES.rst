@@ -24,7 +24,7 @@ Installation
 Documentation
 -------------
 
-   http://pythonhosted.org/invenio-userprofiles/
+   http://invenio-userprofiles.readthedocs.io/
 
 Happy hacking and thanks for flying Invenio-UserProfiles.
 
