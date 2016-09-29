@@ -30,7 +30,7 @@ from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \
     unique_user_email
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from sqlalchemy.orm.exc import NoResultFound
 from wtforms import FormField, StringField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, StopValidation, \
@@ -56,7 +56,7 @@ def current_user_email(form, field):
         raise StopValidation()
 
 
-class ProfileForm(Form):
+class ProfileForm(FlaskForm):
     """Form for editing user profile."""
 
     username = StringField(
@@ -120,7 +120,7 @@ class EmailProfileForm(ProfileForm):
     )
 
 
-class VerificationForm(Form):
+class VerificationForm(FlaskForm):
     """Form to render a button to request email confirmation."""
 
     # NOTE: Form button label
