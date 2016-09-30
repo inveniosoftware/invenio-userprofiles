@@ -80,9 +80,9 @@ install_requires = [
     'Flask-Breadcrumbs>=0.3.0',
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
-    'Flask-WTF>=0.13',
+    'Flask-WTF>=0.13.0',
     'Flask>=0.11.1',
-    'invenio-accounts>=1.0.0a13',
+    'invenio-accounts>=1.0.0a15',
     'WTForms>=2.0.1',
 ]
 
