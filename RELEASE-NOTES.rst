@@ -1,8 +1,8 @@
 ===============================
- Invenio-UserProfiles v1.0.0a7
+ Invenio-UserProfiles v1.0.0a8
 ===============================
 
-Invenio-UserProfile v1.0.0a7 was released on June 16, 2016.
+Invenio-UserProfile v1.0.0a8 was released on September 30, 2016.
 
 About
 -----
@@ -19,18 +19,18 @@ What's new
 Installation
 ------------
 
-   $ pip install invenio-userprofiles==1.0.0a7
+   $ pip install invenio-userprofiles==1.0.0a8
 
 Documentation
 -------------
 
-   http://invenio-userprofiles.readthedocs.io/
+   https://invenio-userprofiles.readthedocs.io/
 
 Happy hacking and thanks for flying Invenio-UserProfiles.
 
 | Invenio Development Team
 |   Email: info@inveniosoftware.org
 |   IRC: #invenio on irc.freenode.net
-|   Twitter: http://twitter.com/inveniosoftware
+|   Twitter: https://twitter.com/inveniosoftware
 |   GitHub: https://github.com/inveniosoftware/invenio-userprofiles
 |   URL: http://inveniosoftware.org
