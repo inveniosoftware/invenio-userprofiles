@@ -132,8 +132,7 @@ def register_form_factory(Form):
     class RegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
-        profile = FormField(ProfileForm, separator='.')
-
+    setattr(RegisterForm, 'profile', FormField(ProfileForm, separator='.'))
     return RegisterForm
 
 
@@ -142,6 +141,6 @@ def confirm_register_form_factory(Form):
     class ConfirmRegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
-        profile = FormField(ProfileForm, separator='.')
-
+    setattr(ConfirmRegisterForm, 'profile',
+            FormField(ProfileForm, separator='.'))
     return ConfirmRegisterForm
