@@ -43,6 +43,6 @@ recursive-include docs *.bat
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
-recursive-include examples *.py *.sh .json .html *.txt
+recursive-include examples *.py *.sh *.html *.txt
 recursive-include invenio_userprofiles *.html
 recursive-include tests *.py

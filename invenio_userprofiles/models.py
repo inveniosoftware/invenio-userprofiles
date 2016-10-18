@@ -31,6 +31,7 @@ from invenio_db import db
 from sqlalchemy import event
 from sqlalchemy.ext.hybrid import hybrid_property
 
+
 from .validators import validate_username
 
 
@@ -125,5 +126,9 @@ def on_user_init(target, args, kwargs):
     enabled includes a ``profile`` key). This will make the User creation fail
     unless we convert the profile dict into a UserProfile object.
     """
-    if 'profile' in kwargs and not isinstance(kwargs['profile'], UserProfile):
-        kwargs['profile'] = UserProfile(**kwargs['profile'])
+    profile = kwargs.pop('profile', None)
+    if profile is not None and not isinstance(profile, UserProfile):
+        profile = UserProfile(**profile)
+        if kwargs.get('id'):
+            profile.user_id = kwargs['id']
+        kwargs['profile'] = profile

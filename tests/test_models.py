@@ -116,3 +116,57 @@ def test_delete_cascade(app):
         db.session.commit()
 
         assert UserProfile.get_by_userid(u.id) is None
+
+
+def test_create_profile(app):
+    """Test that userprofile can be patched using UserAccount constructor."""
+    with app.app_context():
+        user = User(
+            email='test@example.org',
+        )
+        db.session.add(user)
+        db.session.commit()
+
+        user_id = user.id
+        patch_user = User(
+            id=user_id,
+            email='updated_test@example.org',
+            profile={'full_name': 'updated_full_name'}
+        )
+        db.session.merge(patch_user)
+        db.session.commit()
+
+        patch_user = User(
+            id=user_id,
+            profile={'username': 'test_username'}
+        )
+        db.session.merge(patch_user)
+        db.session.commit()
+
+        user = User.query.filter(User.id == user_id).one()
+        assert user.profile.full_name == 'updated_full_name'
+        assert user.email == 'updated_test@example.org'
+        assert user.profile.username == 'test_username'
+
+
+def test_create_profile_with_null(app):
+    """Test that creation with empty profile."""
+    with app.app_context():
+        user = User(
+            email='test@example.org',
+        )
+        db.session.add(user)
+        db.session.commit()
+
+        assert user.profile is None
+        user_id = user.id
+
+        user = User(
+            id=user_id,
+            profile=None,
+        )
+        db.session.merge(user)
+        db.session.commit()
+
+        user = User.query.get(user_id)
+        assert user.profile is None
