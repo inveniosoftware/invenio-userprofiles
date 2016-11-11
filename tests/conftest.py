@@ -45,7 +45,7 @@ from invenio_userprofiles import InvenioUserProfiles
 from invenio_userprofiles.views import blueprint_ui_init
 
 
-@pytest.fixture
+@pytest.yield_fixture()
 def base_app():
     """Flask application fixture."""
     instance_path = tempfile.mkdtemp()
@@ -71,16 +71,15 @@ def base_app():
 
     with base_app.app_context():
         if str(db.engine.url) != "sqlite://" and \
-           not database_exists(str(db.engine.url)):
+                not database_exists(str(db.engine.url)):
             create_database(str(db.engine.url))
-        db.drop_all()
         db.create_all()
 
-    def teardown():
-        drop_database(str(db.engine.url))
-        shutil.rmtree(instance_path)
+    yield base_app
 
-    return base_app
+    with base_app.app_context():
+        drop_database(str(db.engine.url))
+    shutil.rmtree(instance_path)
 
 
 @pytest.fixture

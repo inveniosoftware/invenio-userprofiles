@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,25 +21,33 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-include *.rst
-include *.sh
-include *.txt
-include .dockerignore
-include .editorconfig
-include .lgtm
-include .tx/config
-include LICENSE
-include MAINTAINERS
-include babel.ini
-include docs/requirements.txt
-include pytest.ini
-recursive-include docs *.bat
-recursive-include docs *.py
-recursive-include docs *.rst
-recursive-include docs Makefile
-recursive-include examples *.py *.sh *.html *.txt
-recursive-include invenio_userprofiles *.html
-recursive-include invenio_userprofiles *.mo
-recursive-include invenio_userprofiles *.po *.pot
-recursive-include invenio_userprofiles *.py
-recursive-include tests *.py
+"""Create userprofiles tables."""
+
+from alembic import op
+import sqlalchemy as sa
+
+
+# revision identifiers, used by Alembic.
+revision = 'c25ef2c50ffa'
+down_revision = '71634726ec7e'
+branch_labels = ()
+depends_on = '9848d0149abd'
+
+
+def upgrade():
+    """Upgrade database."""
+    op.create_table(
+        'userprofiles_userprofile',
+        sa.Column('user_id', sa.Integer(), nullable=False),
+        sa.Column('username', sa.String(length=255), nullable=True),
+        sa.Column('displayname', sa.String(length=255), nullable=True),
+        sa.Column('full_name', sa.String(length=255), nullable=False),
+        sa.ForeignKeyConstraint(['user_id'], [u'accounts_user.id'], ),
+        sa.PrimaryKeyConstraint('user_id'),
+        sa.UniqueConstraint('username')
+    )
+
+
+def downgrade():
+    """Downgrade database."""
+    op.drop_table('userprofiles_userprofile')

@@ -10,7 +10,7 @@ DIR=`dirname "$0"`
 
 cd $DIR
 export FLASK_APP=app.py
-mkdir $DIR/instance
+mkdir instance
 
 # Install specific dependencies
 pip install -r requirements.txt

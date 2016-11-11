@@ -34,6 +34,7 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
+    'SQLAlchemy-Continuum>=1.2.1',
     'check-manifest>=0.25',
     'coverage>=4.0',
     'invenio-i18n>=1.0.0b1',
@@ -53,13 +54,13 @@ extras_require = {
         'Sphinx>=1.4.2',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.0b1',
+        'invenio-db[mysql]>=1.0.0b3',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.0b1',
+        'invenio-db[postgresql]>=1.0.0b3',
     ],
     'sqlite': [
-        'invenio-db>=1.0.0b1',
+        'invenio-db>=1.0.0b3',
     ],
     'tests': tests_require,
 }
@@ -82,7 +83,7 @@ install_requires = [
     'Flask-Menu>=0.4.0',
     'Flask-WTF>=0.13.0',
     'Flask>=0.11.1',
-    'invenio-accounts>=1.0.0a15',
+    'invenio-accounts>=1.0.0b1',
     'WTForms>=2.0.1',
 ]
 
@@ -123,6 +124,9 @@ setup(
         'invenio_base.api_blueprints': [
             'invenio_userprofiles'
             ' = invenio_userprofiles.views:blueprint_api_init',
+        ],
+        'invenio_db.alembic': [
+            'invenio_userprofiles = invenio_userprofiles:alembic',
         ],
         'invenio_db.models': [
             'invenio_userprofiles = invenio_userprofiles.models',

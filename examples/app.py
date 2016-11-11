@@ -51,6 +51,8 @@ To be able to uninstall the example app:
 
 from __future__ import absolute_import, print_function
 
+import os
+
 import pkg_resources
 from flask import Flask, redirect, url_for
 from flask_babelex import Babel
@@ -89,6 +91,9 @@ app.config.update(
     I18N_TRASNLATION_PATHS=[messages_path()],
     MAIL_SUPPRESS_SEND=True,
     SECRET_KEY='CHANGE_ME',
+    SQLALCHEMY_DATABASE_URI=os.environ.get(
+        'SQLALCHEMY_DATABASE_URI', 'sqlite:///test.db'
+    ),
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
     WTF_CSRF_ENABLED=False,
 )
