@@ -1,8 +1,8 @@
 ===============================
- Invenio-UserProfiles v1.0.0a8
+ Invenio-UserProfiles v1.0.0a9
 ===============================
 
-Invenio-UserProfile v1.0.0a8 was released on September 30, 2016.
+Invenio-UserProfile v1.0.0a9 was released on November 14, 2016.
 
 About
 -----
