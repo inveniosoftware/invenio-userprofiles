@@ -22,7 +22,7 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Version information for Invenio-UserProfile.
+"""Version information for Invenio-UserProfiles.
 
 This file is imported by ``invenio_userprofiles.__init__``,
 and parsed by ``setup.py``.

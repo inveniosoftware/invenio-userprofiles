@@ -59,6 +59,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Vim swapfiles
+.*.sw?
+
 # Example generated
 examples/static/
 examples/instance/

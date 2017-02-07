@@ -27,14 +27,14 @@
 USERPROFILES = True
 """Enable or disable module extensions."""
 
-USERPROFILES_EXTEND_SECURITY_FORMS = False
-"""Extend the securty forms provided by flask-security."""
-
-USERPROFILES_PROFILE_URL = '/account/settings/profile/'
-"""Default profile URL."""
-
 USERPROFILES_EMAIL_ENABLED = True
 """Include the user email in the profile form."""
 
+USERPROFILES_EXTEND_SECURITY_FORMS = False
+"""Extend the security forms provided by flask-security."""
+
 USERPROFILES_PROFILE_TEMPLATE = 'invenio_userprofiles/settings/profile.html'
 """Default profile template."""
+
+USERPROFILES_PROFILE_URL = '/account/settings/profile/'
+"""Default profile URL."""
