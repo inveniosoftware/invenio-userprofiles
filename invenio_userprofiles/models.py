@@ -118,9 +118,9 @@ class UserProfile(db.Model):
 
 @event.listens_for(User, 'init')
 def on_user_init(target, args, kwargs):
-    """Hook into User initialization.
+    """Provide hook on User initialization.
 
-    Automagically convert a dict to a UserProfile instance. This is needed
+    Automatically convert a dict to a UserProfile instance. This is needed
     during e.g. user registration where Flask-Security will initialize a
     User model with all the form data (which when Invenio-UserProfiles is
     enabled includes a ``profile`` key). This will make the User creation fail

@@ -32,7 +32,7 @@
         :target: https://coveralls.io/r/inveniosoftware/invenio-userprofiles
 
 .. image:: https://img.shields.io/github/tag/inveniosoftware/invenio-userprofiles.svg
-        :target: https://github.com/inveniosoftware/invenio-userprofile/releases
+        :target: https://github.com/inveniosoftware/invenio-userprofiles/releases
 
 .. image:: https://img.shields.io/pypi/dm/invenio-userprofiles.svg
         :target: https://pypi.python.org/pypi/invenio-userprofiles

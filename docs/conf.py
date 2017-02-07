@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2015, 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,11 +22,17 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
+"""Sphinx configuration."""
+
 from __future__ import print_function
 
 import os
+import sys
 
 import sphinx.environment
+
+# Plug example application into module path
+sys.path.append('examples')
 
 # -- General configuration ------------------------------------------------
 
@@ -74,7 +80,8 @@ author = u'CERN'
 
 # Get the version string. Cannot be done with import!
 g = {}
-with open(os.path.join('..', 'invenio_userprofiles', 'version.py'), 'rt') as fp:
+with open(os.path.join(os.path.dirname(__file__), '..',
+                       'invenio_userprofiles', 'version.py'), 'rt') as fp:
     exec(fp.read(), g)
     version = g['__version__']
 
@@ -130,7 +137,7 @@ todo_include_todos = False
 html_theme = 'alabaster'
 
 html_theme_options = {
-    'description': 'Invenio module that adds userprofiles to the platform.',
+    'description': 'User profiles module for Invenio.',
     'github_user': 'inveniosoftware',
     'github_repo': 'invenio-userprofiles',
     'github_button': False,
@@ -310,7 +317,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'invenio-userprofiles', u'Invenio-UserProfiles Documentation',
-   author, 'invenio-userprofiles', 'Invenio module that adds userprofiles to the platform.',
+   author, 'invenio-userprofiles', 'User profiles module for Invenio.',
    'Miscellaneous'),
 ]
 

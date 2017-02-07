@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2015, 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,7 +22,7 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Invenio module that adds userprofiles to the platform."""
+"""User profiles module for Invenio."""
 
 import os
 import sys
@@ -37,7 +37,7 @@ tests_require = [
     'SQLAlchemy-Continuum>=1.2.1',
     'check-manifest>=0.25',
     'coverage>=4.0',
-    'invenio-i18n>=1.0.0b1',
+    'invenio-i18n>=1.0.0b2',
     'isort>=4.2.2',
     'pydocstyle>=1.0.0',
     'pytest-cache>=1.0',
@@ -48,10 +48,11 @@ tests_require = [
 
 extras_require = {
     'admin': [
-        'invenio-admin>=1.0.0a2',
+        'invenio-admin>=1.0.0b1',
     ],
     'docs': [
         'Sphinx>=1.4.2',
+        'invenio-mail>=1.0.0b1',
     ],
     'mysql': [
         'invenio-db[mysql]>=1.0.0b3',
@@ -83,7 +84,7 @@ install_requires = [
     'Flask-Menu>=0.4.0',
     'Flask-WTF>=0.13.1',
     'Flask>=0.11.1',
-    'invenio-accounts>=1.0.0b1',
+    'invenio-accounts>=1.0.0b3',
     'WTForms>=2.0.1',
 ]
 
@@ -111,19 +112,23 @@ setup(
     include_package_data=True,
     platforms='any',
     entry_points={
-        'invenio_base.apps': [
-            'invenio_userprofiles = invenio_userprofiles:InvenioUserProfiles',
+        'invenio_admin.views': [
+            'invenio_userprofiles_view = '
+            'invenio_userprofiles.admin:user_profile_adminview',
         ],
         'invenio_base.api_apps': [
+            'invenio_userprofiles = invenio_userprofiles:InvenioUserProfiles',
+        ],
+        'invenio_base.api_blueprints': [
+            'invenio_userprofiles'
+            ' = invenio_userprofiles.views:blueprint_api_init',
+        ],
+        'invenio_base.apps': [
             'invenio_userprofiles = invenio_userprofiles:InvenioUserProfiles',
         ],
         'invenio_base.blueprints': [
             'invenio_userprofiles'
             ' = invenio_userprofiles.views:blueprint_ui_init',
-        ],
-        'invenio_base.api_blueprints': [
-            'invenio_userprofiles'
-            ' = invenio_userprofiles.views:blueprint_api_init',
         ],
         'invenio_db.alembic': [
             'invenio_userprofiles = invenio_userprofiles:alembic',
@@ -133,10 +138,6 @@ setup(
         ],
         'invenio_i18n.translations': [
             'messages = invenio_userprofiles',
-        ],
-        'invenio_admin.views': [
-            'invenio_userprofiles_view = '
-            'invenio_userprofiles.admin:user_profile_adminview',
         ],
     },
     extras_require=extras_require,
