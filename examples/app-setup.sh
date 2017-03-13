@@ -16,7 +16,7 @@ mkdir instance
 pip install -r requirements.txt
 
 # Preapare all static files:
-npm install -g node-sass clean-css requirejs uglify-js
+npm install -g node-sass clean-css@3.4.19 requirejs uglify-js
 flask npm
 cd static ; npm install ; cd ..
 flask collect -v
