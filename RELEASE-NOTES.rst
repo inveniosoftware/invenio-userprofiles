@@ -1,8 +1,8 @@
 ===============================
- Invenio-UserProfiles v1.0.0a9
+ Invenio-UserProfiles v1.0.0a10
 ===============================
 
-Invenio-UserProfile v1.0.0a9 was released on November 14, 2016.
+Invenio-UserProfile v1.0.0a10 was released on May 24, 2017.
 
 About
 -----
@@ -19,7 +19,7 @@ What's new
 Installation
 ------------
 
-   $ pip install invenio-userprofiles==1.0.0a8
+   $ pip install invenio-userprofiles==1.0.0a10
 
 Documentation
 -------------
