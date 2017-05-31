@@ -25,6 +25,7 @@
 
 from alembic import op
 import sqlalchemy as sa
+import sqlalchemy_utils
 
 
 # revision identifiers, used by Alembic.
@@ -42,6 +43,10 @@ def upgrade():
         sa.Column('username', sa.String(length=255), nullable=True),
         sa.Column('displayname', sa.String(length=255), nullable=True),
         sa.Column('full_name', sa.String(length=255), nullable=False),
+        sa.Column('json_metadata', sqlalchemy_utils.JSONType().with_variant(
+            sa.dialects.postgresql.JSON(
+                none_as_null=True), 'postgresql',
+        ), nullable=True),
         sa.ForeignKeyConstraint(['user_id'], [u'accounts_user.id'], ),
         sa.PrimaryKeyConstraint('user_id'),
         sa.UniqueConstraint('username')

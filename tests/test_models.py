@@ -170,3 +170,36 @@ def test_create_profile_with_null(app):
 
         user = User.query.get(user_id)
         assert user.profile is None
+
+
+def test_create_profile_with_metadata(app):
+    """Test creation of a profile with JSON metadata."""
+    with app.app_context():
+        # Create a test user
+        user = User(
+            email='test@example.org',
+        )
+        db.session.add(user)
+        db.session.commit()
+
+        user_id = user.id
+
+        profile = UserProfile()
+
+        # Create user profile
+        profile.first_name = 'Test'
+        profile.last_name = 'User'
+        profile.json_metadata = {"affiliation": "CERN"}
+        assert profile.first_name == 'Test'
+        assert profile.last_name == 'User'
+        assert profile.json_metadata == {"affiliation": "CERN"}
+
+        user.profile = profile
+
+        db.session.merge(user)
+        db.session.commit()
+
+        user = User.query.filter(User.id == user_id).one()
+        assert user.profile.first_name == 'Test'
+        assert user.profile.last_name == 'User'
+        assert user.profile.json_metadata == {"affiliation": "CERN"}

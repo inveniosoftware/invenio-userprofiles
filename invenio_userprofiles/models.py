@@ -29,7 +29,9 @@ from __future__ import absolute_import, print_function
 from invenio_accounts.models import User
 from invenio_db import db
 from sqlalchemy import event
+from sqlalchemy.dialects import postgresql
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy_utils.types import JSONType
 
 
 from .validators import validate_username
@@ -73,6 +75,16 @@ class UserProfile(db.Model):
 
     full_name = db.Column(db.String(255), nullable=False, default='')
     """Full name of person."""
+
+    json_metadata = db.Column(
+        JSONType().with_variant(
+            postgresql.JSON(none_as_null=True),
+            'postgresql',
+        ),
+        default=lambda: dict(),
+        nullable=True
+    )
+    """Store metadata in JSON format."""
 
     @hybrid_property
     def username(self):
