@@ -24,9 +24,11 @@
 
 """Minimal Flask application example for development.
 
-Start the Redis server.
+SPHINX-START
 
-Install the Invenio default theme and build assets:
+Start a Redis server.
+
+Install Invenio default theme and build assets:
 
 .. code-block:: console
 
@@ -41,11 +43,13 @@ Run the development server:
 
    $ FLASK_APP=app.py flask run --debugger -p 5000
 
-To be able to uninstall the example app:
+Uninstall and purge the example app:
 
 .. code-block:: console
 
     $ ./app-teardown.sh
+
+SPHINX-END
 
 """
 
