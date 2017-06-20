@@ -31,7 +31,6 @@ from invenio_db import db
 from sqlalchemy import event
 from sqlalchemy.ext.hybrid import hybrid_property
 
-
 from .validators import validate_username
 
 
