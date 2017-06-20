@@ -44,9 +44,10 @@ class AnonymousUserProfile():
 
 
 class UserProfile(db.Model):
-    """UserProfile model.
+    """User profile model.
 
-    UserProfiles store information about account users.
+    Stores a username, display name (case sensitive version of username) and a
+    full name for a user.
     """
 
     __tablename__ = 'userprofiles_userprofile'
@@ -56,7 +57,7 @@ class UserProfile(db.Model):
         db.ForeignKey(User.id),
         primary_key=True
     )
-    """Foreign key to user."""
+    """Foreign key to :class:`~invenio_accounts.models.User`."""
 
     user = db.relationship(
         User, backref=db.backref(
@@ -93,7 +94,7 @@ class UserProfile(db.Model):
     def get_by_username(cls, username):
         """Get profile by username.
 
-        .. note:: The username is not case sensitive.
+        :param username: A username to query for (case insensitive).
         """
         return cls.query.filter(
             UserProfile._username == username.lower()
@@ -103,8 +104,8 @@ class UserProfile(db.Model):
     def get_by_userid(cls, user_id):
         """Get profile by user identifier.
 
-        :param user_id: The :class:`invenio_accounts.models.User` ID.
-        :returns: A :class:`invenio_userprofiles.models.UserProfile` instance
+        :param user_id: Identifier of a :class:`~invenio_accounts.models.User`.
+        :returns: A :class:`~invenio_userprofiles.models.UserProfile` instance
             or ``None``.
         """
         return cls.query.filter_by(user_id=user_id).one_or_none()
@@ -117,13 +118,14 @@ class UserProfile(db.Model):
 
 @event.listens_for(User, 'init')
 def on_user_init(target, args, kwargs):
-    """Provide hook on User initialization.
+    """Provide hook on :class:`~invenio_accounts.models.User` initialization.
 
-    Automatically convert a dict to a UserProfile instance. This is needed
+    Automatically convert a dict to a
+    :class:`~.UserProfile` instance. This is needed
     during e.g. user registration where Flask-Security will initialize a
-    User model with all the form data (which when Invenio-UserProfiles is
-    enabled includes a ``profile`` key). This will make the User creation fail
-    unless we convert the profile dict into a UserProfile object.
+    user model with all the form data (which when Invenio-UserProfiles is
+    enabled includes a ``profile`` key). This will make the user creation fail
+    unless we convert the profile dict into a :class:`~.UserProfile` instance.
     """
     profile = kwargs.pop('profile', None)
     if profile is not None and not isinstance(profile, UserProfile):

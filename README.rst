@@ -40,10 +40,13 @@
 .. image:: https://img.shields.io/github/license/inveniosoftware/invenio-userprofiles.svg
         :target: https://github.com/inveniosoftware/invenio-userprofiles/blob/master/LICENSE
 
-
 User profiles module for Invenio.
 
-*This is an experimental developer preview release.*
+Features:
 
-* Free software: GPLv2 license
-* Documentation: https://invenio-userprofiles.readthedocs.io/
+- Editing and managing user profiles (username, full name).
+- Extends the user registration form provided by Invenio-Accounts.
+- Resending user verification emails.
+- Administration interface for user profiles.
+
+Further documentation available on https://invenio-userprofiles.readthedocs.io/

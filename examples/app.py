@@ -26,9 +26,8 @@
 
 SPHINX-START
 
-Start a Redis server.
-
-Install Invenio default theme and build assets:
+First install Invenio-UserProfiles, setup the application and load fixture data
+by running:
 
 .. code-block:: console
 
@@ -37,20 +36,30 @@ Install Invenio default theme and build assets:
    $ ./app-setup.sh
    $ ./app-fixtures.sh
 
-Run the development server:
+You should also have the `Redis` running on your machine. To know how
+to install and run `redis`, please refer to the
+`redis website <https://redis.io/>`_.
+
+Next, start the development server:
 
 .. code-block:: console
 
-   $ FLASK_APP=app.py flask run --debugger -p 5000
+   $ export FLASK_APP=app.py FLASK_DEBUG=1
+   $ flask run
 
-Uninstall and purge the example app:
+and open the example application in your browser:
+
+.. code-block:: console
+
+    $ open http://127.0.0.1:5000/
+
+To uninstall and purge the example app, run:
 
 .. code-block:: console
 
     $ ./app-teardown.sh
 
 SPHINX-END
-
 """
 
 from __future__ import absolute_import, print_function

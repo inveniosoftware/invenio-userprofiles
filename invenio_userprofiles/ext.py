@@ -50,8 +50,12 @@ class InvenioUserProfiles(object):
 
     def init_config(self, app):
         """Initialize configuration."""
+        excludes = [
+            'USERPROFILES_BASE_TEMPLATE',
+            'USERPROFILES_SETTINGS_TEMPLATE',
+        ]
         for k in dir(config):
-            if k.startswith('USERPROFILES_'):
+            if k.startswith('USERPROFILES_') and k not in excludes:
                 app.config.setdefault(k, getattr(config, k))
 
         app.config.setdefault('USERPROFILES', True)
