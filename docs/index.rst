@@ -35,7 +35,6 @@ Invenio-UserProfiles.
 
    installation
    configuration
-   usage
    examplesapp
 
 

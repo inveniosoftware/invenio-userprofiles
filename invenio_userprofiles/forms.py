@@ -51,7 +51,7 @@ def strip_filter(text):
 
 
 def current_user_email(form, field):
-    """Stop validation if email equals current user's email."""
+    """Field validator to stop validation if email wasn't changed."""
     if current_user.email == field.data:
         raise StopValidation()
 
@@ -128,7 +128,7 @@ class VerificationForm(FlaskForm):
 
 
 def register_form_factory(Form):
-    """Return extended registration form."""
+    """Factory for creating an extended user registration form."""
     class RegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
@@ -137,7 +137,7 @@ def register_form_factory(Form):
 
 
 def confirm_register_form_factory(Form):
-    """Return extended confirmation of registration form."""
+    """Factory for creating a confirm register form."""
     class ConfirmRegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 

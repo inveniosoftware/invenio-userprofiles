@@ -101,7 +101,7 @@ def userprofile(value):
     blueprint, 'breadcrumbs.settings.profile', _('Profile')
 )
 def profile():
-    """View for editing profile."""
+    """View for editing a profile."""
     # Create forms
     verification_form = VerificationForm(formdata=None, prefix="verification")
     profile_form = profile_form_factory()

@@ -44,10 +44,9 @@ USERNAME_RULES = _(
 def validate_username(username):
     """Validate the username.
 
-    See :data:`invenio_userprofiles.validators.username_regex` to know which
-    rules are applied.
+    See :data:`~.username_regex` to know which rules are applied.
 
-    :param username: The user name.
+    :param username: A username.
     :raises ValueError: If validation fails.
     """
     if not username_regex.match(username):
