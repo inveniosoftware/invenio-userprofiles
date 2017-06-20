@@ -24,4 +24,3 @@
 
 -e git+git://github.com/inveniosoftware/invenio-accounts.git#egg=invenio-accounts
 -e git+git://github.com/inveniosoftware/invenio-db.git#egg=invenio-db
--e git+git://github.com/pallets/werkzeug.git#egg=werkzeug
