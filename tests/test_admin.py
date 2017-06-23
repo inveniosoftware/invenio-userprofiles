@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016 CERN.
+# Copyright (C) 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -57,5 +57,5 @@ def test_admin(app):
                 follow_redirects=True
             )
             assert res.status_code == 200
-            assert b'Display Name' in (res.get_data())
+            assert b'Username' in (res.get_data())
             assert b'Full Name' in (res.get_data())
