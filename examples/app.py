@@ -53,6 +53,18 @@ and open the example application in your browser:
 
     $ open http://127.0.0.1:5000/
 
+Choose a user to login:
+
+    - user info@inveniosoftware.org password 123456
+    - user another@inveniosoftware.org password 123456
+
+You can check the administration page opening the page:
+
+    $ open http://127.0.0.1:5000/admin
+
+Note that, as defined in our fixtures, only `info@inveniosoftware.org` user
+can enter.
+
 To uninstall and purge the example app, run:
 
 .. code-block:: console
@@ -69,9 +81,11 @@ import os
 import pkg_resources
 from flask import Flask, redirect, url_for
 from flask_babelex import Babel
+from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint
 from invenio_admin import InvenioAdmin
+from invenio_admin.views import blueprint as blueprint_admin_ui
 from invenio_db import InvenioDB
 from invenio_i18n import InvenioI18N
 from invenio_mail import InvenioMail
@@ -100,7 +114,7 @@ except pkg_resources.DistributionNotFound:
 app = Flask(__name__)
 app.config.update(
     ACCOUNTS_USE_CELERY=False,
-    BABEL_DEFAULT_LOCALE='da',
+    BABEL_DEFAULT_LOCALE='en',
     I18N_TRASNLATION_PATHS=[messages_path()],
     MAIL_SUPPRESS_SEND=True,
     SECRET_KEY='CHANGE_ME',
@@ -118,14 +132,16 @@ if INVENIO_ASSETS_AVAILABLE:
     InvenioAssets(app)
 if INVENIO_THEME_AVAILABLE:
     InvenioTheme(app)
+InvenioAccess(app)
 InvenioAccounts(app)
 app.register_blueprint(blueprint)
 InvenioUserProfiles(app)
 app.register_blueprint(blueprint2)
 app.register_blueprint(blueprint_api_init)
 app.register_blueprint(blueprint_ui_init)
-InvenioAdmin(app, permission_factory=lambda x: x,
-             view_class_factory=lambda x: x)
+
+InvenioAdmin(app)
+app.register_blueprint(blueprint_admin_ui)
 
 
 @app.route('/')
