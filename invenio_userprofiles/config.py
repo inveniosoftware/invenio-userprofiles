@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016 CERN.
+# Copyright (C) 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -33,6 +33,14 @@ USERPROFILES_EMAIL_ENABLED = True
 USERPROFILES_EXTEND_SECURITY_FORMS = False
 """Extend the Invenio-Accounts user registration forms."""
 
+USERPROFILES_HANDLE_PROFILE_FORM = \
+    'invenio_userprofiles.views:default_handle_profile_form'
+"""Default profile form handler."""
+
+USERPROFILES_HANDLE_VERIFICATION_FORM = \
+    'invenio_userprofiles.views:default_handle_verification_form'
+"""Default verification form handler."""
+
 USERPROFILES_PROFILE_TEMPLATE = 'invenio_userprofiles/settings/profile.html'
 """Default profile template."""
 
@@ -44,3 +52,19 @@ USERPROFILES_BASE_TEMPLATE = None
 
 USERPROFILES_SETTINGS_TEMPLATE = None
 """Settings base templates for user profile module."""
+
+USERPROFILES_PROFILE_FORM_FACTORY = \
+    'invenio_userprofiles.views:default_profile_form_factory'
+"""Default profile form factory."""
+
+USERPROFILES_VERIFICATION_FORM_FACTORY = \
+    'invenio_userprofiles.views:default_verification_form_factory'
+"""Default verification form factory."""
+
+USERPROFILES_CONFIRM_REGISTER_FORM_FACTORY = \
+    'invenio_userprofiles.forms:confirm_register_form_factory'
+"""Default confirm register form factory."""
+
+USERPROFILES_REGISTER_FORM_FACTORY = \
+    'invenio_userprofiles.forms:register_form_factory'
+"""Default register form factory."""

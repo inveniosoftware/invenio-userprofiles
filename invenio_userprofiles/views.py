@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2015, 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -35,9 +35,9 @@ from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
 
 from .api import current_userprofile
-from .forms import EmailProfileForm, ProfileForm, VerificationForm, \
-    confirm_register_form_factory, register_form_factory
+from .forms import EmailProfileForm, ProfileForm, VerificationForm
 from .models import UserProfile
+from .proxies import current_userprofiles_ext
 
 blueprint = Blueprint(
     'invenio_userprofiles',
@@ -60,10 +60,12 @@ blueprint_ui_init = Blueprint(
 def init_common(app):
     """Post initialization."""
     if app.config['USERPROFILES_EXTEND_SECURITY_FORMS']:
+        userprofiles_ext = app.extensions['invenio-userprofiles']
         security_ext = app.extensions['security']
-        security_ext.confirm_register_form = confirm_register_form_factory(
-            security_ext.confirm_register_form)
-        security_ext.register_form = register_form_factory(
+        security_ext.confirm_register_form = \
+            userprofiles_ext.confirm_register_form_factory(
+                security_ext.confirm_register_form)
+        security_ext.register_form = userprofiles_ext.register_form_factory(
             security_ext.register_form)
 
 
@@ -103,15 +105,15 @@ def userprofile(value):
 def profile():
     """View for editing a profile."""
     # Create forms
-    verification_form = VerificationForm(formdata=None, prefix="verification")
-    profile_form = profile_form_factory()
+    verification_form = current_userprofiles_ext.verification_form()
+    profile_form = current_userprofiles_ext.profile_form()
 
     # Process forms
     form = request.form.get('submit', None)
     if form == 'profile':
-        handle_profile_form(profile_form)
+        current_userprofiles_ext.handle_profile_form(profile_form)
     elif form == 'verification':
-        handle_verification_form(verification_form)
+        current_userprofiles_ext.handle_verification_form(verification_form)
 
     return render_template(
         current_app.config['USERPROFILES_PROFILE_TEMPLATE'],
@@ -119,7 +121,7 @@ def profile():
         verification_form=verification_form,)
 
 
-def profile_form_factory():
+def default_profile_form_factory():
     """Create a profile form."""
     if current_app.config['USERPROFILES_EMAIL_ENABLED']:
         return EmailProfileForm(
@@ -136,7 +138,14 @@ def profile_form_factory():
             prefix='profile', )
 
 
-def handle_verification_form(form):
+def default_verification_form_factory():
+    """Create a verification form."""
+    return VerificationForm(
+        formdata=None,
+        prefix='verification', )
+
+
+def default_handle_verification_form(form):
     """Handle email sending verification form."""
     form.process(formdata=request.form)
 
@@ -146,7 +155,7 @@ def handle_verification_form(form):
         flash(_("Verification email sent."), category="success")
 
 
-def handle_profile_form(form):
+def default_handle_profile_form(form):
     """Handle profile update form."""
     form.process(formdata=request.form)
 

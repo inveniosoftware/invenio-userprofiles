@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2015, 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -26,8 +26,11 @@
 
 from __future__ import absolute_import, print_function
 
+from werkzeug.utils import cached_property
+
 from . import config
 from .api import current_userprofile
+from .utils import load_or_import_from_config
 
 
 class InvenioUserProfiles(object):
@@ -37,6 +40,7 @@ class InvenioUserProfiles(object):
         """Extension initialization."""
         if app:
             self.init_app(app)
+        self.app = app
 
     def init_app(self, app):
         """Flask application initialization."""
@@ -80,3 +84,37 @@ class InvenioUserProfiles(object):
             )
             app.config['SECURITY_REGISTER_USER_TEMPLATE'] = \
                 'invenio_userprofiles/register_user.html'
+
+    @cached_property
+    def profile_form(self):
+        """Load profile form factory."""
+        return load_or_import_from_config('USERPROFILES_PROFILE_FORM_FACTORY')
+
+    @cached_property
+    def handle_profile_form(self):
+        """Load handle profile form factory."""
+        return load_or_import_from_config('USERPROFILES_HANDLE_PROFILE_FORM')
+
+    @cached_property
+    def verification_form(self):
+        """Load verification form factory."""
+        return load_or_import_from_config(
+            'USERPROFILES_VERIFICATION_FORM_FACTORY')
+
+    @cached_property
+    def handle_verification_form(self):
+        """Load handle verification form factory."""
+        return load_or_import_from_config(
+            'USERPROFILES_HANDLE_VERIFICATION_FORM')
+
+    @cached_property
+    def confirm_register_form_factory(self):
+        """Load confirm register form factory."""
+        return load_or_import_from_config(
+            'USERPROFILES_CONFIRM_REGISTER_FORM_FACTORY', app=self.app)
+
+    @cached_property
+    def register_form_factory(self):
+        """Load register form factory."""
+        return load_or_import_from_config(
+            'USERPROFILES_REGISTER_FORM_FACTORY', app=self.app)
