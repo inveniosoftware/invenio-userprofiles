@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2015, 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -79,19 +79,26 @@ from __future__ import absolute_import, print_function
 import os
 
 import pkg_resources
-from flask import Flask, redirect, url_for
+from flask import Flask, flash, redirect, request, url_for
+from flask_babelex import lazy_gettext as _
 from flask_babelex import Babel
+from flask_login import current_user
 from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
+from invenio_accounts.models import User
 from invenio_accounts.views import blueprint
 from invenio_admin import InvenioAdmin
 from invenio_admin.views import blueprint as blueprint_admin_ui
-from invenio_db import InvenioDB
+from invenio_db import InvenioDB, db
 from invenio_i18n import InvenioI18N
 from invenio_mail import InvenioMail
+from sqlalchemy import event
+from wtforms import StringField, TextAreaField
 from wtforms.i18n import messages_path
 
 from invenio_userprofiles import InvenioUserProfiles
+from invenio_userprofiles.api import current_userprofile
+from invenio_userprofiles.forms import EmailProfileForm
 from invenio_userprofiles.views import blueprint as blueprint2
 from invenio_userprofiles.views import blueprint_api_init, blueprint_ui_init
 
@@ -110,6 +117,39 @@ except pkg_resources.DistributionNotFound:
     INVENIO_THEME_AVAILABLE = False
 
 
+class DetailedProfile(db.Model):
+    """DetailedProfile model."""
+
+    __tablename__ = 'userprofiles_example_detailed_profile'
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), primary_key=True)
+    detailed_profile = db.relationship(
+        User, backref=db.backref(
+            'detailed_profile', uselist=False, cascade='all, delete-orphan'))
+    bio = db.Column(db.Text)
+    affiliation = db.Column(db.String(255))
+
+    @classmethod
+    def get_by_userid(cls, user_id):
+        """Get profile by user identifier."""
+        return cls.query.filter_by(user_id=user_id).one_or_none()
+
+
+@event.listens_for(User, 'init')
+def on_user_init(target, args, kwargs):
+    """Provide hook on User initialization."""
+    detailed_profile = DetailedProfile()
+    if kwargs.get('id'):
+        detailed_profile.user_id = kwargs['id']
+    kwargs['detailed_profile'] = detailed_profile
+
+
+class EmailDetailedProfileForm(EmailProfileForm):
+    """Form for Extending EmailProfile class."""
+
+    bio = TextAreaField(_('Short Bio'), description=_('Optional'))
+    affiliation = StringField(_('Affiliation'), description=_('Optional'))
+
+
 # Create Flask application
 app = Flask(__name__)
 app.config.update(
@@ -123,6 +163,7 @@ app.config.update(
     ),
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
     WTF_CSRF_ENABLED=False,
+    USERPROFILES_EMAIL_ENABLED=True,
 )
 Babel(app)
 InvenioMail(app)
@@ -142,6 +183,48 @@ app.register_blueprint(blueprint_ui_init)
 
 InvenioAdmin(app)
 app.register_blueprint(blueprint_admin_ui)
+
+
+def detailed_profile_form_factory():
+    """Create a profile page form."""
+    return EmailDetailedProfileForm(
+        formdata=None,
+        username=current_userprofile.username,
+        full_name=current_userprofile.full_name,
+        email=current_user.email,
+        email_repeat=current_user.email,
+        bio=current_user.detailed_profile.bio,
+        affiliation=current_user.detailed_profile.affiliation,
+        prefix='profile'
+    )
+
+
+def handle_profile_form(form):
+    """Handle profile update form."""
+    form.process(formdata=request.form)
+
+    if form.validate_on_submit():
+        with db.session.begin_nested():
+            current_userprofile.username = form.username.data
+            current_userprofile.full_name = form.full_name.data
+            db.session.add(current_userprofile)
+
+            detailed_profile = DetailedProfile.get_by_userid(
+                current_user.detailed_profile.user_id)
+            detailed_profile.bio = form.bio.data
+            detailed_profile.affiliation = form.affiliation.data
+            db.session.add(detailed_profile)
+
+            if form.email.data != current_user.email:
+                current_user.email = form.email.data
+                current_user.confirmed_at = None
+                db.session.add(current_user)
+        db.session.commit()
+
+        flash(_('Profile was updated.'), category='success')
+
+app.config['USERPROFILES_PROFILE_FORM_FACTORY'] = detailed_profile_form_factory
+app.config['USERPROFILES_HANDLE_PROFILE_FORM'] = handle_profile_form
 
 
 @app.route('/')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016 CERN.
+# Copyright (C) 2016, 2017 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -83,3 +83,18 @@ def test_example_app(example_app):
         """.format(email, password)
     output = subprocess.check_output(cmd, shell=True).decode('utf-8')
     assert 'id="profile-username"' in output
+    assert 'id="profile-bio"' in output
+    assert 'id="profile-affiliation"' in output
+
+    username = 'Invenio'
+    affiliation = 'InvenioSoftware'
+    bio = 'Software engineer and systems administration.'
+    cmd = ("curl -b cookiefile http://0.0.0.0:5000/ -d "
+           "'csrf_token=None&next=&profile-username={0}&profile-email={1}"
+           "&profile-email_repeat={1}&profile-affiliation={2}&profile-bio={3}"
+           "&submit=profile'").format(username, email, affiliation, bio)
+    output = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    assert 'Invenio' in output
+    assert 'InvenioSoftware' in output
+    assert 'Software engineer and systems administration.' in output
+    assert 'has-error' not in output
