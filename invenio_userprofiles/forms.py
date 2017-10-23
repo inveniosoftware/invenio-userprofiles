@@ -129,18 +129,64 @@ class VerificationForm(FlaskForm):
 
 def register_form_factory(Form):
     """Factory for creating an extended user registration form."""
+    class CsrfDisabledProfileForm(ProfileForm):
+        """Subclass of ProfileForm to disable CSRF token in the inner form.
+
+        This class will always be a inner form field of the parent class
+        `Form`. The parent will add/remove the CSRF token in the form.
+        """
+
+        def __init__(self, *args, **kwargs):
+            """Initialize the object by hardcoding CSRF token to false."""
+            kwargs = _update_with_csrf_disabled(kwargs)
+            super(CsrfDisabledProfileForm, self).__init__(*args, **kwargs)
+
     class RegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
-    setattr(RegisterForm, 'profile', FormField(ProfileForm, separator='.'))
+        profile = FormField(CsrfDisabledProfileForm, separator='.')
+
     return RegisterForm
 
 
 def confirm_register_form_factory(Form):
     """Factory for creating a confirm register form."""
+    class CsrfDisabledProfileForm(ProfileForm):
+        """Subclass of ProfileForm to disable CSRF token in the inner form.
+
+        This class will always be a inner form field of the parent class
+        `Form`. The parent will add/remove the CSRF token in the form.
+        """
+
+        def __init__(self, *args, **kwargs):
+            """Initialize the object by hardcoding CSRF token to false."""
+            kwargs = _update_with_csrf_disabled(kwargs)
+            super(CsrfDisabledProfileForm, self).__init__(*args, **kwargs)
+
     class ConfirmRegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
-    setattr(ConfirmRegisterForm, 'profile',
-            FormField(ProfileForm, separator='.'))
+        profile = FormField(CsrfDisabledProfileForm, separator='.')
+
     return ConfirmRegisterForm
+
+
+def _update_with_csrf_disabled(d=None):
+    """Update the input dict with CSRF disabled depending on WTF-Form version.
+
+    From Flask-WTF 0.14.0, `csrf_enabled` param has been deprecated in favor of
+    `meta={csrf: True/False}`.
+    """
+    if d is None:
+        d = {}
+
+    import flask_wtf
+    from pkg_resources import parse_version
+    supports_meta = parse_version(flask_wtf.__version__) >= parse_version(
+        "0.14.0")
+    if supports_meta:
+        d.setdefault('meta', {})
+        d['meta'].update({'csrf': False})
+    else:
+        d['csrf_enabled'] = False
+    return d

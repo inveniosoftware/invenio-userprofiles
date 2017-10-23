@@ -82,9 +82,23 @@ def base_app():
     shutil.rmtree(instance_path)
 
 
+def _init_userprofiles_app(app_):
+    """Init UserProfiles modules."""
+    InvenioUserProfiles(app_)
+    app_.register_blueprint(blueprint_ui_init)
+    return app_
+
+
 @pytest.fixture
 def app(base_app):
     """Flask application."""
-    InvenioUserProfiles(base_app)
-    base_app.register_blueprint(blueprint_ui_init)
-    return base_app
+    return _init_userprofiles_app(base_app)
+
+
+@pytest.fixture
+def app_with_csrf(base_app):
+    """Flask application with CSRF security enabled."""
+    base_app.config.update(
+        WTF_CSRF_ENABLED=True,
+    )
+    return _init_userprofiles_app(base_app)
