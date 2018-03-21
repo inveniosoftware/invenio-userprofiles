@@ -1,3 +1,10 @@
+..
+    This file is part of Invenio.
+    Copyright (C) 2015-2018 CERN.
+
+    Invenio is free software; you can redistribute it and/or modify it
+    under the terms of the MIT License; see LICENSE file for more details.
+
 =====================
  Invenio-UserProfiles
 =====================
@@ -8,14 +15,8 @@
 .. image:: https://img.shields.io/coveralls/inveniosoftware/invenio-userprofiles.svg
         :target: https://coveralls.io/r/inveniosoftware/invenio-userprofiles
 
-.. image:: https://img.shields.io/github/tag/inveniosoftware/invenio-userprofiles.svg
-        :target: https://github.com/inveniosoftware/invenio-userprofiles/releases
-
-.. image:: https://img.shields.io/pypi/dm/invenio-userprofiles.svg
-        :target: https://pypi.python.org/pypi/invenio-userprofiles
-
-.. image:: https://img.shields.io/github/license/inveniosoftware/invenio-userprofiles.svg
-        :target: https://github.com/inveniosoftware/invenio-userprofiles/blob/master/LICENSE
+.. image:: https://img.shields.io/pypi/v/invenio-userprofiles.svg
+        :target: https://pypi.org/pypi/invenio-userprofiles
 
 User profiles module for Invenio.
 
