@@ -9,6 +9,9 @@
  Invenio-UserProfiles
 =====================
 
+.. image:: https://img.shields.io/github/license/inveniosoftware/invenio-userprofiles.svg
+        :target: https://github.com/inveniosoftware/invenio-userprofiles/blob/master/LICENSE
+
 .. image:: https://img.shields.io/travis/inveniosoftware/invenio-userprofiles.svg
         :target: https://travis-ci.org/inveniosoftware/invenio-userprofiles
 
