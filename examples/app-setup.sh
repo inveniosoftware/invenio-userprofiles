@@ -25,3 +25,4 @@ flask assets build
 # Create the database
 flask db init
 flask db create
+flask webpack buildall
