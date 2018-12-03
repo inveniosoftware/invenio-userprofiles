@@ -12,6 +12,7 @@ import os
 import signal
 import subprocess
 import time
+from os.path import abspath, dirname, join
 
 import pytest
 
@@ -22,9 +23,9 @@ def example_app():
     current_dir = os.getcwd()
 
     # Go to example directory
-    project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    exampleappdir = os.path.join(project_dir, 'examples')
-    os.chdir(exampleappdir)
+    project_dir = dirname(dirname(abspath(__file__)))
+    exampleapp_dir = join(project_dir, 'examples')
+    os.chdir(exampleapp_dir)
 
     # Setup example
     cmd = './app-setup.sh'
@@ -66,4 +67,5 @@ def test_example_app(example_app):
         curl -b cookiefile http://0.0.0.0:5000/
         """.format(email, password)
     output = subprocess.check_output(cmd, shell=True).decode('utf-8')
+    print(output)
     assert 'id="profile-username"' in output
