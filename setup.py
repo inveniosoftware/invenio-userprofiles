@@ -26,7 +26,7 @@ tests_require = [
     'pydocstyle>=1.0.0',
     'pytest-cov>=1.8.0',
     'pytest-pep8>=1.0.6',
-    'pytest>=2.8.0',
+    'pytest>=3.8.0,<5.0.0',
 ]
 
 extras_require = {
@@ -68,6 +68,7 @@ install_requires = [
     'Flask-WTF>=0.13.1',
     'Flask>=0.11.1',
     'invenio-accounts>=1.0.0',
+    'Werkzeug>=0.14.1',
     'WTForms>=2.0.1',
 ]
 
