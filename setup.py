@@ -21,7 +21,6 @@ tests_require = [
     'SQLAlchemy-Continuum>=1.2.1',
     'check-manifest>=0.25',
     'coverage>=4.0',
-    'invenio-i18n>=1.0.0',
     'isort>=4.2.2',
     'pydocstyle>=1.0.0',
     'pytest-cov>=1.8.0',
@@ -31,7 +30,7 @@ tests_require = [
 
 extras_require = {
     'admin': [
-        'invenio-admin>=1.0.0',
+        'invenio-admin>=1.2.0',
     ],
     'docs': [
         'Sphinx>=1.4.2',
@@ -61,15 +60,13 @@ setup_requires = [
 ]
 
 install_requires = [
-    'Flask-BabelEx>=0.9.3',
-    'Flask-Breadcrumbs>=0.3.0',
+    'Flask-Breadcrumbs>=0.5.0',
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.4.0',
-    'Flask-WTF>=0.13.1',
-    'Flask>=0.11.1',
-    'invenio-accounts>=1.0.0',
-    'Werkzeug>=0.14.1',
-    'WTForms>=2.0.1',
+    'Flask-WTF>=0.14.3',
+    'invenio-accounts>=1.2.0',
+    'invenio-base>=1.2.2',
+    'invenio-i18n>=1.2.0',
 ]
 
 packages = find_packages()
