@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.1.0 (released 2020-03-11)
+
+- Change Flask dependency management to invenio-base
+- drop Python 2.7 support
+
 Version 1.0.1 (released 2018-05-25)
 
 - Flask v1.0 support.
