@@ -10,7 +10,8 @@ Changes
 
 Version 1.1.1 (released 2020-05-11)
 
-- Bumped invenio-accounnts v 1.2.1
+- Minimum version of Invenio-Accounts bumped to v1.2.1 due WTForms moving the
+  email validation to an optional dependency
 
 Version 1.1.0 (released 2020-03-11)
 
