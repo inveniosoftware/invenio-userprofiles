@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.1.1 (released 2020-05-11)
+
+- Bumped invenio-accounnts v 1.2.1
+
 Version 1.1.0 (released 2020-03-11)
 
 - Change Flask dependency management to invenio-base
