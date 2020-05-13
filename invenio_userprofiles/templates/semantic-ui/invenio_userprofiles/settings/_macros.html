@@ -1,0 +1,29 @@
+{# -*- coding: utf-8 -*-
+
+  This file is part of Invenio.
+  Copyright (C) 2015-2018 CERN.
+
+  Invenio is free software; you can redistribute it and/or modify it
+  under the terms of the MIT License; see LICENSE file for more details.
+#}
+
+{% macro render_field(field, icon="", placeholder='', autofocus=False) %}
+  <div class="field {% if field.errors %}error{% endif %}">
+    {{ field.label }}
+    {%- set extras = dict(autofocus="") if autofocus else dict() %}
+    {{field(class_="form-control", placeholder=placeholder, **extras)}}
+    {%- if icon %}
+    <i class="{{icon}}" aria-hidden="true" ></i>
+    {%- endif %}
+    {%- if field.description %}
+    <small>{{ field.description }}</small>
+    {%- endif %}
+    {%- if field.errors %}
+    <div class="ui negative message" role="alert">
+    {%- for error in field.errors %}
+    <p>{{error}}</p>
+    {% endfor %}
+    </div>
+    {%- endif %}
+  </div>
+{% endmacro %}
