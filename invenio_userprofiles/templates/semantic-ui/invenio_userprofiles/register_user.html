@@ -1,0 +1,19 @@
+{# -*- coding: utf-8 -*-
+
+  This file is part of Invenio.
+  Copyright (C) 2016-2018 CERN.
+
+  Invenio is free software; you can redistribute it and/or modify it
+  under the terms of the MIT License; see LICENSE file for more details.
+#}
+
+{%- extends config.USERPROFILES_REGISTER_USER_BASE_TEMPLATE %}
+
+{% from "invenio_accounts/_macros.html" import render_field %}
+
+{% block registration_form_fields %}
+{%- with form = register_user_form %}
+{{ render_field(form.profile, icon="lock icon", errormsg=False) }}
+{%- endwith %}
+{{ super() }}
+{% endblock %}

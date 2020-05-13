@@ -1,0 +1,40 @@
+{# -*- coding: utf-8 -*-
+
+  This file is part of Invenio.
+  Copyright (C) 2015-2018 CERN.
+
+  Invenio is free software; you can redistribute it and/or modify it
+  under the terms of the MIT License; see LICENSE file for more details.
+#}
+{%- extends config.USERPROFILES_SETTINGS_TEMPLATE %}
+
+{% from "invenio_userprofiles/settings/_macros.html" import render_field, form_errors %}
+
+{% set panel_title = _("Profile") %}
+{% set panel_icon = "user icon" %}
+
+{%- block settings_form %}
+{%- if security.confirmable and not current_user.confirmed_at %}
+<form method="POST" role="form">
+  {{ verification_form.csrf_token }}
+  <div class="ui warning message">
+    {{ _("You have not yet verified your email address.") }} {{ verification_form.send_verification_email(class_="compact ui small basic button") }}
+  </div>
+  <input type="hidden" name="submit" value="verification" />
+</form>
+{%- endif %}
+{%- set form = profile_form %}
+<form method="POST" name="profile_form" class="ui form">
+  {%- for field in form %}
+  {%- if field.widget.input_type == 'hidden' %}
+  {{ field() }}
+  {%- else %}
+  {{ render_field(field, autofocus=True, placeholder=field.label.text) }}
+  {%- endif %}
+  {%- endfor %}
+  <div class="form-actions">
+    <a href="." class="ui secondary basic button"><i class="close icon"></i> {{ _('Cancel') }}</a>
+    <button type="submit" name="submit" value="profile" class="ui primary button"><i class="close icon"></i> {{ _('Update profile') }}</button>
+  </div>
+</form>
+{%- endblock settings_form %}
