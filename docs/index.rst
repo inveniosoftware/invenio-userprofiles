@@ -18,7 +18,6 @@ Invenio-UserProfiles.
 
    installation
    configuration
-   examplesapp
 
 
 API Reference
