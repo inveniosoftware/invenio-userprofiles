@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.2.0a1 (released 2020-05-15)
+
+- Integrates Semantic-UI templates
+- Removes example app
+
 Version 1.1.1 (released 2020-05-11)
 
 - Minimum version of Invenio-Accounts bumped to v1.2.1 due WTForms moving the
