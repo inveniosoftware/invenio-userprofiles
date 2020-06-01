@@ -8,7 +8,7 @@
 Changes
 =======
 
-Version 1.2.0a1 (released 2020-05-15)
+Version 1.2.0a2 (released 2020-06-02)
 
 - Integrates Semantic-UI templates
 - Removes example app
