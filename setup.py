@@ -33,7 +33,7 @@ extras_require = {
         'invenio-admin>=1.2.0',
     ],
     'docs': [
-        'Sphinx>=1.4.2',
+        'Sphinx>=1.4.2,<3.0.0',
         'invenio-mail>=1.0.0',
     ],
     'mysql': [
