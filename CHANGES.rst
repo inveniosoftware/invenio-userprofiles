@@ -8,8 +8,9 @@
 Changes
 =======
 
-Version 1.2.0a2 (released 2020-06-02)
+Version 1.2.0a3 (released 2020-06-22)
 
+- Changes `cancel` button's color
 - Integrates Semantic-UI templates
 - Removes example app
 
