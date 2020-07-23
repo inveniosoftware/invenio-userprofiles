@@ -8,8 +8,10 @@
 Changes
 =======
 
-Version 1.2.0a3 (released 2020-06-22)
+Version 1.2.0a4 (released 2020-07-23)
 
+- Marked strings for translation
+- Added Turkish translation
 - Changes `cancel` button's color
 - Integrates Semantic-UI templates
 - Removes example app
