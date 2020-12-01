@@ -19,13 +19,7 @@ history = open('CHANGES.rst').read()
 
 tests_require = [
     'SQLAlchemy-Continuum>=1.2.1',
-    'check-manifest>=0.25',
-    'coverage>=4.0',
-    'isort>=4.2.2',
-    'pydocstyle>=1.0.0',
-    'pytest-cov>=1.8.0',
-    'pytest-pep8>=1.0.6',
-    'pytest>=3.8.0,<5.0.0',
+    'pytest-invenio>=1.4.0',
 ]
 
 extras_require = {
@@ -37,13 +31,13 @@ extras_require = {
         'invenio-mail>=1.0.0',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.0',
+        'invenio-db[mysql]>=1.0.5',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.0',
+        'invenio-db[postgresql]>=1.0.5',
     ],
     'sqlite': [
-        'invenio-db>=1.0.0',
+        'invenio-db>=1.0.5',
     ],
     'tests': tests_require,
 }
@@ -62,7 +56,7 @@ setup_requires = [
 install_requires = [
     'Flask-Breadcrumbs>=0.5.0',
     'Flask-Mail>=0.9.1',
-    'Flask-Menu>=0.4.0',
+    'Flask-Menu>=0.5.0',
     'Flask-WTF>=0.14.3',
     'invenio-accounts>=1.2.1',
     'invenio-base>=1.2.2',
