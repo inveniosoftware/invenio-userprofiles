@@ -183,7 +183,7 @@ def test_profile_name_exists(app):
 
         resp = client.post(profile_url, data=data)
         assert resp.status_code == 200
-        assert 'has-error' not in resp.get_data(as_text=True)
+        assert 'Username already exists.' in resp.get_data(as_text=True)
 
 
 def test_send_verification_form(app):
