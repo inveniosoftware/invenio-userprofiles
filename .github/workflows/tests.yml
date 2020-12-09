@@ -36,33 +36,22 @@ jobs:
 
           include:
           - db-service: postgresql9
-            DB: postgresql
-            POSTGRESQL_VERSION: POSTGRESQL_9_LATEST
-            SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://invenio:invenio@localhost:5432/invenio"
+            DB: postgresql9
             EXTRAS: "all,postgresql"
 
           - db-service: postgresql11
-            DB: postgresql
-            POSTGRESQL_VERSION: POSTGRESQL_11_LATEST
-            SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://invenio:invenio@localhost:5432/invenio"
+            DB: postgresql9
             EXTRAS: "all,postgresql"
 
           - db-service: mysql5
-            DB: mysql
-            MYSQL_VERSION: MYSQL_5_LATEST
-            SQLALCHEMY_DATABASE_URI: "mysql+pymysql://invenio:invenio@localhost:3306/invenio"
+            DB: mysql5
             EXTRAS: "all,mysql"
 
           - db-service: mysql8
-            DB: mysql
-            MYSQL_VERSION: MYSQL_8_LATEST
-            SQLALCHEMY_DATABASE_URI: "mysql+pymysql://invenio:invenio@localhost:3306/invenio"
+            DB: mysql8
             EXTRAS: "all,mysql"
 
     env:
-      SQLALCHEMY_DATABASE_URI: ${{matrix.SQLALCHEMY_DATABASE_URI}}
-      POSTGRESQL_VERSION: ${{matrix.POSTGRESQL_VERSION}}
-      MYSQL_VERSION: ${{matrix.MYSQL_VERSION}}
       DB: ${{ matrix.DB }}
 
     steps:
