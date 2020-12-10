@@ -68,7 +68,6 @@ class ProfileForm(FlaskForm):
             # Check if username is already taken (if the username is *not*
             # found a NoResultFound exception is raised).
             user_profile = UserProfile.get_by_username(field.data)
-
             # NOTE: Form validation error.
             msg = _('Username already exists.')
 
@@ -80,7 +79,7 @@ class ProfileForm(FlaskForm):
                 # We are handling a user editing their profile AND a
                 # the username already exists.
                 is_same_user = \
-                    current_userprofile.user_id == user_profile.user_id
+                    current_user.id == user_profile.user_id
                 if not is_same_user:
                     # Username already taken by another user.
                     raise ValidationError(msg)
