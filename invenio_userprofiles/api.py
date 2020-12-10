@@ -29,13 +29,13 @@ def _get_current_userprofile():
     if current_user.is_anonymous:
         return AnonymousUserProfile()
 
-    profile = g.get(
-        'userprofile',
-        UserProfile.get_by_userid(current_user.get_id()))
+    profile = getattr(
+        g, 'userprofile', UserProfile.get_by_userid(current_user.get_id()))
 
     if profile is None:
         profile = UserProfile(user_id=int(current_user.get_id()))
         g.userprofile = profile
+
     return profile
 
 

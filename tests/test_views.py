@@ -145,8 +145,9 @@ def test_profile_view(app):
 def test_profile_name_exists(app):
     """Test the profile view."""
     app.config['USERPROFILES_EMAIL_ENABLED'] = False
+    error_msg = 'Username already exists.'
 
-    with app.test_request_context():
+    with app.app_context():
         profile_url = url_for('invenio_userprofiles.profile')
 
     # Create an existing user
@@ -158,7 +159,7 @@ def test_profile_name_exists(app):
         assert client.get(profile_url).status_code == 200
         resp = client.post(profile_url, data=prefix('profile', dict(
             username='existingname', full_name='Valid Name',)))
-        assert 'has-error' not in resp.get_data(as_text=True)
+        assert error_msg not in resp.get_data(as_text=True)
 
     # Create another user and try setting username to same as above user.
     with app.test_client() as client:
@@ -171,19 +172,44 @@ def test_profile_name_exists(app):
             username='existingname', full_name='Another name',
         )))
         assert resp.status_code == 200
-        assert 'Username already exists.' in resp.get_data(as_text=True)
+        assert error_msg in resp.get_data(as_text=True)
 
-        # Now set it to something else and do it twice.
+
+def test_profile_case_change(app):
+    """Test the profile view."""
+    app.config['USERPROFILES_EMAIL_ENABLED'] = False
+    error_msg = 'Username already exists.'
+
+    with app.app_context():
+        profile_url = url_for('invenio_userprofiles.profile')
+
+    with app.test_client() as client:
+        # Create a user
+        sign_up(app, client)
+        login(app, client)
+        resp = client.get(profile_url)
+        assert resp.status_code == 200
+
         data = prefix('profile', dict(
             username='valid', full_name='Another name', ))
 
+        # Set the name first time
         resp = client.post(profile_url, data=data)
         assert resp.status_code == 200
-        assert 'has-error' not in resp.get_data(as_text=True)
+        assert error_msg not in resp.get_data(as_text=True)
+
+        # Set the name second time
+        resp = client.post(profile_url, data=data)
+        assert resp.status_code == 200
+        assert error_msg not in resp.get_data(as_text=True)
+
+        # Change case of the username
+        data = prefix('profile', dict(
+            username='Valid', full_name='Another name', ))
 
         resp = client.post(profile_url, data=data)
         assert resp.status_code == 200
-        assert 'Username already exists.' in resp.get_data(as_text=True)
+        assert error_msg not in resp.get_data(as_text=True)
 
 
 def test_send_verification_form(app):
@@ -212,6 +238,7 @@ def test_send_verification_form(app):
 def test_change_email(app):
     """Test send verification form."""
     mail = app.extensions['mail']
+    error_msg = 'Username already exists.'
 
     with app.test_request_context():
         profile_url = url_for('invenio_userprofiles.profile')
@@ -237,37 +264,53 @@ def test_change_email(app):
             email_repeat=app.config['TEST_USER_EMAIL'],
         ))
 
-        # Test that current_user stops validation of email
-        client.post(profile_url, data=data)
-        assert resp.status_code == 200
-        assert 'has-error' not in resp.get_data(as_text=True)
-
         # Test existing email of another user.
         data['profile-email_repeat'] = data['profile-email'] = email1
         resp = client.post(profile_url, data=data)
-        assert 'has-error' in resp.get_data(as_text=True)
+        assert 'exiting@example.org is already associated with an account.' \
+            in resp.get_data(as_text=True)
 
         # Test empty email
         data['profile-email_repeat'] = data['profile-email'] = ''
         resp = client.post(profile_url, data=data)
-        assert 'has-error' in resp.get_data(as_text=True)
+        assert "Email not provided" in resp.get_data(as_text=True)
 
         # Test not an email
         data['profile-email_repeat'] = data['profile-email'] = 'sadfsdfs'
         resp = client.post(profile_url, data=data)
-        assert 'has-error' in resp.get_data(as_text=True)
+        assert "Invalid email address" in resp.get_data(as_text=True)
 
         # Test different emails
         data['profile-email_repeat'] = 'typo@example.org'
         data['profile-email'] = 'new@example.org'
         resp = client.post(profile_url, data=data)
-        assert 'has-error' in resp.get_data(as_text=True)
+        assert 'Email addresses do not match.' in resp.get_data(as_text=True)
 
-        # Test whitespace
+
+def test_change_email_whitespace(app):
+    """Test send verification form."""
+    mail = app.extensions['mail']
+
+    with app.test_request_context():
+        profile_url = url_for('invenio_userprofiles.profile')
+
+    with app.test_client() as client:
+        sign_up(app, client)
+        login(app, client)
+        resp = client.get(profile_url)
+        assert resp.status_code == 200
+
+        data = prefix('profile', dict(
+            username='test',
+            full_name='Test User',
+            email=app.config['TEST_USER_EMAIL'],
+            email_repeat=app.config['TEST_USER_EMAIL'],
+        ))
+
         with mail.record_messages() as outbox:
             assert len(outbox) == 0
             data['profile-email_repeat'] = data['profile-email'] = 'new@ex.org'
             resp = client.post(profile_url, data=data)
-            assert 'has-error' not in resp.get_data(as_text=True)
+            assert 'Invalid email address' not in resp.get_data(as_text=True)
             # Email was sent for email address confirmation.
             assert len(outbox) == 1
