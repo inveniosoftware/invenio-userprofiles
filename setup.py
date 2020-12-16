@@ -18,7 +18,6 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'SQLAlchemy-Continuum>=1.2.1',
     'pytest-invenio>=1.4.0',
 ]
 
@@ -61,6 +60,7 @@ install_requires = [
     'invenio-accounts>=1.2.1',
     'invenio-base>=1.2.2',
     'invenio-i18n>=1.2.0',
+    'invenio-theme>=1.3.4',
 ]
 
 packages = find_packages()

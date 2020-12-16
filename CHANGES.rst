@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.0 (released 2020-12-17)
+
+- Add theme dependent icons.
+
 Version 1.2.0 (released 2020-12-09)
 
 - Marked strings for translation
