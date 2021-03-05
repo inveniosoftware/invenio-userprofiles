@@ -14,12 +14,12 @@ import re
 
 from flask_babelex import lazy_gettext as _
 
-username_regex = re.compile('^[a-zA-Z][a-zA-Z0-9-_]{2}[a-zA-Z0-9-_]*$')
+username_regex = re.compile('^[a-zA-Z0-9-_]{3,}$')
 """Username rules."""
 
 USERNAME_RULES = _(
-    'Username must start with a letter, be at least three characters long and'
-    ' only contain alphanumeric characters, dashes and underscores.')
+    'Username must be at least three characters long and only contain'
+    ' alphanumeric characters, dashes and underscores.')
 """Description of username validation rules.
 
 .. note:: Used for both form help text and for form validation error."""
