@@ -18,7 +18,8 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'pytest-invenio>=1.4.0',
+    'pytest-invenio>=1.4.2',
+    'SQLAlchemy-Continuum>=1.2.1',
 ]
 
 extras_require = {
@@ -26,7 +27,7 @@ extras_require = {
         'invenio-admin>=1.2.0',
     ],
     'docs': [
-        'Sphinx>=1.4.2,<3.0.0',
+        'Sphinx>=3.0.0,<3.4.2',
         'invenio-mail>=1.0.0',
     ],
     'mysql': [
@@ -53,12 +54,13 @@ setup_requires = [
 ]
 
 install_requires = [
+    'Flask>=1.1.0,<2.0.0',
     'Flask-Breadcrumbs>=0.5.0',
     'Flask-Mail>=0.9.1',
     'Flask-Menu>=0.5.0',
     'Flask-WTF>=0.14.3',
     'invenio-accounts>=1.2.1',
-    'invenio-base>=1.2.2',
+    'invenio-base>=1.2.4',
     'invenio-i18n>=1.2.0',
     'invenio-theme>=1.3.4',
 ]
