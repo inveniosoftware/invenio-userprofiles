@@ -95,8 +95,9 @@ def profile():
     profile_form = profile_form_factory()
 
     # Process forms
+    is_read_only = current_app.config.get("USERPROFILES_READ_ONLY", False)
     form = request.form.get('submit', None)
-    if form == 'profile':
+    if form == 'profile' and not is_read_only:
         handle_profile_form(profile_form)
     elif form == 'verification':
         handle_verification_form(verification_form)
@@ -136,6 +137,9 @@ def handle_verification_form(form):
 
 def handle_profile_form(form):
     """Handle profile update form."""
+    if current_app.config.get("USERPROFILES_READ_ONLY", False):
+        return
+
     form.process(formdata=request.form)
 
     if form.validate_on_submit():
