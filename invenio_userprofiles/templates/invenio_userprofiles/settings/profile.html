@@ -24,17 +24,20 @@
 </form>
 {%- endif %}
 {%- set form = profile_form %}
+{%- set read_only = config.USERPROFILES_READ_ONLY %}
 <form method="POST" name="profile_form">
 {%- for field in form %}
 {%- if field.widget.input_type == 'hidden' %}
 {{ field() }}
-{%- else %}
-{{ render_field(field, autofocus=True, placeholder=field.label.text) }}
+{%- elif not read_only or "repeat" not in field.id %}
+{{ render_field(field, autofocus=True, enabled=not read_only, placeholder=field.label.text) }}
 {%- endif %}
 {%- endfor %}
+{%- if not read_only %}
 <div class="form-actions">
   <a href="." class="btn btn-default"><i class="fa fa-times"></i> {{ _('Cancel') }}</a>
   <button type="submit" name="submit" value="profile" class="btn btn-primary"><i class="fa fa-check"></i> {{ _('Update profile') }}</button>
 </div>
+{%- endif %}
 </form>
 {%- endblock settings_form %}

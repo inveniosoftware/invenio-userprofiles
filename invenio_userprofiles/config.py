@@ -28,3 +28,6 @@ USERPROFILES_BASE_TEMPLATE = None
 
 USERPROFILES_SETTINGS_TEMPLATE = None
 """Settings base templates for user profile module."""
+
+USERPROFILES_READ_ONLY = False
+"""Make the user profiles read-only."""
