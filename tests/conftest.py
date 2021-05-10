@@ -46,6 +46,7 @@ def base_app():
         TESTING=True,
         WTF_CSRF_ENABLED=False,
     )
+
     Babel(base_app)
     Mail(base_app)
     Menu(base_app)
