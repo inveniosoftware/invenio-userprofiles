@@ -29,13 +29,11 @@ from invenio_userprofiles import InvenioUserProfiles
 from invenio_userprofiles.views import blueprint_ui_init
 
 
-@pytest.yield_fixture()
-def base_app():
-    """Flask application fixture."""
-    instance_path = tempfile.mkdtemp()
-    base_app = Flask(__name__, instance_path=instance_path)
-
-    base_app.config.update(
+@pytest.fixture(scope='module')
+def app_config(app_config):
+    """Override pytest-invenio app_config fixture."""
+    app_config.update(
+        ACCOUNTS_LOCAL_LOGIN_ENABLED=True,
         ACCOUNTS_USE_CELERY=False,
         LOGIN_DISABLED=False,
         SECRET_KEY='testing_key',
@@ -46,6 +44,16 @@ def base_app():
         TESTING=True,
         WTF_CSRF_ENABLED=False,
     )
+
+    return app_config
+
+
+@pytest.yield_fixture()
+def base_app(app_config):
+    """Flask application fixture."""
+    instance_path = tempfile.mkdtemp()
+    base_app = Flask(__name__, instance_path=instance_path)
+    base_app.config.update(app_config)
 
     Babel(base_app)
     Mail(base_app)

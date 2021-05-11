@@ -31,13 +31,13 @@ extras_require = {
         'invenio-mail>=1.0.0',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.5',
+        'invenio-db[mysql]>=1.0.9',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.5',
+        'invenio-db[postgresql]>=1.0.9',
     ],
     'sqlite': [
-        'invenio-db>=1.0.5',
+        'invenio-db>=1.0.9',
     ],
     'tests': tests_require,
 }
