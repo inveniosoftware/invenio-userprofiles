@@ -31,7 +31,8 @@ def test_init():
     """Test extension initialization."""
     app = Flask('testapp')
     app.config.update(
-        ACCOUNTS_USE_CELERY=False
+        ACCOUNTS_USE_CELERY=False,
+        SECRET_KEY="test_key",
     )
     Babel(app)
     Mail(app)
@@ -43,7 +44,8 @@ def test_init():
 
     app = Flask('testapp')
     app.config.update(
-        ACCOUNTS_USE_CELERY=False
+        ACCOUNTS_USE_CELERY=False,
+        SECRET_KEY="test_key",
     )
     Babel(app)
     Mail(app)
