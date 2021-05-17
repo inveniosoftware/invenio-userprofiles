@@ -8,7 +8,11 @@
 Changes
 =======
 
-Version 1.2.0 (released 2020-12-17)
+Version 1.2.2 (released 2021-05-17)
+
+- Add config option to make user profiles form read-only
+
+Version 1.2.1 (released 2020-12-17)
 
 - Add theme dependent icons.
 
