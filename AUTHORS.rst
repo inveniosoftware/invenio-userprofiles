@@ -24,3 +24,4 @@ Contributors
 - Sebastian Witowski
 - Tibor Simko
 - Vaibhav Gupta
+- Mojib Wali
