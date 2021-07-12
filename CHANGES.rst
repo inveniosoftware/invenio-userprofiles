@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.3 (released 2021-07-12)
+
+- Adds german translations
+
 Version 1.2.2 (released 2021-05-17)
 
 - Add config option to make user profiles form read-only
