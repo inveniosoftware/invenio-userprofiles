@@ -25,3 +25,4 @@ Contributors
 - Tibor Simko
 - Vaibhav Gupta
 - Mojib Wali
+- Maximilian Moser
