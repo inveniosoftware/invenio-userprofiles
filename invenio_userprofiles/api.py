@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2021      TU Wien.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -26,7 +27,7 @@ def _get_current_userprofile():
 
     :returns: The :class:`invenio_userprofiles.models.UserProfile` instance.
     """
-    if current_user.is_anonymous:
+    if not current_user or current_user.is_anonymous:
         return AnonymousUserProfile()
 
     profile = getattr(
