@@ -60,7 +60,7 @@ install_requires = [
     'Flask-Menu>=0.5.0',
     'Flask-WTF>=0.14.3',
     'invenio-accounts>=1.2.1',
-    'invenio-base>=1.2.4',
+    'invenio-base>=1.2.5',
     'invenio-i18n>=1.2.0',
     'invenio-theme>=1.3.4',
 ]
