@@ -61,19 +61,19 @@ jobs:
           include:
           - db-service: postgresql10
             DB: postgresql10
-            EXTRAS: "all,postgresql"
+            EXTRAS: "tests"
 
           - db-service: postgresql14
             DB: postgresql10
-            EXTRAS: "all,postgresql"
+            EXTRAS: "tests"
 
           - db-service: mysql5
             DB: mysql5
-            EXTRAS: "all,mysql"
+            EXTRAS: "tests"
 
           - db-service: mysql8
             DB: mysql8
-            EXTRAS: "all,mysql"
+            EXTRAS: "tests"
 
     env:
       DB: ${{ matrix.DB }}

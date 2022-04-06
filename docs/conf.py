@@ -13,6 +13,8 @@ import sys
 
 import sphinx.environment
 
+from invenio_userprofiles import __version__
+
 # Plug example application into module path
 sys.path.append('examples')
 
@@ -61,12 +63,7 @@ author = u'CERN'
 # The short X.Y version.
 
 # Get the version string. Cannot be done with import!
-g = {}
-with open(os.path.join(os.path.dirname(__file__), '..',
-                       'invenio_userprofiles', 'version.py'),
-          'rt') as fp:
-    exec(fp.read(), g)
-    version = g['__version__']
+version = __version__
 
 # The full version, including alpha/beta/rc tags.
 release = version
