@@ -11,7 +11,8 @@
 from .api import current_userprofile
 from .ext import InvenioUserProfiles
 from .models import AnonymousUserProfile, UserProfile
-from .version import __version__
+
+__version__ = '1.2.4'
 
 __all__ = ('__version__', 'InvenioUserProfiles', 'AnonymousUserProfile',
            'UserProfile', 'current_userprofile')
