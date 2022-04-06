@@ -9,8 +9,6 @@
 
 """API for user profiles."""
 
-from __future__ import absolute_import, print_function
-
 from flask import g
 from flask_security import current_user
 from werkzeug.local import LocalProxy

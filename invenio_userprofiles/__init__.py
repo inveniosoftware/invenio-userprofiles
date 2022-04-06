@@ -8,8 +8,6 @@
 
 """User profiles module for Invenio."""
 
-from __future__ import absolute_import, print_function
-
 from .api import current_userprofile
 from .ext import InvenioUserProfiles
 from .models import AnonymousUserProfile, UserProfile

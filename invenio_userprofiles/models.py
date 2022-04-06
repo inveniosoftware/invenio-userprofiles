@@ -8,8 +8,6 @@
 
 """Database models for user profiles."""
 
-from __future__ import absolute_import, print_function
-
 from invenio_accounts.models import User
 from invenio_db import db
 from sqlalchemy import event

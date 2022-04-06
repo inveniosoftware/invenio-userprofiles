@@ -8,8 +8,6 @@
 
 """Tests for user profile views."""
 
-from __future__ import absolute_import, print_function
-
 from flask import url_for
 from flask_security import url_for_security
 from helpers import login, sign_up

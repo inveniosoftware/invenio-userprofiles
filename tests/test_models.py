@@ -8,8 +8,6 @@
 
 """Tests for user profile models."""
 
-from __future__ import absolute_import, print_function
-
 import pytest
 from invenio_accounts.models import User
 from invenio_db import db

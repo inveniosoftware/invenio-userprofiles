@@ -8,8 +8,6 @@
 
 """User profiles module for Invenio."""
 
-from __future__ import absolute_import, print_function
-
 from . import config
 from .api import current_userprofile
 

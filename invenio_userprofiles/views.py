@@ -8,8 +8,6 @@
 
 """Invenio module that adds userprofiles to the platform."""
 
-from __future__ import absolute_import, print_function
-
 from flask import Blueprint, current_app, flash, render_template, request
 from flask_babelex import lazy_gettext as _
 from flask_breadcrumbs import register_breadcrumb
