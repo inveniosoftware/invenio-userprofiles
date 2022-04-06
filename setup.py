@@ -19,8 +19,7 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'pytest-invenio>=1.4.2',
-    'SQLAlchemy-Continuum>=1.2.1',
+    'pytest-invenio>=1.4.7',
 ]
 
 extras_require = {
@@ -28,17 +27,16 @@ extras_require = {
         'invenio-admin>=1.2.0',
     ],
     'docs': [
-        'Sphinx>=3.0.0,<3.4.2',
-        'invenio-mail>=1.0.0',
+        'Sphinx>=4.2.0,<5',
     ],
     'mysql': [
-        'invenio-db[mysql]>=1.0.9',
+        'invenio-db[mysql,versioning]>=1.0.14',
     ],
     'postgresql': [
-        'invenio-db[postgresql]>=1.0.9',
+        'invenio-db[postgresql,versioning]>=1.0.14',
     ],
     'sqlite': [
-        'invenio-db>=1.0.9',
+        'invenio-db[versioning]>=1.0.14',
     ],
     'tests': tests_require,
 }
@@ -50,19 +48,13 @@ for name, reqs in extras_require.items():
     extras_require['all'].extend(reqs)
 
 setup_requires = [
-    'pytest-runner>=2.6.2',
-    'Babel>=1.3',
+    'Babel>=2.8',
 ]
 
 install_requires = [
-    'Flask-Breadcrumbs>=0.5.0',
-    'Flask-Mail>=0.9.1',
-    'Flask-Menu>=0.5.0',
-    'Flask-WTF>=0.14.3',
-    'invenio-accounts>=1.2.1',
-    'invenio-base>=1.2.5',
-    'invenio-i18n>=1.2.0',
-    'invenio-theme>=1.3.4',
+    'Flask-WTF>=0.15.1',
+    'invenio-accounts>=1.4.4',
+    'invenio-mail>=1.0.2',
 ]
 
 packages = find_packages()
