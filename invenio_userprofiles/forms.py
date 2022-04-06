@@ -8,8 +8,6 @@
 
 """Forms for user profiles."""
 
-from __future__ import absolute_import, print_function
-
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \

@@ -8,8 +8,6 @@
 
 """Validators for user profiles."""
 
-from __future__ import absolute_import, print_function
-
 import re
 
 from flask_babelex import lazy_gettext as _

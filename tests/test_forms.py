@@ -8,8 +8,6 @@
 
 """Tests for user profile forms."""
 
-from __future__ import absolute_import, print_function
-
 from invenio_userprofiles.forms import _update_with_csrf_disabled, \
     confirm_register_form_factory, register_form_factory
 

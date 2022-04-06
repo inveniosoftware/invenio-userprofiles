@@ -8,8 +8,6 @@
 
 """Tests for user profile validators."""
 
-from __future__ import absolute_import, print_function
-
 import pytest
 
 from invenio_userprofiles.validators import validate_username
