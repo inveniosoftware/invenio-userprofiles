@@ -9,11 +9,12 @@
 
 """API for user profiles."""
 
-from flask import g
+from warnings import warn
+
 from flask_security import current_user
 from werkzeug.local import LocalProxy
 
-from .models import AnonymousUserProfile, UserProfile
+from .models import UserProfileProxy
 
 
 def _get_current_userprofile():
@@ -25,17 +26,11 @@ def _get_current_userprofile():
 
     :returns: The :class:`invenio_userprofiles.models.UserProfile` instance.
     """
-    if not current_user or current_user.is_anonymous:
-        return AnonymousUserProfile()
-
-    profile = getattr(
-        g, 'userprofile', UserProfile.get_by_userid(current_user.get_id()))
-
-    if profile is None:
-        profile = UserProfile(user_id=int(current_user.get_id()))
-        g.userprofile = profile
-
-    return profile
+    warn(
+        "current_userprofile is deprecated, use current_user instead",
+        DeprecationWarning
+    )
+    return UserProfileProxy(current_user)
 
 
 current_userprofile = LocalProxy(lambda: _get_current_userprofile())

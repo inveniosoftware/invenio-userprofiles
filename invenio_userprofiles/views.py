@@ -8,6 +8,8 @@
 
 """Invenio module that adds userprofiles to the platform."""
 
+from warnings import warn
+
 from flask import Blueprint, current_app, flash, render_template, request
 from flask_babelex import lazy_gettext as _
 from flask_breadcrumbs import register_breadcrumb
@@ -18,10 +20,9 @@ from invenio_db import db
 from invenio_theme.proxies import current_theme_icons
 from speaklater import make_lazy_string
 
-from .api import current_userprofile
 from .forms import EmailProfileForm, ProfileForm, VerificationForm, \
     confirm_register_form_factory, register_form_factory
-from .models import UserProfile
+from .models import UserProfileProxy
 
 blueprint = Blueprint(
     'invenio_userprofiles',
@@ -71,7 +72,11 @@ def init_api(state):
 @blueprint.app_template_filter()
 def userprofile(value):
     """Retrieve user profile for a given user id."""
-    return UserProfile.get_by_userid(int(value))
+    warn(
+        "userprofile template filter is deprecated.",
+        DeprecationWarning
+    )
+    return UserProfileProxy.get_by_userid(int(value))
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -111,15 +116,12 @@ def profile_form_factory():
     if current_app.config['USERPROFILES_EMAIL_ENABLED']:
         return EmailProfileForm(
             formdata=None,
-            username=current_userprofile.username,
-            full_name=current_userprofile.full_name,
-            email=current_user.email,
-            email_repeat=current_user.email,
+            obj=current_user,
             prefix='profile', )
     else:
         return ProfileForm(
             formdata=None,
-            obj=current_userprofile,
+            obj=current_user,
             prefix='profile', )
 
 
@@ -143,19 +145,13 @@ def handle_profile_form(form):
     if form.validate_on_submit():
         email_changed = False
         with db.session.begin_nested():
-            # Update profile.
-            current_userprofile.username = form.username.data
-            current_userprofile.full_name = form.full_name.data
-            db.session.add(current_userprofile)
-
-            # Update email
             if current_app.config['USERPROFILES_EMAIL_ENABLED'] and \
-               form.email.data != current_user.email:
-                current_user.email = form.email.data
-                current_user.confirmed_at = None
-                db.session.add(current_user)
+                    form.email.data != current_user.email:
                 email_changed = True
-        db.session.commit()
+            form.populate_obj(current_user)
+
+            db.session.add(current_user)
+        current_app.extensions['security'].datastore.commit()
 
         if email_changed:
             send_confirmation_instructions(current_user)
