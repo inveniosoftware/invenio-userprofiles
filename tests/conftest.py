@@ -39,6 +39,7 @@ def app_config(app_config):
                                           'sqlite://'),
         TEST_USER_EMAIL='test_user@example.com',
         TEST_USER_PASSWORD='test_password',
+        TEST_USER_USERNAME='test',
         TESTING=True,
         WTF_CSRF_ENABLED=False,
     )
@@ -46,7 +47,7 @@ def app_config(app_config):
     return app_config
 
 
-@pytest.yield_fixture()
+@pytest.fixture()
 def base_app(app_config):
     """Flask application fixture."""
     instance_path = tempfile.mkdtemp()

@@ -8,15 +8,10 @@
 
 """Database models for user profiles."""
 
-from invenio_accounts.models import User
-from invenio_db import db
-from sqlalchemy import event
-from sqlalchemy.ext.hybrid import hybrid_property
-
-from .validators import validate_username
+from flask import current_app
 
 
-class AnonymousUserProfile():
+class AnonymousUserProfile:
     """Anonymous user profile."""
 
     @property
@@ -25,52 +20,51 @@ class AnonymousUserProfile():
         return True
 
 
-class UserProfile(db.Model):
-    """User profile model.
+class UserProfileProxy:
+    """Proxy for a user that allows mapping the form to the user object."""
 
-    Stores a username, display name (case sensitive version of username) and a
-    full name for a user.
-    """
+    _profile_attrs = ['full_name', 'affiliations']
+    _preferences_attrs = ['email_visibility', 'visibility']
+    _read_only_attrs = ['email_repeat']
+    _aliases = {'email_repeat': 'email', 'user_id': 'id'}
 
-    __tablename__ = 'userprofiles_userprofile'
+    def __init__(self, user):
+        """."""
+        super().__setattr__('_user', user)
 
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey(User.id),
-        primary_key=True
-    )
-    """Foreign key to :class:`~invenio_accounts.models.User`."""
+    def __getattr__(self, attr):
+        """."""
+        if attr in self._profile_attrs:
+            return self._user.user_profile.get(attr, None)
+        elif attr in self._preferences_attrs:
+            return self._user.preferences.get(attr, None)
+        else:
+            attr = self._aliases.get(attr, attr)
+            return getattr(self._user, attr)
 
-    user = db.relationship(
-        User, backref=db.backref(
-            'profile', uselist=False, cascade='all, delete-orphan')
-    )
-    """User relationship."""
+    def __setattr__(self, attr, value):
+        """."""
+        if attr == 'email':
+            if current_app.config['USERPROFILES_EMAIL_ENABLED'] and \
+                    self._user.email != value:
+                self._user.email = value
+                self._user.confirmed_at = None
+        elif attr in self._profile_attrs:
+            self._user.user_profile = {**self._user.user_profile, attr: value}
+        elif attr in self._preferences_attrs:
+            self._user.preferences = {**self._user.preferences, attr: value}
+        elif attr not in self._read_only_attrs:
+            setattr(self._user, attr, value)
 
-    _username = db.Column('username', db.String(255), unique=True)
-    """Lower-case version of username to assert uniqueness."""
-
-    _displayname = db.Column('displayname', db.String(255))
-    """Case preserving version of username."""
-
-    full_name = db.Column(db.String(255), nullable=False, default='')
-    """Full name of person."""
-
-    @hybrid_property
-    def username(self):
-        """Get username."""
-        return self._displayname
-
-    @username.setter
-    def username(self, username):
-        """Set username.
-
-        .. note:: The username will be converted to lowercase. The display name
-            will contain the original version.
-        """
-        validate_username(username)
-        self._username = username.lower()
-        self._displayname = username
+    def __hasattr__(self, attr):
+        """."""
+        if attr in self._profile_attrs:
+            return attr in self._user.user_profile
+        elif attr in self._preferences_attrs:
+            return attr in self._user.preferences[attr]
+        else:
+            attr = self._aliases.get(attr, attr)
+            hasattr(self._user, attr)
 
     @classmethod
     def get_by_username(cls, username):
@@ -78,9 +72,11 @@ class UserProfile(db.Model):
 
         :param username: A username to query for (case insensitive).
         """
-        return cls.query.filter(
-            UserProfile._username == username.lower()
-        ).one()
+        # Kept for backward compatibility
+        user = current_app.extensions['security'].datastore.find_user(
+            _username=username.lower()
+        )
+        return cls(user) if user else None
 
     @classmethod
     def get_by_userid(cls, user_id):
@@ -90,28 +86,12 @@ class UserProfile(db.Model):
         :returns: A :class:`~invenio_userprofiles.models.UserProfile` instance
             or ``None``.
         """
-        return cls.query.filter_by(user_id=user_id).one_or_none()
+        # Kept for backward compatibility
+        user = current_app.extensions['security'].datastore.find_user(
+            id=user_id
+        )
+        return cls(user) if user else None
 
-    @property
-    def is_anonymous(self):
-        """Return whether this UserProfile is anonymous."""
-        return False
 
-
-@event.listens_for(User, 'init')
-def on_user_init(target, args, kwargs):
-    """Provide hook on :class:`~invenio_accounts.models.User` initialization.
-
-    Automatically convert a dict to a
-    :class:`~.UserProfile` instance. This is needed
-    during e.g. user registration where Flask-Security will initialize a
-    user model with all the form data (which when Invenio-UserProfiles is
-    enabled includes a ``profile`` key). This will make the user creation fail
-    unless we convert the profile dict into a :class:`~.UserProfile` instance.
-    """
-    profile = kwargs.pop('profile', None)
-    if profile is not None and not isinstance(profile, UserProfile):
-        profile = UserProfile(**profile)
-        if kwargs.get('id'):
-            profile.user_id = kwargs['id']
-        kwargs['profile'] = profile
+# Backward compatibility
+UserProfile = UserProfileProxy

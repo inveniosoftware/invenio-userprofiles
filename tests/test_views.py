@@ -47,13 +47,15 @@ def test_profile_in_registration(base_app):
             'password': 'test_password',
             'profile.username': 'TestUser',
             'profile.full_name': 'Test C. User',
+            'profile.affiliations': 'Test Org',
         }
         resp = client.post(register_url, data=data, follow_redirects=True)
 
     with app.test_request_context():
         user = User.query.filter_by(email='test_user@example.com').one()
-        assert user.profile.username == 'TestUser'
-        assert user.profile.full_name == 'Test C. User'
+        assert user.username == 'TestUser'
+        assert user.user_profile['full_name'] == 'Test C. User'
+        assert user.user_profile['affiliations'] == 'Test Org'
 
     with app.test_client() as client:
         resp = client.get(register_url)
@@ -66,18 +68,6 @@ def test_profile_in_registration(base_app):
         resp = client.post(register_url, data=data)
         assert resp.status_code == 200
         assert 'profile.username' in resp.get_data(as_text=True)
-
-
-def test_template_filter(app):
-    """Test template filter."""
-    with app.app_context():
-        user = User(email='test@example.com', password='test_password')
-        db.session.add(user)
-        db.session.commit()
-        user.profile = UserProfile(username='test_username', full_name='name')
-        db.session.commit()
-
-        assert userprofile(user.profile.user_id) == user.profile
 
 
 def test_profile_view_not_accessible_without_login(app):
@@ -107,18 +97,19 @@ def test_profile_view(app):
         # Valid submission should work
         resp = client.post(profile_url, data=prefix('profile', dict(
             username=test_usernames['valid'],
-            full_name='Valid Name', )))
+            full_name='Valid Name', affiliations='Aff')))
 
         assert resp.status_code == 200
         data = resp.get_data(as_text=True)
         assert test_usernames['valid'] in data
         assert 'Valid' in data
         assert 'Name' in data
+        assert 'Aff' in data
 
         # Invalid submission should not save data
         resp = client.post(profile_url, data=prefix('profile', dict(
             username=test_usernames['invalid_characters'],
-            full_name='Valid Name', )))
+            full_name='Valid Name', affiliations='Aff')))
 
         assert resp.status_code == 200
         assert test_usernames['invalid_characters'] in \
@@ -131,19 +122,20 @@ def test_profile_view(app):
         # Whitespace should be trimmed
         client.post(profile_url, data=prefix('profile', dict(
             username='{0} '.format(test_usernames['valid']),
-            full_name='Valid Name ', )))
+            full_name='Valid Name ', affiliations=' Aff ')))
         resp = client.get(profile_url)
 
         assert resp.status_code == 200
         data = resp.get_data(as_text=True)
         assert test_usernames['valid'] in data
         assert 'Valid Name ' not in data
+        assert ' Aff ' not in data
 
 
 def test_profile_name_exists(app):
     """Test the profile view."""
     app.config['USERPROFILES_EMAIL_ENABLED'] = False
-    error_msg = 'Username already exists.'
+    error_msg = 'Username is not available.'
 
     with app.app_context():
         profile_url = url_for('invenio_userprofiles.profile')
@@ -156,7 +148,7 @@ def test_profile_name_exists(app):
         login(app, client, email=email1, password=password1)
         assert client.get(profile_url).status_code == 200
         resp = client.post(profile_url, data=prefix('profile', dict(
-            username='existingname', full_name='Valid Name',)))
+            username='existingname', full_name='Valid Name', affiliations='')))
         assert error_msg not in resp.get_data(as_text=True)
 
     # Create another user and try setting username to same as above user.
@@ -167,7 +159,7 @@ def test_profile_name_exists(app):
         assert resp.status_code == 200
 
         resp = client.post(profile_url, data=prefix('profile', dict(
-            username='existingname', full_name='Another name',
+            username='existingname', full_name='Another name', affiliations=''
         )))
         assert resp.status_code == 200
         assert error_msg in resp.get_data(as_text=True)
@@ -189,7 +181,7 @@ def test_profile_case_change(app):
         assert resp.status_code == 200
 
         data = prefix('profile', dict(
-            username='valid', full_name='Another name', ))
+            username='valid', full_name='Another name', affiliations=''))
 
         # Set the name first time
         resp = client.post(profile_url, data=data)
@@ -203,7 +195,7 @@ def test_profile_case_change(app):
 
         # Change case of the username
         data = prefix('profile', dict(
-            username='Valid', full_name='Another name', ))
+            username='Valid', full_name='Another name', affiliations=''))
 
         resp = client.post(profile_url, data=data)
         assert resp.status_code == 200
@@ -258,6 +250,7 @@ def test_change_email(app):
         data = prefix('profile', dict(
             username='test',
             full_name='Test User',
+            affiliations='',
             email=app.config['TEST_USER_EMAIL'],
             email_repeat=app.config['TEST_USER_EMAIL'],
         ))
@@ -301,6 +294,7 @@ def test_change_email_whitespace(app):
         data = prefix('profile', dict(
             username='test',
             full_name='Test User',
+            affiliations='',
             email=app.config['TEST_USER_EMAIL'],
             email_repeat=app.config['TEST_USER_EMAIL'],
         ))

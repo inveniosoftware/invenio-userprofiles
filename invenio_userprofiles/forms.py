@@ -8,18 +8,17 @@
 
 """Forms for user profiles."""
 
+from flask import current_app
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \
     unique_user_email
 from flask_wtf import FlaskForm
-from sqlalchemy.orm.exc import NoResultFound
 from wtforms import FormField, StringField, SubmitField
-from wtforms.validators import DataRequired, EqualTo, StopValidation, \
+from wtforms.validators import DataRequired, EqualTo, Length, StopValidation, \
     ValidationError
 
-from .api import current_userprofile
-from .models import UserProfile
+from .models import UserProfileProxy
 from .validators import USERNAME_RULES, validate_username
 
 
@@ -41,48 +40,75 @@ def current_user_email(form, field):
 class ProfileForm(FlaskForm):
     """Form for editing user profile."""
 
+    profile_proxy_cls = UserProfileProxy
+
     username = StringField(
         # NOTE: Form field label
         _('Username'),
         # NOTE: Form field help text
         description=_('Required. %(username_rules)s',
                       username_rules=USERNAME_RULES),
-        validators=[DataRequired(message=_('Username not provided.'))],
+        validators=[
+            Length(max=50),
+            DataRequired(message=_('Username not provided.'))
+        ],
         filters=[strip_filter], )
 
     full_name = StringField(
         # NOTE: Form label
         _('Full name'),
+        validators=[Length(max=255)],
         filters=[strip_filter], )
 
-    def validate_username(form, field):
+    affiliations = StringField(
+        # NOTE: Form label
+        _('Affiliations'),
+        validators=[Length(max=255)],
+        filters=[strip_filter], )
+
+    def validate_username(self, field):
         """Wrap username validator for WTForms."""
         try:
             validate_username(field.data)
         except ValueError as e:
             raise ValidationError(e)
 
-        try:
-            # Check if username is already taken (if the username is *not*
-            # found a NoResultFound exception is raised).
-            user_profile = UserProfile.get_by_username(field.data)
-            # NOTE: Form validation error.
-            msg = _('Username already exists.')
-
-            if current_userprofile.is_anonymous:
-                # We are handling a new sign up (i.e. anonymous user) AND a
-                # the username already exists. Fail.
-                raise ValidationError(msg)
-            else:
-                # We are handling a user editing their profile AND a
-                # the username already exists.
-                is_same_user = \
-                    current_user.get_id() == str(user_profile.user_id)
-                if not is_same_user:
-                    # Username already taken by another user.
-                    raise ValidationError(msg)
-        except NoResultFound:
+        # Check if username is already taken.
+        datastore = current_app.extensions['security'].datastore
+        user = datastore.find_user(username=field.data)
+        if user is None:
             return
+
+        # NOTE: Form validation error.
+        msg = _('Username is not available.')
+
+        if current_user.is_anonymous:
+            # We are handling a new sign up (i.e. anonymous user) AND a
+            # the username already exists. Fail.
+            raise ValidationError(msg)
+        else:
+            # We are handling a user editing their profile AND a
+            # the username already exists.
+            is_same_user = \
+                current_user.get_id() == str(user.id)
+            if not is_same_user:
+                # Username already taken by another user.
+                raise ValidationError(msg)
+
+    def process(self, formdata=None, obj=None, data=None, extra_filters=None,
+                **kwargs):
+        """Build a proxy around the object."""
+        if obj is not None:
+            obj = self.profile_proxy_cls(obj)
+        super().process(
+            formdata=formdata, obj=obj, data=data, extra_filters=extra_filters,
+            **kwargs
+        )
+
+    def populate_obj(self, user):
+        """Populates the obj."""
+        user = self.profile_proxy_cls(user)
+        super().populate_obj(user)
 
 
 class EmailProfileForm(ProfileForm):
@@ -140,6 +166,13 @@ def register_form_factory(Form):
 
         profile = FormField(CsrfDisabledProfileForm, separator='.')
 
+        def to_dict(self):
+            profile_data = self.profile.data
+            data = super().to_dict()
+            data['username'] = profile_data.pop('username')
+            data['user_profile'] = profile_data
+            return data
+
     return RegisterForm
 
 
@@ -162,25 +195,20 @@ def confirm_register_form_factory(Form):
 
         profile = FormField(CsrfDisabledProfileForm, separator='.')
 
+        def to_dict(self):
+            profile_data = self.profile.data
+            data = super().to_dict()
+            data['username'] = profile_data.pop('username')
+            data['user_profile'] = profile_data
+            return data
+
     return ConfirmRegisterForm
 
 
 def _update_with_csrf_disabled(d=None):
-    """Update the input dict with CSRF disabled depending on WTF-Form version.
-
-    From Flask-WTF 0.14.0, `csrf_enabled` param has been deprecated in favor of
-    `meta={csrf: True/False}`.
-    """
+    """Update the input dict with CSRF disabled."""
     if d is None:
         d = {}
-
-    import flask_wtf
-    from pkg_resources import parse_version
-    supports_meta = parse_version(flask_wtf.__version__) >= parse_version(
-        "0.14.0")
-    if supports_meta:
-        d.setdefault('meta', {})
-        d['meta'].update({'csrf': False})
-    else:
-        d['csrf_enabled'] = False
+    d.setdefault('meta', {})
+    d['meta'].update({'csrf': False})
     return d
