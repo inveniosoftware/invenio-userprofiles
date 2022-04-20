@@ -13,7 +13,9 @@
 
 {% block registration_form_fields %}
 {%- with form = register_user_form %}
-{{ render_field(form.profile, icon="lock icon", errormsg=False) }}
+{% for field in form.profile %}
+{{ render_field(field, errormsg=field.short_name in form.errors.profile) }}
+{% endfor %}
 {%- endwith %}
 {{ super() }}
 {% endblock %}
