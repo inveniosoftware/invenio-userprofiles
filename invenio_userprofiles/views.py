@@ -20,8 +20,8 @@ from invenio_db import db
 from invenio_theme.proxies import current_theme_icons
 from speaklater import make_lazy_string
 
-from .forms import EmailProfileForm, ProfileForm, VerificationForm, \
-    confirm_register_form_factory, register_form_factory
+from .forms import EmailProfileForm, PreferencesForm, ProfileForm, \
+    VerificationForm, confirm_register_form_factory, register_form_factory
 from .models import UserProfileProxy
 
 blueprint = Blueprint(
@@ -96,6 +96,8 @@ def profile():
     # Create forms
     verification_form = VerificationForm(formdata=None, prefix="verification")
     profile_form = profile_form_factory()
+    preferences_form = PreferencesForm(
+        formdata=None, obj=current_user, prefix="preferences")
 
     # Process forms
     is_read_only = current_app.config.get("USERPROFILES_READ_ONLY", False)
@@ -104,11 +106,15 @@ def profile():
         handle_profile_form(profile_form)
     elif form == 'verification':
         handle_verification_form(verification_form)
+    elif form == 'preferences' and not is_read_only:
+        handle_preferences_form(preferences_form)
 
     return render_template(
         current_app.config['USERPROFILES_PROFILE_TEMPLATE'],
         profile_form=profile_form,
-        verification_form=verification_form,)
+        verification_form=verification_form,
+        preferences_form=preferences_form
+    )
 
 
 def profile_form_factory():
@@ -163,3 +169,18 @@ def handle_profile_form(form):
         else:
             # NOTE: Flash message after successful update of profile.
             flash(_('Profile was updated.'), category='success')
+
+
+def handle_preferences_form(form):
+    """Handle preferences form."""
+    if current_app.config.get("USERPROFILES_READ_ONLY", False):
+        return
+
+    form.process(formdata=request.form)
+
+    if form.validate_on_submit():
+        form.populate_obj(current_user)
+        db.session.add(current_user)
+        current_app.extensions['security'].datastore.commit()
+        # NOTE: Flash message after successful update of profile.
+        flash(_('Preferences were updated.'), category='success')

@@ -14,7 +14,7 @@ from flask_login import current_user
 from flask_security.forms import email_required, email_validator, \
     unique_user_email
 from flask_wtf import FlaskForm
-from wtforms import FormField, StringField, SubmitField
+from wtforms import FormField, RadioField, StringField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length, StopValidation, \
     ValidationError
 
@@ -174,6 +174,52 @@ def register_form_factory(Form):
             return data
 
     return RegisterForm
+
+
+class PreferencesForm(FlaskForm):
+    """Form for editing user profile."""
+
+    profile_proxy_cls = UserProfileProxy
+
+    visibility = RadioField(
+        _('Profile visibility'),
+        choices=[
+            ('public', _('Public')),
+            ('restricted', _('Hidden')),
+        ],
+        description=_(
+            "Public profiles can be found by other users via searches on "
+            "username, full name and affiliation. Hidden profiles cannot be"
+            " found by other users."
+        )
+    )
+
+    email_visibility = RadioField(
+        _('Email visibility'),
+        choices=[
+            ('public', _('Public')),
+            ('restricted', _('Hidden')),
+        ],
+        description=_(
+            "Public email visibility enables your profile to be found by "
+            "your email address."
+        )
+    )
+
+    def process(self, formdata=None, obj=None, data=None, extra_filters=None,
+                **kwargs):
+        """Build a proxy around the object."""
+        if obj is not None:
+            obj = self.profile_proxy_cls(obj)
+        super().process(
+            formdata=formdata, obj=obj, data=data, extra_filters=extra_filters,
+            **kwargs
+        )
+
+    def populate_obj(self, user):
+        """Populates the obj."""
+        user = self.profile_proxy_cls(user)
+        super().populate_obj(user)
 
 
 def confirm_register_form_factory(Form):
