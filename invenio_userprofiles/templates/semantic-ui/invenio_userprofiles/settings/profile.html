@@ -13,31 +13,80 @@
 {% set panel_title = _("Profile") %}
 {% set panel_icon = "user icon" %}
 
-{%- block settings_form %}
-{%- if security.confirmable and not current_user.confirmed_at %}
-<form method="POST" role="form">
-  {{ verification_form.csrf_token }}
-  <div class="ui warning message">
-    {{ _("You have not yet verified your email address.") }} {{ verification_form.send_verification_email(class_="compact ui small basic button") }}
+{%- block settings_content scoped %}
+<div class="ui segments">
+  <div class="ui segment secondary">
+
+    {%- block settings_content_title scoped %}
+      {%- if panel_icon %}
+
+        {%- block settings_content_title_icon scoped %}
+          <i class="{{ panel_icon }}"></i>
+        {%- endblock %}
+
+      {%- endif %}
+      <strong class="header item">{{ panel_title|default("") }}</strong>
+    {%- endblock %}
+
   </div>
-  <input type="hidden" name="submit" value="verification" />
-</form>
-{%- endif %}
-{%- set form = profile_form %}
-{%- set read_only = config.USERPROFILES_READ_ONLY %}
-<form {% if not read_only %}method="POST"{% endif %} name="profile_form" class="ui form">
-  {%- for field in form %}
-  {%- if field.widget.input_type == 'hidden' %}
-  {{ field() }}
-  {%- elif not read_only or "repeat" not in field.id %}
-  {{ render_field(field, autofocus=True, enabled=not read_only, placeholder=field.label.text) }}
-  {%- endif %}
-  {%- endfor %}
-  {%- if not read_only %}
-  <div class="form-actions">
-    <a href="." class="ui button"><i class="close icon"></i> {{ _('Cancel') }}</a>
-    <button type="submit" name="submit" value="profile" class="ui primary button"><i class="check icon"></i> {{ _('Update profile') }}</button>
+
+  {%- block settings_body scoped %}
+    <div class="ui segment">
+      {%- block settings_form %}
+      {%- if security.confirmable and not current_user.confirmed_at %}
+      <form method="POST" role="form">
+        {{ verification_form.csrf_token }}
+        <div class="ui warning message">
+          {{ _("You have not yet verified your email address.") }} {{ verification_form.send_verification_email(class_="compact ui small basic button") }}
+        </div>
+        <input type="hidden" name="submit" value="verification" />
+      </form>
+      {%- endif %}
+      {%- set form = profile_form %}
+      {%- set read_only = config.USERPROFILES_READ_ONLY %}
+      <form {% if not read_only %}method="POST"{% endif %} name="profile_form" class="ui form">
+        {%- for field in form %}
+        {%- if field.widget.input_type == 'hidden' %}
+        {{ field() }}
+        {%- elif not read_only or "repeat" not in field.id %}
+        {{ render_field(field, autofocus=True, enabled=not read_only, placeholder=field.label.text) }}
+        {%- endif %}
+        {%- endfor %}
+        {%- if not read_only %}
+        <div class="form-actions">
+          <a href="." class="ui button"><i class="close icon"></i> {{ _('Cancel') }}</a>
+          <button type="submit" name="submit" value="profile" class="ui primary button"><i class="check icon"></i> {{ _('Update profile') }}</button>
+        </div>
+        {%- endif %}
+      </form>
+      {%- endblock settings_form %}
+    </div>
+  {%- endblock settings_body %}
+
+</div>
+
+<div class="ui segments">
+  <div class="ui segment secondary">
+      <i class="sliders horizontal icon"></i>
+      <strong class="header item">{{ _("Preferences") }}</strong>
   </div>
-  {%- endif %}
-</form>
-{%- endblock settings_form %}
+  <div class="ui segment">
+      {%- set form = preferences_form %}
+      {%- set read_only = config.USERPROFILES_READ_ONLY %}
+      <form {% if not read_only %}method="POST"{% endif %} name="preferences_form" class="ui form">
+        {%- for field in form %}
+        {%- if field.widget.input_type == 'hidden' %}
+        {{ field() }}
+        {%- else %}
+        {{ render_field(field, placeholder=field.label.text) }}
+        {%- endif %}
+        {%- endfor %}
+        {%- if not read_only %}
+        <div class="form-actions">
+          <a href="." class="ui button"><i class="close icon"></i> {{ _('Cancel') }}</a>
+          <button type="submit" name="submit" value="preferences" class="ui primary button"><i class="check icon"></i> {{ _('Update preferences') }}</button>
+        </div>
+        {%- endif %}
+      </form>
+  </div>
+{% endblock %}
