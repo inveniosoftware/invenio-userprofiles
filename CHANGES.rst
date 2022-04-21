@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 2.0.0.dev1 (released 2022-04-21)
+
+- Changes the profile backend to use the new Invenio-Accounts 2.0 profile
+  field instead of a separate database table.
+
 Version 1.2.4 (released 2021-10-18)
 
 - Unpin Flask 2
