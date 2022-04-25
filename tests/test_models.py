@@ -39,9 +39,9 @@ def test_case_insensitive_username(app):
     """Test case-insensitive uniqueness."""
     with app.app_context():
         with db.session.begin_nested():
-            u1 = User(email='test@example.org', username="INFO")
+            u1 = User(email='test@test.org', username="INFO")
             db.session.add(u1)
-        u2 = User(email='test2@example.org', username="info")
+        u2 = User(email='test2@test.org', username="info")
         db.session.add(u2)
         pytest.raises(IntegrityError, db.session.commit)
 
@@ -50,7 +50,7 @@ def test_case_preserving_username(app):
     """Test that username preserves the case."""
     with app.app_context():
         with db.session.begin_nested():
-            u1 = User(email='test@example.org', username="InFo")
+            u1 = User(email='test@test.org', username="InFo")
             db.session.add(u1)
         db.session.commit()
         profile = UserProfile.get_by_username('info')
@@ -61,7 +61,7 @@ def test_delete_cascade(app):
     """Test that deletion of user, also removes profile."""
     with app.app_context():
         with db.session.begin_nested():
-            u = User(email='test@example.org', username="InFo")
+            u = User(email='test@test.org', username="InFo")
             db.session.add(u)
         db.session.commit()
 
