@@ -150,14 +150,15 @@ def handle_profile_form(form):
 
     if form.validate_on_submit():
         email_changed = False
+        datastore = current_app.extensions['security'].datastore
         with db.session.begin_nested():
             if current_app.config['USERPROFILES_EMAIL_ENABLED'] and \
                     form.email.data != current_user.email:
                 email_changed = True
             form.populate_obj(current_user)
-
             db.session.add(current_user)
-        current_app.extensions['security'].datastore.commit()
+            datastore.mark_changed(id(db.session), uid=current_user.id)
+        datastore.commit()
 
         if email_changed:
             send_confirmation_instructions(current_user)
