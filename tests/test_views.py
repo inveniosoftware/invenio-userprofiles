@@ -43,7 +43,7 @@ def test_profile_in_registration(base_app):
         assert 'profile.full_name' in resp.get_data(as_text=True)
 
         data = {
-            'email': 'test_user@example.com',
+            'email': 'test_user@test.org',
             'password': 'test_password',
             'profile.username': 'TestUser',
             'profile.full_name': 'Test C. User',
@@ -52,7 +52,7 @@ def test_profile_in_registration(base_app):
         resp = client.post(register_url, data=data, follow_redirects=True)
 
     with app.test_request_context():
-        user = User.query.filter_by(email='test_user@example.com').one()
+        user = User.query.filter_by(email='test_user@test.org').one()
         assert user.username == 'TestUser'
         assert user.user_profile['full_name'] == 'Test C. User'
         assert user.user_profile['affiliations'] == 'Test Org'
@@ -60,7 +60,7 @@ def test_profile_in_registration(base_app):
     with app.test_client() as client:
         resp = client.get(register_url)
         data = {
-            'email': 'newuser@example.com',
+            'email': 'newuser@test.org',
             'password': 'test_password',
             'profile.username': 'TestUser',
             'profile.full_name': 'Same Username',
@@ -141,7 +141,7 @@ def test_profile_name_exists(app):
         profile_url = url_for('invenio_userprofiles.profile')
 
     # Create an existing user
-    email1 = 'exiting@example.org'
+    email1 = 'exiting@test.org'
     password1 = '123456'
     with app.test_client() as client:
         sign_up(app, client, email=email1, password=password1)
@@ -234,7 +234,7 @@ def test_change_email(app):
         profile_url = url_for('invenio_userprofiles.profile')
 
     # Create an existing user
-    email1 = 'exiting@example.org'
+    email1 = 'exiting@test.org'
     password1 = '123456'
     with app.test_client() as client:
         sign_up(app, client, email=email1, password=password1)
@@ -258,7 +258,7 @@ def test_change_email(app):
         # Test existing email of another user.
         data['profile-email_repeat'] = data['profile-email'] = email1
         resp = client.post(profile_url, data=data)
-        assert 'exiting@example.org is already associated with an account.' \
+        assert 'exiting@test.org is already associated with an account.' \
             in resp.get_data(as_text=True)
 
         # Test empty email
@@ -272,8 +272,8 @@ def test_change_email(app):
         assert "Invalid email address" in resp.get_data(as_text=True)
 
         # Test different emails
-        data['profile-email_repeat'] = 'typo@example.org'
-        data['profile-email'] = 'new@example.org'
+        data['profile-email_repeat'] = 'typo@test.org'
+        data['profile-email'] = 'new@test.org'
         resp = client.post(profile_url, data=data)
         assert 'Email addresses do not match.' in resp.get_data(as_text=True)
 

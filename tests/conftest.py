@@ -37,7 +37,7 @@ def app_config(app_config):
         SECRET_KEY='testing_key',
         SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI',
                                           'sqlite://'),
-        TEST_USER_EMAIL='test_user@example.com',
+        TEST_USER_EMAIL='test_user@test.org',
         TEST_USER_PASSWORD='test_password',
         TEST_USER_USERNAME='test',
         TESTING=True,
