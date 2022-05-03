@@ -1,11 +1,14 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2018 CERN.
+# Copyright (C)      2022 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Remove table."""
+
+import json
 
 import sqlalchemy as sa
 from alembic import op
@@ -19,6 +22,32 @@ depends_on = None
 
 def upgrade():
     """Upgrade database."""
+    # Migrate username and full_name to invenio_accounts table.
+    connection = op.get_bind()
+    results = connection.execute(
+        "SELECT user_id, username, displayname, full_name "
+        "FROM userprofiles_userprofile;"
+    ).all()
+
+    for r in results:
+        user_id, username, displayname, full_name = r
+        profile_data = {
+            "full_name": full_name,
+        }
+        query = (
+            "UPDATE accounts_user SET "
+            " username = '{username}', "
+            " displayname = '{displayname}', "
+            " profile = '{profile_data_string}' "
+            "WHERE accounts_user.id = {user_id};".format(
+                username=username,
+                displayname=displayname,
+                profile_data_string=json.dumps(profile_data),
+                user_id=user_id,
+            )
+        )
+        op.execute(query)
+
     op.drop_table('userprofiles_userprofile')
 
 
