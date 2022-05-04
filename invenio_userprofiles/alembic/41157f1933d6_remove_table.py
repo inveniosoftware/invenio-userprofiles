@@ -34,15 +34,22 @@ def upgrade():
         profile_data = {
             "full_name": full_name,
         }
+        preferences = {
+            "visibility": "restricted",
+            "email_visibility": "restricted"
+        }
+
         query = (
             "UPDATE accounts_user SET "
             " username = '{username}', "
             " displayname = '{displayname}', "
-            " profile = '{profile_data_string}' "
+            " profile = '{profile_data_string}', "
+            " preferences = '{preferences}' "
             "WHERE accounts_user.id = {user_id};".format(
                 username=username,
                 displayname=displayname,
                 profile_data_string=json.dumps(profile_data),
+                preferences=json.dumps(preferences),
                 user_id=user_id,
             )
         )
