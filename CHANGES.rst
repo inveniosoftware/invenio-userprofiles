@@ -8,10 +8,12 @@
 Changes
 =======
 
-Version 2.0.0.dev1 (released 2022-04-21)
+Version 2.0.0 (released 2022-05-23)
 
 - Changes the profile backend to use the new Invenio-Accounts 2.0 profile
   field instead of a separate database table.
+
+- Adds support for allowing users to change their visibility settings.
 
 Version 1.2.4 (released 2021-10-18)
 
