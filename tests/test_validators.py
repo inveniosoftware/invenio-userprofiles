@@ -14,7 +14,7 @@ from invenio_userprofiles.validators import validate_username
 
 test_usernames = {
     'valid': 'Good-Name_9',
-    'invalid_begins_with_number': '9CantStartWithNumber',
+    'valid_begins_with_number': '9CanStartWithNumber',
     'invalid_characters': '_Containsi!!ega!Char acters*',
     'invalid_short': 'ab',
 }
@@ -22,12 +22,9 @@ test_usernames = {
 
 def test_validate_username(app):
     """Test username validator."""
-    # Goodname can contain letters, numbers and starts with a letter
+    # Goodname can contain letters and numbers
     validate_username(test_usernames['valid'])
-
-    # Can't start with a number
-    with pytest.raises(ValueError):
-        validate_username(test_usernames['invalid_begins_with_number'])
+    validate_username(test_usernames['valid_begins_with_number'])
 
     # Can only contain latin letters and numbers
     with pytest.raises(ValueError):
