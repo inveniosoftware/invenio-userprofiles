@@ -17,7 +17,7 @@ from alembic import op
 revision = '41157f1933d6'
 down_revision = 'c25ef2c50ffa'
 branch_labels = ()
-depends_on = None
+depends_on = 'eb9743315a9d'  # invenio-accounts: add_userprofile
 
 
 def upgrade():
