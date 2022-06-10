@@ -1,12 +1,16 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2015-2018 CERN.
+    Copyright (C) 2015-2022 CERN.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
 Changes
 =======
+
+Version 2.0.1 (released 2022-06-10)
+
+- Fixes the Alembic recipe dependency for removing the userprofiles table.
 
 Version 2.0.0 (released 2022-05-23)
 
