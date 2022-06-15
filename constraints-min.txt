@@ -1,4 +1,0 @@
-# Dependency coming Flask-Security via Invenio-Accounts 2.0
-Flask-WTF>=1.0.0,<1.1.0
-Flask>=2.0.0,<2.1.0
-Werkzeug>=2.0,<2.1.0
