@@ -11,12 +11,16 @@
 from flask import current_app
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
-from flask_security.forms import email_required, email_validator, \
-    unique_user_email
+from flask_security.forms import email_required, email_validator, unique_user_email
 from flask_wtf import FlaskForm
 from wtforms import FormField, RadioField, StringField, SubmitField
-from wtforms.validators import DataRequired, EqualTo, Length, StopValidation, \
-    ValidationError
+from wtforms.validators import (
+    DataRequired,
+    EqualTo,
+    Length,
+    StopValidation,
+    ValidationError,
+)
 
 from .models import UserProfileProxy
 from .validators import USERNAME_RULES, validate_username
@@ -44,27 +48,26 @@ class ProfileForm(FlaskForm):
 
     username = StringField(
         # NOTE: Form field label
-        _('Username'),
+        _("Username"),
         # NOTE: Form field help text
-        description=_('Required. %(username_rules)s',
-                      username_rules=USERNAME_RULES),
-        validators=[
-            Length(max=50),
-            DataRequired(message=_('Username not provided.'))
-        ],
-        filters=[strip_filter], )
+        description=_("Required. %(username_rules)s", username_rules=USERNAME_RULES),
+        validators=[Length(max=50), DataRequired(message=_("Username not provided."))],
+        filters=[strip_filter],
+    )
 
     full_name = StringField(
         # NOTE: Form label
-        _('Full name'),
+        _("Full name"),
         validators=[Length(max=255)],
-        filters=[strip_filter], )
+        filters=[strip_filter],
+    )
 
     affiliations = StringField(
         # NOTE: Form label
-        _('Affiliations'),
+        _("Affiliations"),
         validators=[Length(max=255)],
-        filters=[strip_filter], )
+        filters=[strip_filter],
+    )
 
     def validate_username(self, field):
         """Wrap username validator for WTForms."""
@@ -74,13 +77,13 @@ class ProfileForm(FlaskForm):
             raise ValidationError(e)
 
         # Check if username is already taken.
-        datastore = current_app.extensions['security'].datastore
+        datastore = current_app.extensions["security"].datastore
         user = datastore.find_user(username=field.data)
         if user is None:
             return
 
         # NOTE: Form validation error.
-        msg = _('Username is not available.')
+        msg = _("Username is not available.")
 
         if current_user.is_anonymous:
             # We are handling a new sign up (i.e. anonymous user) AND a
@@ -89,20 +92,17 @@ class ProfileForm(FlaskForm):
         else:
             # We are handling a user editing their profile AND a
             # the username already exists.
-            is_same_user = \
-                current_user.get_id() == str(user.id)
+            is_same_user = current_user.get_id() == str(user.id)
             if not is_same_user:
                 # Username already taken by another user.
                 raise ValidationError(msg)
 
-    def process(self, formdata=None, obj=None, data=None, extra_filters=None,
-                **kwargs):
+    def process(self, formdata=None, obj=None, data=None, extra_filters=None, **kwargs):
         """Build a proxy around the object."""
         if obj is not None:
             obj = self.profile_proxy_cls(obj)
         super().process(
-            formdata=formdata, obj=obj, data=data, extra_filters=extra_filters,
-            **kwargs
+            formdata=formdata, obj=obj, data=data, extra_filters=extra_filters, **kwargs
         )
 
     def populate_obj(self, user):
@@ -116,8 +116,10 @@ class EmailProfileForm(ProfileForm):
 
     email = StringField(
         # NOTE: Form field label
-        _('Email address'),
-        filters=[lambda x: x.lower() if x is not None else x, ],
+        _("Email address"),
+        filters=[
+            lambda x: x.lower() if x is not None else x,
+        ],
         validators=[
             email_required,
             current_user_email,
@@ -128,15 +130,17 @@ class EmailProfileForm(ProfileForm):
 
     email_repeat = StringField(
         # NOTE: Form field label
-        _('Re-enter email address'),
+        _("Re-enter email address"),
         # NOTE: Form field help text
-        description=_('Please re-enter your email address.'),
-        filters=[lambda x: x.lower() if x else x, ],
+        description=_("Please re-enter your email address."),
+        filters=[
+            lambda x: x.lower() if x else x,
+        ],
         validators=[
             email_required,
             # NOTE: Form validation error.
-            EqualTo('email', message=_('Email addresses do not match.'))
-        ]
+            EqualTo("email", message=_("Email addresses do not match.")),
+        ],
     )
 
 
@@ -144,11 +148,12 @@ class VerificationForm(FlaskForm):
     """Form to render a button to request email confirmation."""
 
     # NOTE: Form button label
-    send_verification_email = SubmitField(_('Resend verification email'))
+    send_verification_email = SubmitField(_("Resend verification email"))
 
 
 def register_form_factory(Form):
     """Factory for creating an extended user registration form."""
+
     class CsrfDisabledProfileForm(ProfileForm):
         """Subclass of ProfileForm to disable CSRF token in the inner form.
 
@@ -164,13 +169,13 @@ def register_form_factory(Form):
     class RegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
-        profile = FormField(CsrfDisabledProfileForm, separator='.')
+        profile = FormField(CsrfDisabledProfileForm, separator=".")
 
         def to_dict(self):
             profile_data = self.profile.data
             data = super().to_dict()
-            data['username'] = profile_data.pop('username')
-            data['user_profile'] = profile_data
+            data["username"] = profile_data.pop("username")
+            data["user_profile"] = profile_data
             return data
 
     return RegisterForm
@@ -182,38 +187,36 @@ class PreferencesForm(FlaskForm):
     profile_proxy_cls = UserProfileProxy
 
     visibility = RadioField(
-        _('Profile visibility'),
+        _("Profile visibility"),
         choices=[
-            ('public', _('Public')),
-            ('restricted', _('Hidden')),
+            ("public", _("Public")),
+            ("restricted", _("Hidden")),
         ],
         description=_(
             "Public profiles can be found by other users via searches on "
             "username, full name and affiliation. Hidden profiles cannot be"
             " found by other users."
-        )
+        ),
     )
 
     email_visibility = RadioField(
-        _('Email visibility'),
+        _("Email visibility"),
         choices=[
-            ('public', _('Public')),
-            ('restricted', _('Hidden')),
+            ("public", _("Public")),
+            ("restricted", _("Hidden")),
         ],
         description=_(
             "Public email visibility enables your profile to be found by "
             "your email address."
-        )
+        ),
     )
 
-    def process(self, formdata=None, obj=None, data=None, extra_filters=None,
-                **kwargs):
+    def process(self, formdata=None, obj=None, data=None, extra_filters=None, **kwargs):
         """Build a proxy around the object."""
         if obj is not None:
             obj = self.profile_proxy_cls(obj)
         super().process(
-            formdata=formdata, obj=obj, data=data, extra_filters=extra_filters,
-            **kwargs
+            formdata=formdata, obj=obj, data=data, extra_filters=extra_filters, **kwargs
         )
 
     def populate_obj(self, user):
@@ -224,6 +227,7 @@ class PreferencesForm(FlaskForm):
 
 def confirm_register_form_factory(Form):
     """Factory for creating a confirm register form."""
+
     class CsrfDisabledProfileForm(ProfileForm):
         """Subclass of ProfileForm to disable CSRF token in the inner form.
 
@@ -239,13 +243,13 @@ def confirm_register_form_factory(Form):
     class ConfirmRegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
-        profile = FormField(CsrfDisabledProfileForm, separator='.')
+        profile = FormField(CsrfDisabledProfileForm, separator=".")
 
         def to_dict(self):
             profile_data = self.profile.data
             data = super().to_dict()
-            data['username'] = profile_data.pop('username')
-            data['user_profile'] = profile_data
+            data["username"] = profile_data.pop("username")
+            data["user_profile"] = profile_data
             return data
 
     return ConfirmRegisterForm
@@ -255,6 +259,6 @@ def _update_with_csrf_disabled(d=None):
     """Update the input dict with CSRF disabled."""
     if d is None:
         d = {}
-    d.setdefault('meta', {})
-    d['meta'].update({'csrf': False})
+    d.setdefault("meta", {})
+    d["meta"].update({"csrf": False})
     return d

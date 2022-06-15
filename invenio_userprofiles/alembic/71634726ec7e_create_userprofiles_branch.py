@@ -12,10 +12,10 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '71634726ec7e'
+revision = "71634726ec7e"
 down_revision = None
-branch_labels = (u'invenio_userprofiles',)
-depends_on = 'dbdbc1b19cf2'
+branch_labels = ("invenio_userprofiles",)
+depends_on = "dbdbc1b19cf2"
 
 
 def upgrade():

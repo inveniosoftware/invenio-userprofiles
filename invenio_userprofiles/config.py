@@ -17,10 +17,10 @@ USERPROFILES_EMAIL_ENABLED = True
 USERPROFILES_EXTEND_SECURITY_FORMS = False
 """Extend the Invenio-Accounts user registration forms."""
 
-USERPROFILES_PROFILE_TEMPLATE = 'invenio_userprofiles/settings/profile.html'
+USERPROFILES_PROFILE_TEMPLATE = "invenio_userprofiles/settings/profile.html"
 """Default profile template."""
 
-USERPROFILES_PROFILE_URL = '/account/settings/profile/'
+USERPROFILES_PROFILE_URL = "/account/settings/profile/"
 """Default profile URL endpoint."""
 
 USERPROFILES_BASE_TEMPLATE = None

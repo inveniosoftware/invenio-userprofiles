@@ -22,12 +22,13 @@ from invenio_userprofiles import InvenioUserProfiles
 def test_version():
     """Test version import."""
     from invenio_userprofiles import __version__
+
     assert __version__
 
 
 def test_init():
     """Test extension initialization."""
-    app = Flask('testapp')
+    app = Flask("testapp")
     app.config.update(
         ACCOUNTS_USE_CELERY=False,
         SECRET_KEY="test_key",
@@ -38,9 +39,9 @@ def test_init():
     InvenioDB(app)
     InvenioAccounts(app)
     ext = InvenioUserProfiles(app)
-    assert 'invenio-userprofiles' in app.extensions
+    assert "invenio-userprofiles" in app.extensions
 
-    app = Flask('testapp')
+    app = Flask("testapp")
     app.config.update(
         ACCOUNTS_USE_CELERY=False,
         SECRET_KEY="test_key",
@@ -51,26 +52,26 @@ def test_init():
     InvenioDB(app)
     InvenioAccounts(app)
     ext = InvenioUserProfiles()
-    assert 'invenio-userprofiles' not in app.extensions
+    assert "invenio-userprofiles" not in app.extensions
     ext.init_app(app)
-    assert 'invenio-userprofiles' in app.extensions
+    assert "invenio-userprofiles" in app.extensions
 
 
 def test_alembic(app):
     """Test alembic recipes."""
-    ext = app.extensions['invenio-db']
+    ext = app.extensions["invenio-db"]
 
     with app.app_context():
-        if db.engine.name == 'sqlite':
-            raise pytest.skip('Upgrades are not supported on SQLite.')
+        if db.engine.name == "sqlite":
+            raise pytest.skip("Upgrades are not supported on SQLite.")
 
         assert not ext.alembic.compare_metadata()
         db.drop_all()
         ext.alembic.upgrade()
 
         assert not ext.alembic.compare_metadata()
-        ext.alembic.downgrade(target='96e796392533')
+        ext.alembic.downgrade(target="96e796392533")
         ext.alembic.upgrade()
 
         assert not ext.alembic.compare_metadata()
-        ext.alembic.downgrade(target='96e796392533')
+        ext.alembic.downgrade(target="96e796392533")

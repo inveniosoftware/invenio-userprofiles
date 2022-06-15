@@ -23,14 +23,14 @@ class AnonymousUserProfile:
 class UserProfileProxy:
     """Proxy for a user that allows mapping the form to the user object."""
 
-    _profile_attrs = ['full_name', 'affiliations']
-    _preferences_attrs = ['email_visibility', 'visibility']
-    _read_only_attrs = ['email_repeat']
-    _aliases = {'email_repeat': 'email', 'user_id': 'id'}
+    _profile_attrs = ["full_name", "affiliations"]
+    _preferences_attrs = ["email_visibility", "visibility"]
+    _read_only_attrs = ["email_repeat"]
+    _aliases = {"email_repeat": "email", "user_id": "id"}
 
     def __init__(self, user):
         """."""
-        super().__setattr__('_user', user)
+        super().__setattr__("_user", user)
 
     def __getattr__(self, attr):
         """."""
@@ -44,9 +44,11 @@ class UserProfileProxy:
 
     def __setattr__(self, attr, value):
         """."""
-        if attr == 'email':
-            if current_app.config['USERPROFILES_EMAIL_ENABLED'] and \
-                    self._user.email != value:
+        if attr == "email":
+            if (
+                current_app.config["USERPROFILES_EMAIL_ENABLED"]
+                and self._user.email != value
+            ):
                 self._user.email = value
                 self._user.confirmed_at = None
         elif attr in self._profile_attrs:
@@ -73,7 +75,7 @@ class UserProfileProxy:
         :param username: A username to query for (case insensitive).
         """
         # Kept for backward compatibility
-        user = current_app.extensions['security'].datastore.find_user(
+        user = current_app.extensions["security"].datastore.find_user(
             _username=username.lower()
         )
         return cls(user) if user else None
@@ -87,9 +89,7 @@ class UserProfileProxy:
             or ``None``.
         """
         # Kept for backward compatibility
-        user = current_app.extensions['security'].datastore.find_user(
-            id=user_id
-        )
+        user = current_app.extensions["security"].datastore.find_user(id=user_id)
         return cls(user) if user else None
 
 
