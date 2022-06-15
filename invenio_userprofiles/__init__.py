@@ -16,24 +16,26 @@
 try:
     # Werkzeug <2.1
     from werkzeug import security
+
     security.safe_str_cmp
 except AttributeError:
     # Werkzeug >=2.1
     import hmac
 
     from werkzeug import security
+
     security.safe_str_cmp = hmac.compare_digest
 
 from .api import current_userprofile
 from .ext import InvenioUserProfiles
 from .models import UserProfile, UserProfileProxy
 
-__version__ = '2.0.2'
+__version__ = "2.0.2"
 
 __all__ = (
-    '__version__',
-    'current_userprofile',
-    'InvenioUserProfiles',
-    'UserProfile',
-    'UserProfileProxy',
+    "__version__",
+    "current_userprofile",
+    "InvenioUserProfiles",
+    "UserProfile",
+    "UserProfileProxy",
 )

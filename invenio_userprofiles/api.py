@@ -28,7 +28,7 @@ def _get_current_userprofile():
     """
     warn(
         "current_userprofile is deprecated, use current_user instead",
-        DeprecationWarning
+        DeprecationWarning,
     )
     return UserProfileProxy(current_user)
 

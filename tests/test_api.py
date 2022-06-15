@@ -18,20 +18,19 @@ from invenio_userprofiles import current_userprofile
 def test_logged_out_user_has_anonymous_profile(app):
     """AnonymousUser should have AnonymousUserProfile."""
     with app.test_request_context():
-        profile_url = url_for('invenio_userprofiles.profile')
+        profile_url = url_for("invenio_userprofiles.profile")
 
     with app.test_client() as client:
         resp = client.get(profile_url, follow_redirects=True)
         assert resp.status_code == 200
         assert 'name="login_user_form"' in resp.get_data(as_text=True)
-        assert current_user.is_anonymous and \
-            current_userprofile.is_anonymous
+        assert current_user.is_anonymous and current_userprofile.is_anonymous
 
 
 def test_get_current_userprofile(app):
     """Test get_current_userprofile."""
     with app.test_request_context():
-        profile_url = url_for('invenio_userprofiles.profile')
+        profile_url = url_for("invenio_userprofiles.profile")
 
     with app.test_client() as client:
         # Logged in user should have userprofile

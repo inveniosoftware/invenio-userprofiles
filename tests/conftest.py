@@ -20,26 +20,24 @@ from flask_menu import Menu
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_db import InvenioDB, db
-from sqlalchemy_utils.functions import create_database, database_exists, \
-    drop_database
+from sqlalchemy_utils.functions import create_database, database_exists, drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
 from invenio_userprofiles.views import blueprint_ui_init
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def app_config(app_config):
     """Override pytest-invenio app_config fixture."""
     app_config.update(
         ACCOUNTS_LOCAL_LOGIN_ENABLED=True,
         ACCOUNTS_USE_CELERY=False,
         LOGIN_DISABLED=False,
-        SECRET_KEY='testing_key',
-        SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI',
-                                          'sqlite://'),
-        TEST_USER_EMAIL='test_user@test.org',
-        TEST_USER_PASSWORD='test_password',
-        TEST_USER_USERNAME='test',
+        SECRET_KEY="testing_key",
+        SQLALCHEMY_DATABASE_URI=os.getenv("SQLALCHEMY_DATABASE_URI", "sqlite://"),
+        TEST_USER_EMAIL="test_user@test.org",
+        TEST_USER_PASSWORD="test_password",
+        TEST_USER_USERNAME="test",
         TESTING=True,
         WTF_CSRF_ENABLED=False,
     )
@@ -62,8 +60,9 @@ def base_app(app_config):
     base_app.register_blueprint(accounts_blueprint)
 
     with base_app.app_context():
-        if str(db.engine.url) != "sqlite://" and \
-                not database_exists(str(db.engine.url)):
+        if str(db.engine.url) != "sqlite://" and not database_exists(
+            str(db.engine.url)
+        ):
             create_database(str(db.engine.url))
         db.create_all()
 
