@@ -13,12 +13,6 @@ Extension
 .. automodule:: invenio_userprofiles.ext
    :members:
 
-Admin
------
-
-.. automodule:: invenio_userprofiles.admin
-   :members:
-
 API
 ---
 
