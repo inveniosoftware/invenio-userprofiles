@@ -7,11 +7,11 @@
   under the terms of the MIT License; see LICENSE file for more details.
 #}
 
-{% macro render_field(field, icon="", placeholder='', autofocus=False, enabled=True) %}
+{% macro render_field(field, icon="", placeholder='', autofocus=False, enabled=True, field_class="form-control") %}
   <div class="form-group {% if icon %} has-feedback{% endif %}{% if field.errors %} has-error{% endif %}">
     {{ field.label }}
     {%- set extras = dict(autofocus="") if autofocus else dict() %}
-    {{field(class_="form-control", disabled=not enabled, placeholder=placeholder, **extras)}}
+    {{field(class_=field_class, disabled=not enabled, placeholder=placeholder, **extras)}}
     {%- if icon %}
     <i class="{{icon}} form-control-feedback" aria-hidden="true" ></i>
     {%- endif %}
