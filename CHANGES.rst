@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 2.0.2 (released 2022-07-01)
+
+- Style radio buttons and remove dotted bullet points in settings page.
+
 Version 2.0.1 (released 2022-06-10)
 
 - Fixes the Alembic recipe dependency for removing the userprofiles table.
