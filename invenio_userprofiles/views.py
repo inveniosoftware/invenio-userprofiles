@@ -110,14 +110,14 @@ def profile():
         handle_profile_form(profile_form)
     elif form == "verification":
         handle_verification_form(verification_form)
-    elif form == "preferences" and not is_read_only:
+    elif form == 'preferences':
         handle_preferences_form(preferences_form)
 
     return render_template(
-        current_app.config["USERPROFILES_PROFILE_TEMPLATE"],
-        profile_form=profile_form,
+        current_app.config['USERPROFILES_PROFILE_TEMPLATE'],
         verification_form=verification_form,
-        preferences_form=preferences_form,
+        profile_form=profile_form,
+        preferences_form=preferences_form
     )
 
 
@@ -186,9 +186,6 @@ def handle_profile_form(form):
 
 def handle_preferences_form(form):
     """Handle preferences form."""
-    if current_app.config.get("USERPROFILES_READ_ONLY", False):
-        return
-
     form.process(formdata=request.form)
 
     if form.validate_on_submit():
