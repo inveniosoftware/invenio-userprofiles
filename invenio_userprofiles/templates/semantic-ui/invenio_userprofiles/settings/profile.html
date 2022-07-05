@@ -72,7 +72,6 @@
   </div>
   <div class="ui segment">
       {%- set form = preferences_form %}
-      {%- set read_only = config.USERPROFILES_READ_ONLY %}
       <form {% if not read_only %}method="POST"{% endif %} name="preferences_form" class="ui form">
         {%- for field in form %}
         {%- if field.widget.input_type == 'hidden' %}
@@ -81,12 +80,10 @@
         {{ render_field(field, placeholder=field.label.text, field_class="form-control no-dots-list pl-0") }}
         {%- endif %}
         {%- endfor %}
-        {%- if not read_only %}
         <div class="form-actions">
           <a href="." class="ui button"><i class="close icon"></i> {{ _('Cancel') }}</a>
           <button type="submit" name="submit" value="preferences" class="ui primary button"><i class="check icon"></i> {{ _('Update preferences') }}</button>
         </div>
-        {%- endif %}
       </form>
   </div>
 {% endblock %}
