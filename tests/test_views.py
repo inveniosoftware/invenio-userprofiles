@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2022 Northwestern University.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -12,11 +13,9 @@ from flask import url_for
 from flask_security import url_for_security
 from helpers import login, sign_up
 from invenio_accounts.models import User
-from invenio_db import db
 from test_validators import test_usernames
 
 from invenio_userprofiles import InvenioUserProfiles
-from invenio_userprofiles.models import UserProfile
 from invenio_userprofiles.views import blueprint_ui_init, userprofile
 
 
@@ -98,13 +97,14 @@ def test_profile_view(app):
         resp = client.post(
             profile_url,
             data=prefix(
-                "profile",
+                'profile',
                 dict(
-                    username=test_usernames["valid"],
-                    full_name="Valid Name",
-                    affiliations="Aff",
-                ),
+                    username=test_usernames['valid'],
+                    full_name='Valid Name',
+                    affiliations='Aff',
+                )
             ),
+            follow_redirects=True
         )
 
         assert resp.status_code == 200
@@ -124,6 +124,7 @@ def test_profile_view(app):
                     full_name="Valid Name",
                     affiliations="Aff",
                 ),
+                follow_redirects=True
             ),
         )
 
@@ -138,13 +139,14 @@ def test_profile_view(app):
         client.post(
             profile_url,
             data=prefix(
-                "profile",
+                'profile',
                 dict(
-                    username="{0} ".format(test_usernames["valid"]),
-                    full_name="Valid Name ",
-                    affiliations=" Aff ",
-                ),
+                    username='{0} '.format(test_usernames['valid']),
+                    full_name='Valid Name ',
+                    affiliations=' Aff ',
+                )
             ),
+            follow_redirects=True
         )
         resp = client.get(profile_url)
 
@@ -219,12 +221,12 @@ def test_profile_case_change(app):
         )
 
         # Set the name first time
-        resp = client.post(profile_url, data=data)
+        resp = client.post(profile_url, data=data, follow_redirects=True)
         assert resp.status_code == 200
         assert error_msg not in resp.get_data(as_text=True)
 
         # Set the name second time
-        resp = client.post(profile_url, data=data)
+        resp = client.post(profile_url, data=data, follow_redirects=True)
         assert resp.status_code == 200
         assert error_msg not in resp.get_data(as_text=True)
 
@@ -233,7 +235,7 @@ def test_profile_case_change(app):
             "profile", dict(username="Valid", full_name="Another name", affiliations="")
         )
 
-        resp = client.post(profile_url, data=data)
+        resp = client.post(profile_url, data=data, follow_redirects=True)
         assert resp.status_code == 200
         assert error_msg not in resp.get_data(as_text=True)
 
