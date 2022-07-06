@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2022 Northwestern University.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -10,7 +11,8 @@
 
 from warnings import warn
 
-from flask import Blueprint, current_app, flash, render_template, request
+from flask import Blueprint, current_app, flash, redirect, render_template, \
+    request, url_for
 from flask_babelex import lazy_gettext as _
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
@@ -103,15 +105,27 @@ def profile():
         formdata=None, obj=current_user, prefix="preferences"
     )
 
-    # Process forms
+    # Pick form
     is_read_only = current_app.config.get("USERPROFILES_READ_ONLY", False)
-    form = request.form.get("submit", None)
-    if form == "profile" and not is_read_only:
-        handle_profile_form(profile_form)
-    elif form == "verification":
-        handle_verification_form(verification_form)
-    elif form == 'preferences':
-        handle_preferences_form(preferences_form)
+    form_name = request.form.get('submit', None)
+    if form_name == 'profile' and not is_read_only:
+        handle_form = handle_profile_form
+        form = profile_form
+    elif form_name == 'verification':
+        handle_form = handle_verification_form
+        form = verification_form
+    elif form_name == 'preferences':
+        handle_form = handle_preferences_form
+        form = preferences_form
+    else:
+        form = None
+
+    # Process form
+    if form:
+        form.process(formdata=request.form)
+        if form.validate_on_submit():
+            handle_form(form)
+            return redirect(url_for(".profile"), code=303)  # this endpoint
 
     return render_template(
         current_app.config['USERPROFILES_PROFILE_TEMPLATE'],
@@ -139,58 +153,42 @@ def profile_form_factory():
 
 def handle_verification_form(form):
     """Handle email sending verification form."""
-    form.process(formdata=request.form)
-
-    if form.validate_on_submit():
-        send_confirmation_instructions(current_user)
-        # NOTE: Flash message.
-        flash(_("Verification email sent."), category="success")
+    send_confirmation_instructions(current_user)
+    # NOTE: Flash message.
+    flash(_("Verification email sent."), category="success")
 
 
 def handle_profile_form(form):
     """Handle profile update form."""
-    if current_app.config.get("USERPROFILES_READ_ONLY", False):
-        return
+    email_changed = False
+    datastore = current_app.extensions['security'].datastore
+    with db.session.begin_nested():
+        if current_app.config['USERPROFILES_EMAIL_ENABLED'] and \
+                form.email.data != current_user.email:
+            email_changed = True
+        form.populate_obj(current_user)
+        db.session.add(current_user)
+        datastore.mark_changed(id(db.session), uid=current_user.id)
+    datastore.commit()
 
-    form.process(formdata=request.form)
-
-    if form.validate_on_submit():
-        email_changed = False
-        datastore = current_app.extensions["security"].datastore
-        with db.session.begin_nested():
-            if (
-                current_app.config["USERPROFILES_EMAIL_ENABLED"]
-                and form.email.data != current_user.email
-            ):
-                email_changed = True
-            form.populate_obj(current_user)
-            db.session.add(current_user)
-            datastore.mark_changed(id(db.session), uid=current_user.id)
-        datastore.commit()
-
-        if email_changed:
-            send_confirmation_instructions(current_user)
-            # NOTE: Flash message after successful update of profile.
-            flash(
-                _(
-                    "Profile was updated. We have sent a verification "
-                    "email to %(email)s. Please check it.",
-                    email=current_user.email,
-                ),
-                category="success",
-            )
-        else:
-            # NOTE: Flash message after successful update of profile.
-            flash(_("Profile was updated."), category="success")
+    if email_changed:
+        send_confirmation_instructions(current_user)
+        # NOTE: Flash message after successful update of profile.
+        flash(
+            _('Profile was updated. We have sent a verification '
+              'email to %(email)s. Please check it.',
+              email=current_user.email),
+            category='success'
+        )
+    else:
+        # NOTE: Flash message after successful update of profile.
+        flash(_('Profile was updated.'), category='success')
 
 
 def handle_preferences_form(form):
     """Handle preferences form."""
-    form.process(formdata=request.form)
-
-    if form.validate_on_submit():
-        form.populate_obj(current_user)
-        db.session.add(current_user)
-        current_app.extensions["security"].datastore.commit()
-        # NOTE: Flash message after successful update of profile.
-        flash(_("Preferences were updated."), category="success")
+    form.populate_obj(current_user)
+    db.session.add(current_user)
+    current_app.extensions['security'].datastore.commit()
+    # NOTE: Flash message after successful update of profile.
+    flash(_('Preferences were updated.'), category='success')
