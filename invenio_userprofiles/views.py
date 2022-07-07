@@ -11,8 +11,15 @@
 
 from warnings import warn
 
-from flask import Blueprint, current_app, flash, redirect, render_template, \
-    request, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_babelex import lazy_gettext as _
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
@@ -107,14 +114,14 @@ def profile():
 
     # Pick form
     is_read_only = current_app.config.get("USERPROFILES_READ_ONLY", False)
-    form_name = request.form.get('submit', None)
-    if form_name == 'profile' and not is_read_only:
+    form_name = request.form.get("submit", None)
+    if form_name == "profile" and not is_read_only:
         handle_form = handle_profile_form
         form = profile_form
-    elif form_name == 'verification':
+    elif form_name == "verification":
         handle_form = handle_verification_form
         form = verification_form
-    elif form_name == 'preferences':
+    elif form_name == "preferences":
         handle_form = handle_preferences_form
         form = preferences_form
     else:
@@ -128,10 +135,10 @@ def profile():
             return redirect(url_for(".profile"), code=303)  # this endpoint
 
     return render_template(
-        current_app.config['USERPROFILES_PROFILE_TEMPLATE'],
+        current_app.config["USERPROFILES_PROFILE_TEMPLATE"],
         verification_form=verification_form,
         profile_form=profile_form,
-        preferences_form=preferences_form
+        preferences_form=preferences_form,
     )
 
 
@@ -161,10 +168,12 @@ def handle_verification_form(form):
 def handle_profile_form(form):
     """Handle profile update form."""
     email_changed = False
-    datastore = current_app.extensions['security'].datastore
+    datastore = current_app.extensions["security"].datastore
     with db.session.begin_nested():
-        if current_app.config['USERPROFILES_EMAIL_ENABLED'] and \
-                form.email.data != current_user.email:
+        if (
+            current_app.config["USERPROFILES_EMAIL_ENABLED"]
+            and form.email.data != current_user.email
+        ):
             email_changed = True
         form.populate_obj(current_user)
         db.session.add(current_user)
@@ -175,20 +184,22 @@ def handle_profile_form(form):
         send_confirmation_instructions(current_user)
         # NOTE: Flash message after successful update of profile.
         flash(
-            _('Profile was updated. We have sent a verification '
-              'email to %(email)s. Please check it.',
-              email=current_user.email),
-            category='success'
+            _(
+                "Profile was updated. We have sent a verification "
+                "email to %(email)s. Please check it.",
+                email=current_user.email,
+            ),
+            category="success",
         )
     else:
         # NOTE: Flash message after successful update of profile.
-        flash(_('Profile was updated.'), category='success')
+        flash(_("Profile was updated."), category="success")
 
 
 def handle_preferences_form(form):
     """Handle preferences form."""
     form.populate_obj(current_user)
     db.session.add(current_user)
-    current_app.extensions['security'].datastore.commit()
+    current_app.extensions["security"].datastore.commit()
     # NOTE: Flash message after successful update of profile.
-    flash(_('Preferences were updated.'), category='success')
+    flash(_("Preferences were updated."), category="success")

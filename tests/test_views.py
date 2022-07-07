@@ -97,14 +97,14 @@ def test_profile_view(app):
         resp = client.post(
             profile_url,
             data=prefix(
-                'profile',
+                "profile",
                 dict(
-                    username=test_usernames['valid'],
-                    full_name='Valid Name',
-                    affiliations='Aff',
-                )
+                    username=test_usernames["valid"],
+                    full_name="Valid Name",
+                    affiliations="Aff",
+                ),
             ),
-            follow_redirects=True
+            follow_redirects=True,
         )
 
         assert resp.status_code == 200
@@ -124,8 +124,8 @@ def test_profile_view(app):
                     full_name="Valid Name",
                     affiliations="Aff",
                 ),
-                follow_redirects=True
             ),
+            follow_redirects=True,
         )
 
         assert resp.status_code == 200
@@ -139,14 +139,14 @@ def test_profile_view(app):
         client.post(
             profile_url,
             data=prefix(
-                'profile',
+                "profile",
                 dict(
-                    username='{0} '.format(test_usernames['valid']),
-                    full_name='Valid Name ',
-                    affiliations=' Aff ',
-                )
+                    username="{0} ".format(test_usernames["valid"]),
+                    full_name="Valid Name ",
+                    affiliations=" Aff ",
+                ),
             ),
-            follow_redirects=True
+            follow_redirects=True,
         )
         resp = client.get(profile_url)
 
