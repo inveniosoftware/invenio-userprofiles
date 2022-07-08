@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 2.0.3 (released 2022-07-08)
+
+- add redirection on user profile form submit
+- allow updating preferences for read only profiles
+
 Version 2.0.2 (released 2022-07-01)
 
 - Style radio buttons and remove dotted bullet points in settings page.
