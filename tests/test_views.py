@@ -196,6 +196,7 @@ def test_profile_name_exists(app):
                     username="existingname", full_name="Another name", affiliations=""
                 ),
             ),
+            follow_redirects=True,
         )
         assert resp.status_code == 200
         assert error_msg in resp.get_data(as_text=True)
@@ -300,7 +301,7 @@ def test_change_email(app):
 
         # Test existing email of another user.
         data["profile-email_repeat"] = data["profile-email"] = email1
-        resp = client.post(profile_url, data=data)
+        resp = client.post(profile_url, data=data, follow_redirects=True)
         assert (
             "exiting@test.org is already associated with an account."
             in resp.get_data(as_text=True)
