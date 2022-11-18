@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C)      2022 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -65,6 +66,27 @@ def base_app(app_config):
         ):
             create_database(str(db.engine.url))
         db.create_all()
+
+    # Taken from: https://github.com/inveniosoftware/invenio-accounts/blob/3ecc1a70da3636618fe14ff2ebf754eed9ec75a1/tests/conftest.py#L94-L112
+    def delete_user_from_cache(exception):
+        """Delete user from `flask.g` when the request is tearing down.
+
+        Flask-login==0.6.2 changed the way the user is saved i.e uses `flask.g`.
+        Flask.g is pointing to the application context which is initialized per
+        request. That said, `pytest-flask` is pushing an application context on each
+        test initialization that causes problems as subsequent requests during a test
+        are detecting the active application request and not popping it when the
+        sub-request is tearing down. That causes the logged in user to remain cached
+        for the whole duration of the test. To fix this, we add an explicit teardown
+        handler that will pop out the logged in user in each request and it will force
+        the user to be loaded each time.
+        """
+        from flask import g
+
+        if "_login_user" in g:
+            del g._login_user
+
+    base_app.teardown_request(delete_user_from_cache)
 
     yield base_app
 
