@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 2.0.4 (released 2022-11-21)
+
+- add translations
+
 Version 2.0.3 (released 2022-07-08)
 
 - add redirection on user profile form submit
