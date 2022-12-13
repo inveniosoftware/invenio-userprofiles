@@ -11,6 +11,7 @@
 from invenio_userprofiles.forms import (
     _update_with_csrf_disabled,
     confirm_register_form_factory,
+    confirm_register_form_preferences_factory,
     register_form_factory,
 )
 
@@ -44,12 +45,26 @@ def test_force_disable_csrf_register_form(app_with_csrf):
 
 
 def test_confirm_register_form_factory_no_csrf(app):
-    """Test CSRF token is not in confirm form and not in profil
-    e inner form."""
+    """Test CSRF token is not in confirm form and not in profile inner form."""
     security = app.extensions["security"]
     rf = _get_form(app, security.confirm_register_form, confirm_register_form_factory)
 
     _assert_no_csrf_token(rf)
+
+
+def test_confirm_register_form_preferences_factory_no_csrf(app):
+    """Test CSRF token is not in confirm form and not in inner forms."""
+    security = app.extensions["security"]
+
+    def factory_profile_preferences(Form):
+        ProfileForm = confirm_register_form_factory(Form)
+        return confirm_register_form_preferences_factory(ProfileForm)
+
+    rf = _get_form(app, security.confirm_register_form, factory_profile_preferences)
+
+    _assert_no_csrf_token(rf)
+    assert "prefs" in rf
+    assert "csrf_token" not in rf.prefs
 
 
 def test_confirm_register_form_factory_csrf(app_with_csrf):
@@ -63,7 +78,7 @@ def test_confirm_register_form_factory_csrf(app_with_csrf):
 
 
 def test_force_disable_csrf_confirm_form(app_with_csrf):
-    """Test force disable CSRF for confirm. form"""
+    """Test force disable CSRF for confirm form"""
     security = app_with_csrf.extensions["security"]
     rf = _get_form(
         app_with_csrf,

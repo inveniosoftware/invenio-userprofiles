@@ -169,6 +169,8 @@ def register_form_factory(Form):
     class RegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
+        # cannot be called `user_profile`, to avoid naming collision with the
+        # hybrid property in the model
         profile = FormField(CsrfDisabledProfileForm, separator=".")
 
         def to_dict(self):
@@ -226,23 +228,25 @@ class PreferencesForm(FlaskForm):
 
 
 def confirm_register_form_factory(Form):
-    """Factory for creating a confirm register form."""
+    """Factory for creating a confirm register form with UserProfile fields."""
 
     class CsrfDisabledProfileForm(ProfileForm):
         """Subclass of ProfileForm to disable CSRF token in the inner form.
 
-        This class will always be a inner form field of the parent class
+        This class will always be an inner form field of the parent class
         `Form`. The parent will add/remove the CSRF token in the form.
         """
 
         def __init__(self, *args, **kwargs):
             """Initialize the object by hardcoding CSRF token to false."""
             kwargs = _update_with_csrf_disabled(kwargs)
-            super(CsrfDisabledProfileForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
 
     class ConfirmRegisterForm(Form):
         """RegisterForm extended with UserProfile details."""
 
+        # cannot be called `user_profile`, to avoid naming collision with the
+        # hybrid property in the model
         profile = FormField(CsrfDisabledProfileForm, separator=".")
 
         def to_dict(self):
@@ -250,6 +254,33 @@ def confirm_register_form_factory(Form):
             data = super().to_dict()
             data["username"] = profile_data.pop("username")
             data["user_profile"] = profile_data
+            return data
+
+    return ConfirmRegisterForm
+
+
+def confirm_register_form_preferences_factory(Form):
+    """Factory for creating a confirm register form with UserProfile and Preferences."""
+
+    class CsrfDisabledPreferencesForm(PreferencesForm):
+        """Subclass of PreferencesForm to disable CSRF token in the inner form."""
+
+        def __init__(self, *args, **kwargs):
+            """Initialize the object by hardcoding CSRF token to false."""
+            kwargs = _update_with_csrf_disabled(kwargs)
+            super().__init__(*args, **kwargs)
+
+    class ConfirmRegisterForm(Form):
+        """RegisterForm extended with Preferences details."""
+
+        # cannot be called `preferences`, to avoid naming collision with the
+        # hybrid property in the model
+        prefs = FormField(CsrfDisabledPreferencesForm, separator=".")
+
+        def to_dict(self):
+            preferences_data = self.prefs.data
+            data = super().to_dict()
+            data["preferences"] = preferences_data
             return data
 
     return ConfirmRegisterForm
