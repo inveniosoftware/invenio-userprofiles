@@ -20,14 +20,14 @@ from flask import (
     request,
     url_for,
 )
-from flask_babelex import lazy_gettext as _
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
 from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
+from invenio_i18n import LazyString
+from invenio_i18n import lazy_gettext as _
 from invenio_theme.proxies import current_theme_icons
-from speaklater import make_lazy_string
 
 from .forms import (
     EmailProfileForm,
@@ -98,7 +98,7 @@ def userprofile(value):
     # NOTE: Menu item text (icon replaced by a user icon).
     _(
         "%(icon)s Profile",
-        icon=make_lazy_string(lambda: f'<i class="{current_theme_icons.user}"></i>'),
+        icon=LazyString(lambda: f'<i class="{current_theme_icons.user}"></i>'),
     ),
     order=0,
 )

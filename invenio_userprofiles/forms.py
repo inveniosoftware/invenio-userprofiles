@@ -9,10 +9,10 @@
 """Forms for user profiles."""
 
 from flask import current_app
-from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, unique_user_email
 from flask_wtf import FlaskForm
+from invenio_i18n import lazy_gettext as _
 from wtforms import FormField, RadioField, StringField, SubmitField
 from wtforms.validators import (
     DataRequired,
