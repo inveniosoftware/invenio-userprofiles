@@ -12,11 +12,11 @@ from __future__ import absolute_import, print_function
 
 import pytest
 from flask import Flask
-from flask_babelex import Babel
 from flask_mail import Mail
 from flask_menu import Menu
 from invenio_accounts import InvenioAccounts
 from invenio_db import InvenioDB, db
+from invenio_i18n import Babel
 
 from invenio_userprofiles import InvenioUserProfiles
 

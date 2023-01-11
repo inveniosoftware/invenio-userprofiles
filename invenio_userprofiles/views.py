@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2022 Northwestern University.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -11,12 +12,13 @@
 from __future__ import absolute_import, print_function
 
 from flask import Blueprint, current_app, flash, render_template, request
-from flask_babelex import lazy_gettext as _
 from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
 from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
+from invenio_i18n import LazyString
+from invenio_i18n import lazy_gettext as _
 from invenio_theme.proxies import current_theme_icons
 from speaklater import make_lazy_string
 
