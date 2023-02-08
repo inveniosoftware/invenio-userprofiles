@@ -16,7 +16,7 @@ from invenio_accounts.models import User
 from test_validators import test_usernames
 
 from invenio_userprofiles import InvenioUserProfiles
-from invenio_userprofiles.views import blueprint_ui_init, userprofile
+from invenio_userprofiles.views import blueprint_ui_init
 
 
 def prefix(name, data):
