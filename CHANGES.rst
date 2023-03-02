@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 2.1.0. (released 2023-03-02)
+
+- remove deprecated flask_babelex imports
+- install invenio_i18n explicitly
+
 Version 2.0.5 (released 2022-12-14)
 
 - forms: add helper for preferences form
