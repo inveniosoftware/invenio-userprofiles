@@ -24,7 +24,7 @@ class UserProfileProxy:
     """Proxy for a user that allows mapping the form to the user object."""
 
     _profile_attrs = ["full_name", "affiliations"]
-    _preferences_attrs = ["email_visibility", "visibility"]
+    _preferences_attrs = ["email_visibility", "visibility", "locale", "timezone"]
     _read_only_attrs = ["email_repeat"]
     _aliases = {"email_repeat": "email", "user_id": "id"}
 
