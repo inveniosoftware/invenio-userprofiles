@@ -20,7 +20,7 @@ from flask_menu import Menu
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_db import InvenioDB, db
-from invenio_i18n import Babel
+from invenio_i18n import Babel, InvenioI18N
 from sqlalchemy_utils.functions import create_database, database_exists, drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
@@ -58,6 +58,7 @@ def base_app(app_config):
     Menu(base_app)
     InvenioDB(base_app)
     InvenioAccounts(base_app)
+    InvenioI18N(base_app)
     base_app.register_blueprint(accounts_blueprint)
 
     with base_app.app_context():

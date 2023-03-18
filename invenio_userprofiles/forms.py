@@ -8,12 +8,22 @@
 
 """Forms for user profiles."""
 
+import pytz
 from flask import current_app
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, unique_user_email
 from flask_wtf import FlaskForm
 from invenio_i18n import lazy_gettext as _
-from wtforms import FormField, RadioField, StringField, SubmitField
+from invenio_i18n.ext import InvenioI18N
+from werkzeug.local import LocalProxy
+from wtforms import (
+    FormField,
+    RadioField,
+    SelectField,
+    StringField,
+    SubmitField,
+    validators,
+)
 from wtforms.validators import (
     DataRequired,
     EqualTo,
@@ -214,6 +224,19 @@ class PreferencesForm(FlaskForm):
             "your email address."
         ),
     )
+
+    locale = LocalProxy(
+        lambda: SelectField(
+            _("Preferences locale"),
+            choices=set(current_app.extensions["invenio-i18n"].get_locales()),
+        ),
+    )
+
+    # timezone = SelectField(
+    #    _("Preferences timezone"),
+    #    choices=pytz.all_timezones,
+    #    validators=[validators.InputRequired()],
+    # )
 
     def process(self, formdata=None, obj=None, data=None, extra_filters=None, **kwargs):
         """Build a proxy around the object."""
