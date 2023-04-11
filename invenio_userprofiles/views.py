@@ -186,9 +186,8 @@ def handle_profile_form(form):
         flash(
             _(
                 "Profile was updated. We have sent a verification "
-                "email to %(email)s. Please check it.",
-                email=current_user.email,
-            ),
+                "email to {email}. Please check it."
+            ).format(email=current_user.email),
             category="success",
         )
     else:
