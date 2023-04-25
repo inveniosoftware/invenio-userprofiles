@@ -8,7 +8,11 @@
 Changes
 =======
 
-Version 2.1.0. (released 2023-03-02)
+Version 2.2.0 (released 2023-04-25)
+
+- add locale to user profile preferences
+
+Version 2.1.0 (released 2023-03-02)
 
 - remove deprecated flask_babelex imports
 - install invenio_i18n explicitly
