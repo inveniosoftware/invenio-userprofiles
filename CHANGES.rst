@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 2.2.1 (released 2023-05-26)
+
+- fix styling for locale preferences field
+
 Version 2.2.0 (released 2023-04-25)
 
 - add locale to user profile preferences
