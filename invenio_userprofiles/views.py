@@ -29,14 +29,7 @@ from invenio_i18n import LazyString
 from invenio_i18n import lazy_gettext as _
 from invenio_theme.proxies import current_theme_icons
 
-from .forms import (
-    EmailProfileForm,
-    PreferencesForm,
-    ProfileForm,
-    VerificationForm,
-    confirm_register_form_factory,
-    register_form_factory,
-)
+from .forms import EmailProfileForm, PreferencesForm, ProfileForm, VerificationForm
 from .models import UserProfileProxy
 
 blueprint = Blueprint(
@@ -44,43 +37,6 @@ blueprint = Blueprint(
     __name__,
     template_folder="templates",
 )
-
-blueprint_api_init = Blueprint(
-    "invenio_userprofiles_api_init",
-    __name__,
-    template_folder="templates",
-)
-
-blueprint_ui_init = Blueprint(
-    "invenio_userprofiles_ui_init",
-    __name__,
-)
-
-
-def init_common(app):
-    """Post initialization."""
-    if app.config["USERPROFILES_EXTEND_SECURITY_FORMS"]:
-        security_ext = app.extensions["security"]
-        security_ext.confirm_register_form = confirm_register_form_factory(
-            security_ext.confirm_register_form
-        )
-        security_ext.register_form = register_form_factory(security_ext.register_form)
-
-
-@blueprint_ui_init.record_once
-def init_ui(state):
-    """Post initialization for UI application."""
-    app = state.app
-    init_common(app)
-
-    # Register blueprint for templates
-    app.register_blueprint(blueprint, url_prefix=app.config["USERPROFILES_PROFILE_URL"])
-
-
-@blueprint_api_init.record_once
-def init_api(state):
-    """Post initialization for API application."""
-    init_common(state.app)
 
 
 @blueprint.app_template_filter()

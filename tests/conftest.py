@@ -2,7 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
-# Copyright (C)      2022 Graz University of Technology.
+# Copyright (C) 2022-2023 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -24,7 +24,7 @@ from invenio_i18n import Babel, InvenioI18N
 from sqlalchemy_utils.functions import create_database, database_exists, drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
-from invenio_userprofiles.views import blueprint_ui_init
+from invenio_userprofiles.ext import finalize_app
 
 
 @pytest.fixture(scope="module")
@@ -99,7 +99,7 @@ def base_app(app_config):
 def _init_userprofiles_app(app_):
     """Init UserProfiles modules."""
     InvenioUserProfiles(app_)
-    app_.register_blueprint(blueprint_ui_init)
+    finalize_app(app_)
     return app_
 
 
