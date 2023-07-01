@@ -17,14 +17,47 @@ import pytest
 from flask import Flask
 from flask_mail import Mail
 from flask_menu import Menu
+from flask_webpackext.manifest import (
+    JinjaManifest,
+    JinjaManifestEntry,
+    JinjaManifestLoader,
+)
 from invenio_accounts import InvenioAccounts
-from invenio_accounts.views import blueprint as accounts_blueprint
+from invenio_accounts.views.settings import (
+    create_blueprint as create_accounts_blueprint,
+)
+from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_i18n import Babel, InvenioI18N
+from invenio_theme import InvenioTheme
 from sqlalchemy_utils.functions import create_database, database_exists, drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
 from invenio_userprofiles.ext import finalize_app
+from invenio_userprofiles.views import create_blueprint
+
+
+#
+# Mock the webpack manifest to avoid having to compile the full assets.
+#
+class MockJinjaManifest(JinjaManifest):
+    """Mock manifest."""
+
+    def __getitem__(self, key):
+        """Get a manifest entry."""
+        return JinjaManifestEntry(key, [key])
+
+    def __getattr__(self, name):
+        """Get a manifest entry."""
+        return JinjaManifestEntry(name, [name])
+
+
+class MockManifestLoader(JinjaManifestLoader):
+    """Manifest loader creating a mocked manifest."""
+
+    def load(self, filepath):
+        """Load the manifest."""
+        return MockJinjaManifest()
 
 
 @pytest.fixture(scope="module")
@@ -41,6 +74,9 @@ def app_config(app_config):
         TEST_USER_USERNAME="test",
         TESTING=True,
         WTF_CSRF_ENABLED=False,
+        ACCOUNTS_BASE_TEMPLATE="invenio_accounts/base.html",
+        ACCOUNTS_COVER_TEMPLATE="invenio_accounts/base_cover.html",
+        WEBPACKEXT_MANIFEST_LOADER=MockManifestLoader,
     )
 
     return app_config
@@ -59,7 +95,9 @@ def base_app(app_config):
     InvenioDB(base_app)
     InvenioAccounts(base_app)
     InvenioI18N(base_app)
-    base_app.register_blueprint(accounts_blueprint)
+    InvenioTheme(base_app)
+    InvenioAssets(base_app)
+    base_app.register_blueprint(create_accounts_blueprint(base_app))
 
     with base_app.app_context():
         if str(db.engine.url) != "sqlite://" and not database_exists(
@@ -99,6 +137,7 @@ def base_app(app_config):
 def _init_userprofiles_app(app_):
     """Init UserProfiles modules."""
     InvenioUserProfiles(app_)
+    app_.register_blueprint(create_blueprint(app_))
     finalize_app(app_)
     return app_
 
