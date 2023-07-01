@@ -12,7 +12,6 @@
 from . import config
 from .api import current_userprofile
 from .forms import confirm_register_form_factory, register_form_factory
-from .views import blueprint
 
 
 class InvenioUserProfiles(object):
@@ -73,7 +72,6 @@ class InvenioUserProfiles(object):
 def finalize_app(app):
     """Finalize app."""
     init_common(app)
-    app.register_blueprint(blueprint, url_prefix=app.config["USERPROFILES_PROFILE_URL"])
 
 
 def api_finalize_app(app):

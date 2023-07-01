@@ -3,6 +3,7 @@
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
 # Copyright (C) 2022 Northwestern University.
+# Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -21,42 +22,47 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
 from invenio_i18n import LazyString
 from invenio_i18n import lazy_gettext as _
-from invenio_theme.proxies import current_theme_icons
+from invenio_theme import menu
 
 from .forms import EmailProfileForm, PreferencesForm, ProfileForm, VerificationForm
 from .models import UserProfileProxy
 
-blueprint = Blueprint(
-    "invenio_userprofiles",
-    __name__,
-    template_folder="templates",
-)
+
+def create_blueprint(app):
+    """Create blueprint."""
+    blueprint = Blueprint(
+        "invenio_userprofiles",
+        __name__,
+        template_folder="templates",
+    )
+
+    @blueprint.app_template_filter()
+    def userprofile(value):
+        """Retrieve user profile for a given user id."""
+        warn("userprofile template filter is deprecated.", DeprecationWarning)
+        return UserProfileProxy.get_by_userid(int(value))
+
+    blueprint.add_url_rule("/", "profile", view_func=profile, methods=["GET", "POST"])
+
+    icons = app.extensions["invenio-theme"].icons
+
+    menu.submenu("settings.profile").register(
+        endpoint="invenio_userprofiles.profile",
+        text=_(
+            "%(icon)s Profile",
+            icon=LazyString(lambda: f'<i class="{icons.user}"></i>'),
+        ),
+        order=0,
+    )
+
+    return blueprint
 
 
-@blueprint.app_template_filter()
-def userprofile(value):
-    """Retrieve user profile for a given user id."""
-    warn("userprofile template filter is deprecated.", DeprecationWarning)
-    return UserProfileProxy.get_by_userid(int(value))
-
-
-@blueprint.route("/", methods=["GET", "POST"])
 @login_required
-@register_menu(
-    blueprint,
-    "settings.profile",
-    # NOTE: Menu item text (icon replaced by a user icon).
-    _(
-        "%(icon)s Profile",
-        icon=LazyString(lambda: f'<i class="{current_theme_icons.user}"></i>'),
-    ),
-    order=0,
-)
 def profile():
     """View for editing a profile."""
     # Create forms
