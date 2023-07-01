@@ -16,7 +16,7 @@ from invenio_accounts.models import User
 from test_validators import test_usernames
 
 from invenio_userprofiles import InvenioUserProfiles
-from invenio_userprofiles.views import blueprint_ui_init
+from invenio_userprofiles.ext import finalize_app
 
 
 def prefix(name, data):
@@ -30,7 +30,7 @@ def test_profile_in_registration(base_app):
     """Test accounts registration form."""
     base_app.config.update(USERPROFILES_EXTEND_SECURITY_FORMS=True)
     InvenioUserProfiles(base_app)
-    base_app.register_blueprint(blueprint_ui_init)
+    finalize_app(base_app)
     app = base_app
 
     with app.test_request_context():

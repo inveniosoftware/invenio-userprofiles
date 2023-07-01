@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -10,6 +11,8 @@
 
 from . import config
 from .api import current_userprofile
+from .forms import confirm_register_form_factory, register_form_factory
+from .views import blueprint
 
 
 class InvenioUserProfiles(object):
@@ -61,6 +64,28 @@ class InvenioUserProfiles(object):
                     "invenio_accounts/register_user.html",
                 ),
             )
+
             app.config["SECURITY_REGISTER_USER_TEMPLATE"] = (
                 "invenio_userprofiles/register_user.html"
             )
+
+
+def finalize_app(app):
+    """Finalize app."""
+    init_common(app)
+    app.register_blueprint(blueprint, url_prefix=app.config["USERPROFILES_PROFILE_URL"])
+
+
+def api_finalize_app(app):
+    """API Finalize app."""
+    init_common(app)
+
+
+def init_common(app):
+    """Post initialization."""
+    if app.config["USERPROFILES_EXTEND_SECURITY_FORMS"]:
+        security_ext = app.extensions["security"]
+        security_ext.confirm_register_form = confirm_register_form_factory(
+            security_ext.confirm_register_form
+        )
+        security_ext.register_form = register_form_factory(security_ext.register_form)
