@@ -20,7 +20,6 @@ from flask import (
     request,
     url_for,
 )
-from flask_breadcrumbs import register_breadcrumb
 from flask_login import current_user, login_required
 from flask_menu import register_menu
 from flask_security.confirmable import send_confirmation_instructions
@@ -58,7 +57,6 @@ def userprofile(value):
     ),
     order=0,
 )
-@register_breadcrumb(blueprint, "breadcrumbs.settings.profile", _("Profile"))
 def profile():
     """View for editing a profile."""
     # Create forms
