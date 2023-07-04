@@ -4,6 +4,9 @@
 # invenio-userprofiles project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # 
+# Translators:
+# Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -11,7 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 09:55+0200\n"
 "PO-Revision-Date: 2016-08-18 14:14+0000\n"
-"Language-Team: Ukrainian (https://www.transifex.com/inveniosoftware/teams/23537/uk/)\n"
+"Last-Translator: Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023\n"
+"Language-Team: Ukrainian (https://app.transifex.com/inveniosoftware/teams/23537/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,108 +26,116 @@ msgstr ""
 #. NOTE: Form field label
 #: invenio_userprofiles/forms.py:51
 msgid "Username"
-msgstr ""
+msgstr "Назва облікового запису"
 
 #. NOTE: Form field help text
 #: invenio_userprofiles/forms.py:53
 #, python-format
 msgid "Required. %(username_rules)s"
-msgstr ""
+msgstr "Обов'язкове. %(username_rules)s"
 
 #: invenio_userprofiles/forms.py:54
 msgid "Username not provided."
-msgstr ""
+msgstr "Не вкзано назву облікового запису"
 
 #. NOTE: Form label
 #: invenio_userprofiles/forms.py:60
 msgid "Full name"
-msgstr ""
+msgstr "Повне ім'я"
 
 #. NOTE: Form label
 #: invenio_userprofiles/forms.py:67
 msgid "Affiliations"
-msgstr ""
+msgstr "Приналежності"
 
 #. NOTE: Form validation error.
 #: invenio_userprofiles/forms.py:86
 msgid "Username is not available."
-msgstr ""
+msgstr "Ця назва облікового запису недоступна."
 
 #. NOTE: Form field label
 #: invenio_userprofiles/forms.py:119
 msgid "Email address"
-msgstr ""
+msgstr "Електронна пошта"
 
 #. NOTE: Form field label
 #: invenio_userprofiles/forms.py:133
 msgid "Re-enter email address"
-msgstr ""
+msgstr "Електронна пошта - ще раз."
 
 #. NOTE: Form field help text
 #: invenio_userprofiles/forms.py:135
 msgid "Please re-enter your email address."
-msgstr ""
+msgstr "Будь ласка, вкажіть ще раз адресу вашої електронної пошти."
 
 #. NOTE: Form validation error.
 #: invenio_userprofiles/forms.py:142
 msgid "Email addresses do not match."
-msgstr ""
+msgstr "Адреси електронної пошти не співпадають."
 
 #. NOTE: Form button label
 #: invenio_userprofiles/forms.py:151
 msgid "Resend verification email"
-msgstr ""
+msgstr "Повторно надіслати лист для підтвердження."
 
 #: invenio_userprofiles/forms.py:190
 msgid "Profile visibility"
-msgstr ""
+msgstr "Видимість профілю"
 
 #: invenio_userprofiles/forms.py:192 invenio_userprofiles/forms.py:205
 msgid "Public"
-msgstr ""
+msgstr "Публічний"
 
 #: invenio_userprofiles/forms.py:193 invenio_userprofiles/forms.py:206
 msgid "Hidden"
-msgstr ""
+msgstr "Прихований"
 
 #: invenio_userprofiles/forms.py:195
 msgid ""
 "Public profiles can be found by other users via searches on username, full "
 "name and affiliation. Hidden profiles cannot be found by other users."
 msgstr ""
+"Публічні профілі можуть бути знайдені іншими користувачами пошуком за назвою"
+" олікового запису, повним ім'ям, чи приналежністю. Приховані профілі не бузе"
+" знайдено іншими користувачами."
 
 #: invenio_userprofiles/forms.py:203
 msgid "Email visibility"
-msgstr ""
+msgstr "Видимість електронної адреси"
 
 #: invenio_userprofiles/forms.py:208
 msgid ""
 "Public email visibility enables your profile to be found by your email "
 "address."
 msgstr ""
+"Публічна видимість електронної адреси дозоляє знайти ваш профіль за адресою "
+"електронної пошти."
 
 #: invenio_userprofiles/validators.py:18
 msgid ""
 "Username must start with a letter, be at least three characters long and "
 "only contain alphanumeric characters, dashes and underscores."
 msgstr ""
+"Назва облікового запису повинна починатись з літери, містити не менше трьох "
+"символів, та містити лише літери латинського алфавіту, цифри, знаки дефісу "
+"та підкреслення."
 
 #. NOTE: Menu item text (icon replaced by a user icon).
 #: invenio_userprofiles/views.py:101
 #, python-format
 msgid "%(icon)s Profile"
-msgstr ""
+msgstr "%(icon)s Профіль"
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:13
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:13
 #: invenio_userprofiles/views.py:105
 msgid "Profile"
-msgstr ""
+msgstr "Профіль"
 
 #. NOTE: Flash message.
 #: invenio_userprofiles/views.py:165
 msgid "Verification email sent."
-msgstr ""
+msgstr "Листа для підтвердження надіслано."
 
 #. NOTE: Flash message after successful update of profile.
 #: invenio_userprofiles/views.py:187
@@ -132,37 +144,39 @@ msgid ""
 "Profile was updated. We have sent a verification email to %(email)s. Please "
 "check it."
 msgstr ""
+"Профіль оновлено. Ми надіслали листа для підтвердження до %(email)s. Будь "
+"ласка, перегляньте його."
 
 #. NOTE: Flash message after successful update of profile.
 #: invenio_userprofiles/views.py:196
 msgid "Profile was updated."
-msgstr ""
+msgstr "Профіль оновлено."
 
 #. NOTE: Flash message after successful update of profile.
 #: invenio_userprofiles/views.py:205
 msgid "Preferences were updated."
-msgstr ""
+msgstr "Налаштування оновлено."
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:21
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:40
 msgid "You have not yet verified your email address."
-msgstr ""
+msgstr "Ви ще не підтвердили адреси вашої електронної пошти."
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:38
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:57
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:84
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:39
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:58
 msgid "Update profile"
-msgstr ""
+msgstr "Оновити профіль"
 
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:71
 msgid "Preferences"
-msgstr ""
+msgstr "Налаштування"
 
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:85
 msgid "Update preferences"
-msgstr ""
+msgstr "Оновити налаштування"
