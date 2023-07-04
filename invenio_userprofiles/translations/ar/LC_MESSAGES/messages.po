@@ -6,8 +6,8 @@
 # 
 # Translators:
 # Tibor Simko <tibor.simko@cern.ch>, 2016
-# Salaheddine Ben Ali <salaheddine.benali@cnudst.tn>, 2022
 # Bessem Aamira <bessemamira@gmail.com>, 2022
+# Salaheddine Ben Ali <salaheddine.benali@cnudst.tn>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -16,8 +16,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 09:55+0200\n"
 "PO-Revision-Date: 2016-08-18 14:14+0000\n"
-"Last-Translator: Bessem Aamira <bessemamira@gmail.com>, 2022\n"
-"Language-Team: Arabic (https://www.transifex.com/inveniosoftware/teams/23537/ar/)\n"
+"Last-Translator: Salaheddine Ben Ali <salaheddine.benali@cnudst.tn>, 2023\n"
+"Language-Team: Arabic (https://app.transifex.com/inveniosoftware/teams/23537/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -82,11 +82,11 @@ msgstr "أعد إرسال بريد التثبّت"
 
 #: invenio_userprofiles/forms.py:190
 msgid "Profile visibility"
-msgstr "رؤية الملف الشخصي"
+msgstr "مرئيّة الملف الشخصي"
 
 #: invenio_userprofiles/forms.py:192 invenio_userprofiles/forms.py:205
 msgid "Public"
-msgstr "عام"
+msgstr "مشاع"
 
 #: invenio_userprofiles/forms.py:193 invenio_userprofiles/forms.py:206
 msgid "Hidden"
@@ -98,20 +98,20 @@ msgid ""
 "name and affiliation. Hidden profiles cannot be found by other users."
 msgstr ""
 "الملفات الشخصية العامة يمكن البحث عنها من قبل المستخدمين الآخرين عن طريق اسم"
-" المستخدم و الاسم الكامل و الانتماءات. الملفات الخصية الخفية لا يمكن إيجادها"
-" من قبل بقية المستخدمين."
+" المستخدم و الاسم الكامل و الانتماءات. الملفات الشّخصية الخفية لا يمكن "
+"إيجادها من قبل بقية المستخدمين."
 
 #: invenio_userprofiles/forms.py:203
 msgid "Email visibility"
-msgstr "رؤية عنوان البريد الالكتروني"
+msgstr "مرئيّة عنوان البريد الالكتروني"
 
 #: invenio_userprofiles/forms.py:208
 msgid ""
 "Public email visibility enables your profile to be found by your email "
 "address."
 msgstr ""
-"تتيح رؤية عنوان البريد الإلكتروني المضمن بالملف الشخصي للعامة إمكانية البحث "
-"و ايجاد ملف الحساب الشخصي عبر بريده الإلكتروني. "
+"تتيح مرئية عنوان البريد الإلكتروني للعامة إمكانية إيجاد ملف حسابك الشخصي عبر"
+" بريدك الإلكتروني. "
 
 #: invenio_userprofiles/validators.py:18
 msgid ""
@@ -180,4 +180,4 @@ msgstr "الإعدادات"
 
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:85
 msgid "Update preferences"
-msgstr "تحيين الأعدادات"
+msgstr "تحيين الإعدادات"
