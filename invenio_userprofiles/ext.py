@@ -70,12 +70,18 @@ class InvenioUserProfiles(object):
 
 
 def finalize_app(app):
-    """Finalize app."""
+    """Finalize app.
+
+    NOTE: replace former @record_once decorator
+    """
     init_common(app)
 
 
 def api_finalize_app(app):
-    """API Finalize app."""
+    """Finalize app for api.
+
+    NOTE: replace former @record_once decorator
+    """
     init_common(app)
 
 
