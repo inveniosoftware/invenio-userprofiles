@@ -14,30 +14,33 @@
 {% set panel_icon = "fa fa-user" %}
 
 {%- block settings_form %}
-{%- if security.confirmable and not current_user.confirmed_at %}
-<form method="POST" role="form">
-{{ verification_form.csrf_token }}
-<div class="alert alert-warning">
-  {{ _("You have not yet verified your email address.") }} {{ verification_form.send_verification_email(class_="btn btn-default btn-xs") }}
-</div>
-<input type="hidden" name="submit" value="verification" />
-</form>
-{%- endif %}
-{%- set form = profile_form %}
-{%- set read_only = config.USERPROFILES_READ_ONLY %}
-<form method="POST" name="profile_form">
-{%- for field in form %}
-{%- if field.widget.input_type == 'hidden' %}
-{{ field() }}
-{%- elif not read_only or "repeat" not in field.id %}
-{{ render_field(field, autofocus=True, enabled=not read_only, placeholder=field.label.text) }}
-{%- endif %}
-{%- endfor %}
-{%- if not read_only %}
-<div class="form-actions">
-  <a href="." class="btn btn-default"><i class="fa fa-times"></i> {{ _('Cancel') }}</a>
-  <button type="submit" name="submit" value="profile" class="btn btn-primary"><i class="fa fa-check"></i> {{ _('Update profile') }}</button>
-</div>
-{%- endif %}
-</form>
+  {%- if security.confirmable and not current_user.confirmed_at %}
+    <form method="POST" role="form">
+      {{ verification_form.csrf_token }}
+      <div class="alert alert-warning">
+        {{ _("You have not yet verified your email address.") }} {{ verification_form.send_verification_email(class_="btn btn-default btn-xs") }}
+      </div>
+      <input type="hidden" name="submit" value="verification" />
+    </form>
+  {%- endif %}
+
+  {%- set form = profile_form %}
+  {%- set read_only = config.USERPROFILES_READ_ONLY %}
+
+  <form method="POST" name="profile_form">
+  {%- for field in form %}
+    {%- if field.widget.input_type == 'hidden' %}
+      {{ field() }}
+    {%- elif not read_only or "repeat" not in field.id %}
+      {{ render_field(field, autofocus=True, enabled=not read_only, placeholder=field.label.text) }}
+    {%- endif %}
+  {%- endfor %}
+
+  {%- if not read_only %}
+    <div class="form-actions">
+      <a href="." class="btn btn-default"><i class="fa fa-times"></i> {{ _('Cancel') }}</a>
+      <button type="submit" name="submit" value="profile" class="btn btn-primary"><i class="fa fa-check"></i> {{ _('Update profile') }}</button>
+    </div>
+  {%- endif %}
+  </form>
 {%- endblock settings_form %}
