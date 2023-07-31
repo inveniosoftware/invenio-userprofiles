@@ -8,6 +8,12 @@
 Changes
 =======
 
+Version 2.3.0 (released 2023-07-31)
+
+- settings profile: Update buttons with labeled styling and a11y fixes
+- alembic: fix recipe based on latest sqlalchemy-continuum
+- pull translations
+
 Version 2.2.1 (released 2023-05-26)
 
 - fix styling for locale preferences field
