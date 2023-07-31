@@ -12,6 +12,7 @@ import json
 
 import sqlalchemy as sa
 from alembic import op
+from sqlalchemy.sql import text
 
 # revision identifiers, used by Alembic.
 revision = "41157f1933d6"
@@ -25,8 +26,10 @@ def upgrade():
     # Migrate username and full_name to invenio_accounts table.
     connection = op.get_bind()
     results = connection.execute(
-        "SELECT user_id, username, displayname, full_name "
-        "FROM userprofiles_userprofile;"
+        text(
+            "SELECT user_id, username, displayname, full_name "
+            "FROM userprofiles_userprofile;"
+        )
     ).all()
 
     for r in results:
