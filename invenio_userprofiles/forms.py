@@ -47,7 +47,7 @@ def strip_filter(text):
 
 def current_user_email(form, field):
     """Field validator to stop validation if email wasn't changed."""
-    if current_user.email == field.data:
+    if current_user.email.lower() == field.data.lower():
         raise StopValidation()
 
 
