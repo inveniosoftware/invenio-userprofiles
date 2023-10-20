@@ -172,7 +172,7 @@ def handle_profile_form(form):
     with db.session.begin_nested():
         if (
             current_app.config["USERPROFILES_EMAIL_ENABLED"]
-            and form.email.data != current_user.email
+            and form.email.data.lower() != current_user.email.lower()
         ):
             email_changed = True
         form.populate_obj(current_user)
@@ -187,7 +187,7 @@ def handle_profile_form(form):
             _(
                 "Profile was updated. We have sent a verification "
                 "email to {email}. Please check it."
-            ).format(email=current_user.email),
+            ).format(email=current_user.email.lower()),
             category="success",
         )
     else:
