@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.5 (released 2023-12-21)
+
+- remove deprecated flask babelex dependency
+
 Version 1.2.4 (released 2021-10-18)
 
 - Unpin Flask 2
