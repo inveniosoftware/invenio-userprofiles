@@ -61,6 +61,6 @@ class InvenioUserProfiles(object):
                     "invenio_accounts/register_user.html",
                 ),
             )
-            app.config[
-                "SECURITY_REGISTER_USER_TEMPLATE"
-            ] = "invenio_userprofiles/register_user.html"
+            app.config["SECURITY_REGISTER_USER_TEMPLATE"] = (
+                "invenio_userprofiles/register_user.html"
+            )
