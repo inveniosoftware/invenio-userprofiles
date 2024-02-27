@@ -31,29 +31,7 @@ jobs:
       matrix:
           python-version: [3.8, 3.9]
           requirements-level: [pypi]
-          db-service: [postgresql12, postgresql14, mysql5, mysql8]
-
-          exclude:
-          - python-version: 3.8
-            requirements-level: pypi
-            db-service: mysql5
-
-          - python-version: 3.9
-            requirements-level: pypi
-            db-service: mysql5
-
-          include:
-          - db-service: postgresql13
-            DB: postgresql13
-
-          - db-service: postgresql14
-            DB: postgresql14
-
-          - db-service: mysql5
-            DB: mysql5
-
-          - db-service: mysql8
-            DB: mysql8
+          db-service: [postgresql12, postgresql13, postgresql14, mysql5, mysql8]
 
     env:
       DB: ${{ matrix.DB }}
