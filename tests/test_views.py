@@ -180,12 +180,12 @@ def test_profile_name_exists(app):
             profile_url,
             data=prefix(
                 "profile",
-                dict(username="existingname", full_name="Valid Name", affiliations=""),
+                dict(username="ExistingName", full_name="Valid Name", affiliations=""),
             ),
         )
         assert error_msg not in resp.get_data(as_text=True)
 
-    # Create another user and try setting username to same as above user.
+    # Create another user and try setting username to same as above user with a different case.
     with app.test_client() as client:
         sign_up(app, client)
         login(app, client)
@@ -197,7 +197,7 @@ def test_profile_name_exists(app):
             data=prefix(
                 "profile",
                 dict(
-                    username="existingname", full_name="Another name", affiliations=""
+                    username="eXISTINGnAME", full_name="Another name", affiliations=""
                 ),
             ),
             follow_redirects=True,
