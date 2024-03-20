@@ -3,7 +3,7 @@
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
 # Copyright (C) 2022 Northwestern University.
-# Copyright (C) 2023 Graz University of Technology.
+# Copyright (C) 2023-2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -24,9 +24,7 @@ from flask import (
 from flask_login import current_user, login_required
 from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
-from invenio_i18n import LazyString
 from invenio_i18n import lazy_gettext as _
-from invenio_theme import menu
 
 from .forms import EmailProfileForm, PreferencesForm, ProfileForm, VerificationForm
 from .models import UserProfileProxy
@@ -38,6 +36,7 @@ def create_blueprint(app):
         "invenio_userprofiles",
         __name__,
         template_folder="templates",
+        url_prefix="/account/settings",
     )
 
     @blueprint.app_template_filter()
@@ -47,17 +46,6 @@ def create_blueprint(app):
         return UserProfileProxy.get_by_userid(int(value))
 
     blueprint.add_url_rule("/", "profile", view_func=profile, methods=["GET", "POST"])
-
-    icons = app.extensions["invenio-theme"].icons
-
-    menu.submenu("settings.profile").register(
-        endpoint="invenio_userprofiles.profile",
-        text=_(
-            "%(icon)s Profile",
-            icon=LazyString(lambda: f'<i class="{icons.user}"></i>'),
-        ),
-        order=0,
-    )
 
     return blueprint
 
