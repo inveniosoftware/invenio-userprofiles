@@ -45,7 +45,7 @@ def create_blueprint(app):
         warn("userprofile template filter is deprecated.", DeprecationWarning)
         return UserProfileProxy.get_by_userid(int(value))
 
-    blueprint.add_url_rule("/", "profile", view_func=profile, methods=["GET", "POST"])
+    blueprint.add_url_rule("/profile", view_func=profile, methods=["GET", "POST"])
 
     return blueprint
 
