@@ -9,6 +9,11 @@
 
 """User profiles module for Invenio."""
 
+from flask_menu import current_menu
+from invenio_i18n import LazyString
+from invenio_i18n import lazy_gettext as _
+from invenio_theme.proxies import current_theme_icons
+
 from . import config
 from .api import current_userprofile
 from .forms import confirm_register_form_factory, register_form_factory
@@ -75,6 +80,7 @@ def finalize_app(app):
     NOTE: replace former @record_once decorator
     """
     init_common(app)
+    init_menu(app)
 
 
 def api_finalize_app(app):
@@ -93,3 +99,15 @@ def init_common(app):
             security_ext.confirm_register_form
         )
         security_ext.register_form = register_form_factory(security_ext.register_form)
+
+
+def init_menu(app):
+    """Init menu."""
+    current_menu.submenu("settings.profile").register(
+        endpoint="invenio_userprofiles.profile",
+        text=_(
+            "%(icon)s Profile",
+            icon=LazyString(lambda: f'<i class="{current_theme_icons.user}"></i>'),
+        ),
+        order=0,
+    )
