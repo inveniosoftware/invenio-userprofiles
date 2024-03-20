@@ -2,7 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
-# Copyright (C) 2022-2023 Graz University of Technology.
+# Copyright (C) 2022-2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -24,7 +24,7 @@ from flask_webpackext.manifest import (
 )
 from invenio_accounts import InvenioAccounts
 from invenio_accounts.views.settings import (
-    create_blueprint as create_accounts_blueprint,
+    create_settings_blueprint as create_accounts_blueprint,
 )
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
