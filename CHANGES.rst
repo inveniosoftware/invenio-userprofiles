@@ -11,8 +11,8 @@ Changes
 Version 3.0.0 (released 2024-03-22)
 
 - breaking change: remove breadcrumbs usage
-- global: migrate to (api_) finalize_app
-  (remove deprecation for `before_first_request)
+- global: migrate to (api) finalize_app
+  (remove deprecation for `before_first_request`)
 
 Version 2.3.1 (released 2023-10-20)
 
