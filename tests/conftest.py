@@ -29,7 +29,6 @@ from invenio_accounts.views.settings import (
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_i18n import Babel, InvenioI18N
-from invenio_theme import InvenioTheme
 from sqlalchemy_utils.functions import create_database, database_exists, drop_database
 
 from invenio_userprofiles import InvenioUserProfiles
@@ -95,7 +94,6 @@ def base_app(app_config):
     InvenioDB(base_app)
     InvenioAccounts(base_app)
     InvenioI18N(base_app)
-    InvenioTheme(base_app)
     InvenioAssets(base_app)
     base_app.register_blueprint(create_accounts_blueprint(base_app))
 
@@ -138,7 +136,8 @@ def _init_userprofiles_app(app_):
     """Init UserProfiles modules."""
     InvenioUserProfiles(app_)
     app_.register_blueprint(create_blueprint(app_))
-    finalize_app(app_)
+    with app_.app_context():
+        finalize_app(app_)
     return app_
 
 

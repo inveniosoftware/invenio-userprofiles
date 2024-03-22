@@ -3,6 +3,7 @@
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
 # Copyright (C) 2022 Northwestern University.
+# Copyright (C) 2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -32,7 +33,8 @@ def test_profile_in_registration(base_app):
     base_app.config.update(USERPROFILES_EXTEND_SECURITY_FORMS=True)
     InvenioUserProfiles(base_app)
     base_app.register_blueprint(create_blueprint(base_app))
-    finalize_app(base_app)
+    with base_app.app_context():
+        finalize_app(base_app)
     app = base_app
 
     with app.test_request_context():
