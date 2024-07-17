@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.6 (released 2024-07-17)
+
+- remove flask-breadcrumbs dependency as it breaks menus due to removed flask-babelex
+
 Version 1.2.5 (released 2023-12-21)
 
 - remove deprecated flask babelex dependency
