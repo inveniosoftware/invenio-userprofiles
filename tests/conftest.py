@@ -98,10 +98,12 @@ def base_app(app_config):
     base_app.register_blueprint(create_accounts_blueprint(base_app))
 
     with base_app.app_context():
-        if str(db.engine.url) != "sqlite://" and not database_exists(
-            str(db.engine.url)
+        if str(
+            db.engine.url.render_as_string(hide_password=False)
+        ) != "sqlite://" and not database_exists(
+            str(db.engine.url.render_as_string(hide_password=False))
         ):
-            create_database(str(db.engine.url))
+            create_database(str(db.engine.url.render_as_string(hide_password=False)))
         db.create_all()
 
     # Taken from: https://github.com/inveniosoftware/invenio-accounts/blob/3ecc1a70da3636618fe14ff2ebf754eed9ec75a1/tests/conftest.py#L94-L112
@@ -128,7 +130,7 @@ def base_app(app_config):
     yield base_app
 
     with base_app.app_context():
-        drop_database(str(db.engine.url))
+        drop_database(str(db.engine.url.render_as_string(hide_password=False)))
     shutil.rmtree(instance_path)
 
 
