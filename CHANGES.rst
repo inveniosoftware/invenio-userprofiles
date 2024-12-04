@@ -9,6 +9,11 @@
 Changes
 =======
 
+Version 4.0.0 (released 2024-12-04)
+
+- tests: apply changes for sqlalchemy>=2.0
+- setup: bump major dependencies
+
 Version 3.0.1 (release 2024-11-30)
 
 - setup: change to reusable workflows
