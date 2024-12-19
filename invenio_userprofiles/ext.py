@@ -8,7 +8,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """User profiles module for Invenio."""
-
+from flask import current_app
 from flask_menu import current_menu
 from invenio_i18n import LazyString
 from invenio_i18n import lazy_gettext as _
@@ -95,10 +95,13 @@ def init_common(app):
     """Post initialization."""
     if app.config["USERPROFILES_EXTEND_SECURITY_FORMS"]:
         security_ext = app.extensions["security"]
+        UserProfileForm = app.config.get("USERPROFILES_FORM_CLASS")
         security_ext.confirm_register_form = confirm_register_form_factory(
-            security_ext.confirm_register_form
+            security_ext.confirm_register_form, UserProfileForm
         )
-        security_ext.register_form = register_form_factory(security_ext.register_form)
+        security_ext.register_form = register_form_factory(
+            security_ext.register_form, UserProfileForm
+        )
 
 
 def init_menu(app):
