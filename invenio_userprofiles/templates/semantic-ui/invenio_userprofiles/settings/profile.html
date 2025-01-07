@@ -58,11 +58,10 @@
 
             {%- if not read_only %}
               <div class="form-actions">
-                <a role="button" href="." class="ui labeled icon button">
+                <a role="button" href="{{ url_for('invenio_userprofiles.profile') }}" class="ui labeled icon button">
                   <i class="close icon" aria-hidden></i>
                   {{ _('Cancel') }}
                 </a>
-
                 <button type="submit" name="submit" value="profile" class="ui primary labeled icon button">
                   <i class="check icon" aria-hidden="true"></i>
                   {{ _('Update profile') }}
@@ -98,7 +97,7 @@
         {%- endfor %}
 
         <div class="form-actions">
-          <a role="button" href="." class="ui labeled icon button">
+          <a role="button" href="{{ url_for('invenio_userprofiles.profile') }}" class="ui labeled icon button">
             <i class="close icon" aria-hidden="true"></i>
             {{ _('Cancel') }}
           </a>
