@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version 3.0.2 (release 2025-01-08)
+
+- fix cancel button in user profile template
+
 Version 3.0.1 (release 2024-11-30)
 
 - setup: change to reusable workflows
