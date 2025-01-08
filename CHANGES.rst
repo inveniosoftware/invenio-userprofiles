@@ -1,6 +1,6 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2015-2023 CERN.
+    Copyright (C) 2015-2025 CERN.
     Copyright (C) 2024 Graz University of Technology.
 
     Invenio is free software; you can redistribute it and/or modify it
@@ -8,6 +8,10 @@
 
 Changes
 =======
+
+Version <next> (unreleased)
+
+- fix cancel button in user profile template
 
 Version 4.0.0 (released 2024-12-04)
 
