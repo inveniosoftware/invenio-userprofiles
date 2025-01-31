@@ -123,37 +123,42 @@ class ProfileForm(FlaskForm):
         super().populate_obj(user)
 
 
-class EmailProfileForm(ProfileForm):
-    """Form to allow editing of email address."""
+def create_email_profile_form(UserProfileForm):
+    """Factory function to create EmailProfileForm inheriting from UserProfileForm."""
 
-    email = StringField(
-        # NOTE: Form field label
-        _("Email address"),
-        filters=[
-            lambda x: x.lower() if x is not None else x,
-        ],
-        validators=[
-            email_required,
-            current_user_email,
-            email_validator,
-            unique_user_email,
-        ],
-    )
+    class EmailProfileForm(UserProfileForm):
+        """Form to allow editing of email address."""
 
-    email_repeat = StringField(
-        # NOTE: Form field label
-        _("Re-enter email address"),
-        # NOTE: Form field help text
-        description=_("Please re-enter your email address."),
-        filters=[
-            lambda x: x.lower() if x else x,
-        ],
-        validators=[
-            email_required,
-            # NOTE: Form validation error.
-            EqualTo("email", message=_("Email addresses do not match.")),
-        ],
-    )
+        email = StringField(
+            # NOTE: Form field label
+            _("Email address"),
+            filters=[
+                lambda x: x.lower() if x is not None else x,
+            ],
+            validators=[
+                email_required,
+                current_user_email,
+                email_validator,
+                unique_user_email,
+            ],
+        )
+
+        email_repeat = StringField(
+            # NOTE: Form field label
+            _("Re-enter email address"),
+            # NOTE: Form field help text
+            description=_("Please re-enter your email address."),
+            filters=[
+                lambda x: x.lower() if x else x,
+            ],
+            validators=[
+                email_required,
+                # NOTE: Form validation error.
+                EqualTo("email", message=_("Email addresses do not match.")),
+            ],
+        )
+
+    return EmailProfileForm
 
 
 class VerificationForm(FlaskForm):
@@ -163,10 +168,10 @@ class VerificationForm(FlaskForm):
     send_verification_email = SubmitField(_("Resend verification email"))
 
 
-def register_form_factory(Form):
+def register_form_factory(Form, UserProfileForm):
     """Factory for creating an extended user registration form."""
 
-    class CsrfDisabledProfileForm(ProfileForm):
+    class CsrfDisabledProfileForm(UserProfileForm):
         """Subclass of ProfileForm to disable CSRF token in the inner form.
 
         This class will always be a inner form field of the parent class
@@ -252,10 +257,10 @@ class PreferencesForm(FlaskForm):
         super().populate_obj(user)
 
 
-def confirm_register_form_factory(Form):
+def confirm_register_form_factory(Form, UserProfileForm):
     """Factory for creating a confirm register form with UserProfile fields."""
 
-    class CsrfDisabledProfileForm(ProfileForm):
+    class CsrfDisabledProfileForm(UserProfileForm):
         """Subclass of ProfileForm to disable CSRF token in the inner form.
 
         This class will always be an inner form field of the parent class
