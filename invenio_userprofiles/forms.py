@@ -60,9 +60,7 @@ class ProfileForm(FlaskForm):
         # NOTE: Form field label
         _("Username"),
         # NOTE: Form field help text
-        description=_("Required. {username_rules}").format(
-            username_rules=USERNAME_RULES
-        ),
+        description=_("Required. %(username_rules)s", username_rules=USERNAME_RULES),
         validators=[Length(max=50), DataRequired(message=_("Username not provided."))],
         filters=[strip_filter],
     )
