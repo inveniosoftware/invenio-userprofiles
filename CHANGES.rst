@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 3.1.0 (release 2025-04-30)
+
+- i18n:pulled translations
+- i18n:push translations
+
 Version 3.0.3 (release 2025-03-20)
 
 - i18n: mark missing strings for translations
