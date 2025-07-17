@@ -1,7 +1,7 @@
 ..
     This file is part of Invenio.
     Copyright (C) 2015-2025 CERN.
-    Copyright (C) 2024 Graz University of Technology.
+    Copyright (C) 2024-2025 Graz University of Technology.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
@@ -9,9 +9,14 @@
 Changes
 =======
 
-Version <next> (unreleased)
+Version v4.1.0 (released 2025-07-17)
 
-- fix cancel button in user profile template
+- i18n: pulled translations
+- i18n: push translations
+- fix: setuptools require underscores instead of dashes
+- i18n: Removed obsolete languages
+- i18n: unified gettext formatting
+- fix: 404 issue when pressing cancel
 
 Version 4.0.0 (released 2024-12-04)
 
