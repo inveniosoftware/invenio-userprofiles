@@ -26,7 +26,7 @@ from flask_security.confirmable import send_confirmation_instructions
 from invenio_db import db
 from invenio_i18n import lazy_gettext as _
 
-from .forms import EmailProfileForm, PreferencesForm, ProfileForm, VerificationForm
+from .forms import PreferencesForm, VerificationForm, create_email_profile_form
 from .models import UserProfileProxy
 
 
@@ -92,6 +92,8 @@ def profile():
 
 def profile_form_factory():
     """Create a profile form."""
+    UserProfileForm = current_app.config.get("USERPROFILES_FORM_CLASS")
+    EmailProfileForm = create_email_profile_form(UserProfileForm)
     if current_app.config["USERPROFILES_EMAIL_ENABLED"]:
         return EmailProfileForm(
             formdata=None,
@@ -99,7 +101,7 @@ def profile_form_factory():
             prefix="profile",
         )
     else:
-        return ProfileForm(
+        return UserProfileForm(
             formdata=None,
             obj=current_user,
             prefix="profile",
