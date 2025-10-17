@@ -8,6 +8,8 @@
 
 """Default configuration."""
 
+from .forms import ProfileForm
+
 USERPROFILES = True
 """Enable or disable module extensions."""
 
@@ -31,3 +33,6 @@ USERPROFILES_SETTINGS_TEMPLATE = None
 
 USERPROFILES_READ_ONLY = False
 """Make the user profiles read-only."""
+
+USERPROFILES_FORM_CLASS = ProfileForm
+"""Default user profiles form class."""
