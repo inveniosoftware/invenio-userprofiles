@@ -9,6 +9,7 @@
 """Tests for user profile forms."""
 
 from invenio_userprofiles.forms import (
+    ProfileForm,
     _update_with_csrf_disabled,
     confirm_register_form_factory,
     confirm_register_form_preferences_factory,
@@ -56,8 +57,8 @@ def test_confirm_register_form_preferences_factory_no_csrf(app):
     """Test CSRF token is not in confirm form and not in inner forms."""
     security = app.extensions["security"]
 
-    def factory_profile_preferences(Form):
-        ProfileForm = confirm_register_form_factory(Form)
+    def factory_profile_preferences(Form, UserProfileForm):
+        ProfileForm = confirm_register_form_factory(Form, UserProfileForm)
         return confirm_register_form_preferences_factory(ProfileForm)
 
     rf = _get_form(app, security.confirm_register_form, factory_profile_preferences)
@@ -116,7 +117,7 @@ def _get_form(app, parent_form, factory_method, force_disable_csrf=False):
     with app.test_request_context():
         extra = _update_with_csrf_disabled() if force_disable_csrf else {}
 
-        RF = factory_method(AForm)
+        RF = factory_method(AForm, app.config["USERPROFILES_FORM_CLASS"])
         rf = RF(**extra)
 
         rf.profile.username.data = "my username"
