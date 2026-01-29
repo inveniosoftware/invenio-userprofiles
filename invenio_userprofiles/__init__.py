@@ -2,7 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
-# Copyright (C) 2024-2025 Graz University of Technology.
+# Copyright (C) 2024-2026 Graz University of Technology.
 # Copyright (C) 2025 KTH Royal Institute of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
@@ -32,7 +32,7 @@ from .api import current_userprofile
 from .ext import InvenioUserProfiles
 from .models import UserProfile, UserProfileProxy
 
-__version__ = "4.1.1"
+__version__ = "5.0.0"
 
 __all__ = (
     "__version__",
