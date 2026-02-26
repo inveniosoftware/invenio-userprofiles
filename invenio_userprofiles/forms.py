@@ -8,13 +8,12 @@
 
 """Forms for user profiles."""
 
-import pytz
 from flask import current_app
 from flask_login import current_user
 from flask_security.forms import email_required, email_validator, unique_user_email
 from flask_wtf import FlaskForm
+from invenio_accounts.utils import validate_username
 from invenio_i18n import lazy_gettext as _
-from invenio_i18n.ext import InvenioI18N
 from werkzeug.local import LocalProxy
 from wtforms import (
     FormField,
@@ -22,7 +21,6 @@ from wtforms import (
     SelectField,
     StringField,
     SubmitField,
-    validators,
 )
 from wtforms.validators import (
     DataRequired,
@@ -33,7 +31,6 @@ from wtforms.validators import (
 )
 
 from .models import UserProfileProxy
-from .validators import USERNAME_RULES, validate_username
 
 
 def strip_filter(text):
@@ -59,8 +56,6 @@ class ProfileForm(FlaskForm):
     username = StringField(
         # NOTE: Form field label
         _("Username"),
-        # NOTE: Form field help text
-        description=_("Required. %(username_rules)s", username_rules=USERNAME_RULES),
         validators=[Length(max=50), DataRequired(message=_("Username not provided."))],
         filters=[strip_filter],
     )
@@ -78,6 +73,19 @@ class ProfileForm(FlaskForm):
         validators=[Length(max=255)],
         filters=[strip_filter],
     )
+
+    def __init__(self, formdata=..., **kwargs):
+        """Lazily set the description of the `username` field during initialisation.
+
+        The app context is not available at import time, so we can only get the config
+        after the app is ready.
+        """
+        super().__init__(formdata, **kwargs)
+
+        self.username.description = _(
+            "Required. %(username_rules)s",
+            username_rules=current_app.config["ACCOUNTS_USERNAME_RULES_TEXT"],
+        )
 
     def validate_username(self, field):
         """Wrap username validator for WTForms."""
