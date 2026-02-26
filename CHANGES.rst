@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version v4.2.0 (released 2026-02-26)
+
+- fix(validation): use invenio-accounts validate_username method
+- deprecated: validate_username method and username_regex + USERNAME_RULES constants
+
 Version v4.1.1 (released 2025-10-23)
 
 - i18n: pulled translations
