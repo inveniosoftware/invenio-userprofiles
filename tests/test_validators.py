@@ -9,8 +9,7 @@
 """Tests for user profile validators."""
 
 import pytest
-
-from invenio_userprofiles.validators import validate_username
+from invenio_accounts.utils import validate_username
 
 test_usernames = {
     "valid": "Good-Name_9",
