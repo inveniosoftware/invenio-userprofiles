@@ -10,6 +10,10 @@
 Changes
 =======
 
+Version v6.0.0 (released 2026-05-28)
+
+- chore(setup): bump dependencies
+
 Version v5.1.0 (released 2026-02-26)
 
 - fix(validation): use invenio-accounts validate_username method
