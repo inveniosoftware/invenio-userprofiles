@@ -1,3 +1,121 @@
+# SPDX-FileCopyrightText: 2015-2022 CERN.
+# SPDX-FileCopyrightText: 2022-2026 Graz University of Technology.
+# SPDX-FileCopyrightText: 2021-2026 TU Wien.
+# SPDX-License-Identifier: MIT
+
+[project]
+name = "invenio-userprofiles"
+description = "User profiles module for Invenio."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "CERN", email = "info@inveniosoftware.org" },
+]
+keywords = [
+  "account",
+  "invenio",
+  "profile",
+  "user",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+]
+dependencies = [
+  "invenio-accounts>=9.0.0,<10.0.0",
+  "invenio-i18n>=4.0.0,<5.0.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/inveniosoftware/invenio-userprofiles"
+
+[project.entry-points."invenio_base.api_apps"]
+invenio_userprofiles = "invenio_userprofiles:InvenioUserProfiles"
+
+[project.entry-points."invenio_base.api_finalize_app"]
+invenio_userprofiles = "invenio_userprofiles.ext:api_finalize_app"
+
+[project.entry-points."invenio_base.apps"]
+invenio_userprofiles = "invenio_userprofiles:InvenioUserProfiles"
+
+[project.entry-points."invenio_base.blueprints"]
+invenio_userprofiles = "invenio_userprofiles.views:create_blueprint"
+
+[project.entry-points."invenio_base.finalize_app"]
+invenio_userprofiles = "invenio_userprofiles.ext:finalize_app"
+
+[project.entry-points."invenio_db.alembic"]
+invenio_userprofiles = "invenio_userprofiles:alembic"
+
+[project.entry-points."invenio_i18n.translations"]
+messages = "invenio_userprofiles"
+
+[project.optional-dependencies]
+admin = []
+mysql = []
+postgresql = []
+sqlite = []
+tests = [
+  "invenio-app>=3.0.0,<4.0.0",
+  "invenio-db[mysql,postgresql,versioning]>=2.2.0,<3.0.0",
+  "pytest-black>=0.6.0",
+  "pytest-invenio>=4.0.0,<5.0.0",
+  "sphinx>=4.5",
+]
+
 [build-system]
-requires = ["setuptools", "wheel", "babel>2.8"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# see https://babel.pocoo.org/en/latest/messages.html#toml-configuration-format
+[tool.babel]
+[tool.babel.compile_catalog]
+directory = "invenio_userprofiles/translations/"
+use_fuzzy = true
+
+[tool.babel.extract_messages]
+copyright_holder = "CERN"
+msgid_bugs_address = "info@inveniosoftware.org"
+mapping_file = "pyproject.toml"
+output_file = "invenio_userprofiles/translations/messages.pot"
+add_comments = "NOTE"
+
+[tool.babel.init_catalog]
+input_file = "invenio_userprofiles/translations/messages.pot"
+output_dir = "invenio_userprofiles/translations/"
+
+[[tool.babel.mappings]]
+method = "javascript"
+pattern = "**.js"
+encoding = "utf-8"
+extract_messages = "$._, jQuery._"
+
+[[tool.babel.mappings]]
+method = "python"
+pattern = "**.py"
+encoding = "utf-8"
+
+[[tool.babel.mappings]]
+method = "jinja2"
+pattern = "**/templates/**.html"
+encoding = "utf-8"
+
+[tool.hatch.version]
+path = "invenio_userprofiles/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/invenio_userprofiles",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+add_ignore = "D401"
+
+[tool.pytest.ini_options]
+addopts = '--black --isort --pydocstyle --doctest-glob="*.rst" --doctest-modules --cov=invenio_userprofiles --cov-report=term-missing'
+testpaths = "tests invenio_userprofiles"
+live_server_scope = "module"
