@@ -64,3 +64,4 @@ target/
 # Example generated
 examples/static/
 examples/instance/
+uv.lock
