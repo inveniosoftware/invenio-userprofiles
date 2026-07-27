@@ -1,8 +1,8 @@
 # Translations template for invenio-userprofiles.
-# Copyright (C) 2025 CERN
+# Copyright (C) 2026 CERN
 # This file is distributed under the same license as the
 # invenio-userprofiles project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
 # Ben Translation and Interpreting Services <info@bentercume.com>, 2022
@@ -12,92 +12,91 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-userprofiles 4.0.0\n"
+"Project-Id-Version: invenio-userprofiles 6.0.0\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2025-07-08 19:59+0000\n"
+"POT-Creation-Date: 2026-06-22 20:35+0000\n"
 "PO-Revision-Date: 2016-08-18 14:14+0000\n"
 "Last-Translator: Berat Aldemir <berataldemir@gmail.com>, 2025\n"
 "Language-Team: Turkish (https://app.transifex.com/inveniosoftware/teams/23537/tr/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: invenio_userprofiles/ext.py:109
+#: invenio_userprofiles/ext.py:104
 #, python-format
 msgid "%(icon)s Profile"
 msgstr "%(icon)s Profil"
 
 #. NOTE: Form field label
-#: invenio_userprofiles/forms.py:61
+#: invenio_userprofiles/forms.py:53
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#. NOTE: Form field help text
-#: invenio_userprofiles/forms.py:63
-#, python-format
-msgid "Required. %(username_rules)s"
-msgstr "Gerekli. %(username_rules)s"
-
-#: invenio_userprofiles/forms.py:64
+#: invenio_userprofiles/forms.py:54
 msgid "Username not provided."
 msgstr "Kullanıcı adı girilmedi."
 
 #. NOTE: Form label
-#: invenio_userprofiles/forms.py:70
+#: invenio_userprofiles/forms.py:60
 msgid "Full name"
 msgstr "Tam ad"
 
 #. NOTE: Form label
-#: invenio_userprofiles/forms.py:77
+#: invenio_userprofiles/forms.py:67
 msgid "Affiliations"
 msgstr "Bağlı olunan kurumlar/kuruluşlar"
 
+#: invenio_userprofiles/forms.py:81
+#, python-format
+msgid "Required. %(username_rules)s"
+msgstr "Gerekli. %(username_rules)s"
+
 #. NOTE: Form validation error.
-#: invenio_userprofiles/forms.py:96
+#: invenio_userprofiles/forms.py:99
 msgid "Username is not available."
 msgstr "Kullanıcı adı kullanılamaz."
 
 #. NOTE: Form field label
-#: invenio_userprofiles/forms.py:129
+#: invenio_userprofiles/forms.py:132
 msgid "Email address"
 msgstr "E-posta adresi"
 
 #. NOTE: Form field label
-#: invenio_userprofiles/forms.py:143
+#: invenio_userprofiles/forms.py:146
 msgid "Re-enter email address"
 msgstr "E-posta adresini tekrar girin"
 
 #. NOTE: Form field help text
-#: invenio_userprofiles/forms.py:145
+#: invenio_userprofiles/forms.py:148
 msgid "Please re-enter your email address."
 msgstr "Lütfen e-posta adresini tekrar girin."
 
 #. NOTE: Form validation error.
-#: invenio_userprofiles/forms.py:152
+#: invenio_userprofiles/forms.py:155
 msgid "Email addresses do not match."
 msgstr "E-posta adresleri eşleşmiyor."
 
 #. NOTE: Form button label
-#: invenio_userprofiles/forms.py:161
+#: invenio_userprofiles/forms.py:164
 msgid "Resend verification email"
 msgstr "Doğrulama e-postasını tekrar gönder"
 
-#: invenio_userprofiles/forms.py:202
+#: invenio_userprofiles/forms.py:205
 msgid "Profile visibility"
 msgstr "Profil görünürlüğü"
 
-#: invenio_userprofiles/forms.py:204 invenio_userprofiles/forms.py:217
+#: invenio_userprofiles/forms.py:207 invenio_userprofiles/forms.py:220
 msgid "Public"
 msgstr "Herkese açık"
 
-#: invenio_userprofiles/forms.py:205 invenio_userprofiles/forms.py:218
+#: invenio_userprofiles/forms.py:208 invenio_userprofiles/forms.py:221
 msgid "Hidden"
 msgstr "Gizli"
 
-#: invenio_userprofiles/forms.py:208
+#: invenio_userprofiles/forms.py:211
 msgid ""
 "Public profiles can be found by other users via searches on username, full "
 "name and affiliation. Hidden profiles cannot be found by other users."
@@ -106,11 +105,11 @@ msgstr ""
 "ve bağlı olunan kurum/kuruluş aramaları yoluyla bulunabilir. Gizli profiller"
 " diğer kullanıcılar tarafından bulunamaz."
 
-#: invenio_userprofiles/forms.py:215
+#: invenio_userprofiles/forms.py:218
 msgid "Email visibility"
 msgstr "E-posta görünürlüğü"
 
-#: invenio_userprofiles/forms.py:221
+#: invenio_userprofiles/forms.py:224
 msgid ""
 "Public email visibility enables your profile to be found by your email "
 "address."
@@ -118,11 +117,11 @@ msgstr ""
 "E-posta görünürlüğünün herkese açık olması, profilinizin e-posta adresiniz "
 "aracılığıyla bulunabilmesini sağlar."
 
-#: invenio_userprofiles/forms.py:228
+#: invenio_userprofiles/forms.py:231
 msgid "Preferences locale"
 msgstr "Yerel ayar tercihleri"
 
-#: invenio_userprofiles/validators.py:19
+#: invenio_userprofiles/validators.py:17
 msgid ""
 "Username must start with a letter, be at least three characters long and "
 "only contain alphanumeric characters, dashes and underscores."
@@ -131,12 +130,12 @@ msgstr ""
 "sadece alfanumerik karakterleri, tireleri ve alttan çizgileri içermelidir."
 
 #. NOTE: Flash message.
-#: invenio_userprofiles/views.py:113
+#: invenio_userprofiles/views.py:108
 msgid "Verification email sent."
 msgstr "Doğrulama e-postası gönderildi."
 
 #. NOTE: Flash message after successful update of profile.
-#: invenio_userprofiles/views.py:136
+#: invenio_userprofiles/views.py:131
 #, python-format
 msgid ""
 "Profile was updated. We have sent a verification email to %(email)s. Please "
@@ -146,41 +145,41 @@ msgstr ""
 "Lütfen kontrol edin."
 
 #. NOTE: Flash message after successful update of profile.
-#: invenio_userprofiles/views.py:144
+#: invenio_userprofiles/views.py:139
 msgid "Profile was updated."
 msgstr "Profil güncellendi."
 
 #. NOTE: Flash message after successful update of profile.
-#: invenio_userprofiles/views.py:153
+#: invenio_userprofiles/views.py:148
 msgid "Preferences were updated."
 msgstr "Tercihler güncellendi."
 
-#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:13
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:13
+#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:9
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:9
 msgid "Profile"
 msgstr "Profil"
 
-#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:21
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:41
+#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:17
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:37
 msgid "You have not yet verified your email address."
 msgstr "E-posta adresinizi henüz onaylamadınız."
 
-#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:41
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:63
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:102
+#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:37
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:59
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:98
 msgid "Cancel"
 msgstr "İptal"
 
-#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:42
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:67
+#: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:38
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:63
 msgid "Update profile"
 msgstr "Profili güncelle"
 
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:73
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:77
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:81
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:106
+#: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:102
 msgid "Update preferences"
 msgstr "Tercihleri ​​güncelle"

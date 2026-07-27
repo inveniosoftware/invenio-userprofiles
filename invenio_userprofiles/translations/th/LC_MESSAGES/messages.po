@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
-# Minjae Kwon, 2026
+# Suthep Yonphimai <tomztt@gmail.com>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -14,119 +14,120 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2026-06-22 20:35+0000\n"
 "PO-Revision-Date: 2016-08-18 14:14+0000\n"
-"Last-Translator: Minjae Kwon, 2026\n"
-"Language-Team: Korean (https://app.transifex.com/inveniosoftware/teams/23537/ko/)\n"
+"Last-Translator: Suthep Yonphimai <tomztt@gmail.com>, 2026\n"
+"Language-Team: Thai (https://app.transifex.com/inveniosoftware/teams/23537/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
-"Language: ko\n"
+"Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: invenio_userprofiles/ext.py:104
 #, python-format
 msgid "%(icon)s Profile"
-msgstr "%(icon)s 프로필"
+msgstr "%(icon)s โปรไฟล์"
 
 #. NOTE: Form field label
 #: invenio_userprofiles/forms.py:53
 msgid "Username"
-msgstr "사용자 이름"
+msgstr "ชื่อผู้ใช้"
 
 #: invenio_userprofiles/forms.py:54
 msgid "Username not provided."
-msgstr "사용자 이름을 입력하지 않았습니다."
+msgstr "ไม่ได้ระบุชื่อผู้ใช้"
 
 #. NOTE: Form label
 #: invenio_userprofiles/forms.py:60
 msgid "Full name"
-msgstr "전체 이름"
+msgstr "ชื่อ-นามสกุล"
 
 #. NOTE: Form label
 #: invenio_userprofiles/forms.py:67
 msgid "Affiliations"
-msgstr "소속"
+msgstr "สังกัด"
 
 #: invenio_userprofiles/forms.py:81
 #, python-format
 msgid "Required. %(username_rules)s"
-msgstr "필수. %(username_rules)s"
+msgstr "จำเป็น %(username_rules)s"
 
 #. NOTE: Form validation error.
 #: invenio_userprofiles/forms.py:99
 msgid "Username is not available."
-msgstr "사용할 수 없는 사용자 이름입니다."
+msgstr "ชื่อผู้ใช้นี้ไม่พร้อมใช้งาน"
 
 #. NOTE: Form field label
 #: invenio_userprofiles/forms.py:132
 msgid "Email address"
-msgstr "이메일 주소"
+msgstr "ที่อยู่อีเมล"
 
 #. NOTE: Form field label
 #: invenio_userprofiles/forms.py:146
 msgid "Re-enter email address"
-msgstr "이메일 주소 다시 입력"
+msgstr "กรอกที่อยู่อีเมลอีกครั้ง"
 
 #. NOTE: Form field help text
 #: invenio_userprofiles/forms.py:148
 msgid "Please re-enter your email address."
-msgstr "이메일 주소를 다시 입력하십시오."
+msgstr "กรุณากรอกที่อยู่อีเมลของคุณอีกครั้ง"
 
 #. NOTE: Form validation error.
 #: invenio_userprofiles/forms.py:155
 msgid "Email addresses do not match."
-msgstr "이메일 주소가 일치하지 않습니다."
+msgstr "ที่อยู่อีเมลไม่ตรงกัน"
 
 #. NOTE: Form button label
 #: invenio_userprofiles/forms.py:164
 msgid "Resend verification email"
-msgstr "인증 이메일 다시 보내기"
+msgstr "ส่งอีเมลยืนยันอีกครั้ง"
 
 #: invenio_userprofiles/forms.py:205
 msgid "Profile visibility"
-msgstr "프로필 공개 범위"
+msgstr "การมองเห็นโปรไฟล์"
 
 #: invenio_userprofiles/forms.py:207 invenio_userprofiles/forms.py:220
 msgid "Public"
-msgstr "공개"
+msgstr "สาธารณะ"
 
 #: invenio_userprofiles/forms.py:208 invenio_userprofiles/forms.py:221
 msgid "Hidden"
-msgstr "숨김"
+msgstr "ซ่อน"
 
 #: invenio_userprofiles/forms.py:211
 msgid ""
 "Public profiles can be found by other users via searches on username, full "
 "name and affiliation. Hidden profiles cannot be found by other users."
 msgstr ""
-"공개 프로필은 다른 사용자가 사용자 이름, 전체 이름, 소속으로 검색해 찾을 수 있습니다. 숨김 프로필은 다른 사용자가 찾을 수 "
-"없습니다."
+"โปรไฟล์สาธารณะสามารถถูกค้นพบโดยผู้ใช้อื่นผ่านการค้นหาชื่อผู้ใช้ ชื่อ-นามสกุล"
+" และสังกัด โปรไฟล์ที่ซ่อนอยู่จะไม่สามารถถูกค้นพบโดยผู้ใช้อื่น"
 
 #: invenio_userprofiles/forms.py:218
 msgid "Email visibility"
-msgstr "이메일 공개 범위"
+msgstr "การมองเห็นอีเมล"
 
 #: invenio_userprofiles/forms.py:224
 msgid ""
 "Public email visibility enables your profile to be found by your email "
 "address."
-msgstr "이메일을 공개하면 다른 사용자가 이메일 주소로 프로필을 찾을 수 있습니다."
+msgstr "การมองเห็นอีเมลสาธารณะทำให้โปรไฟล์ของคุณถูกค้นพบด้วยที่อยู่อีเมล"
 
 #: invenio_userprofiles/forms.py:231
 msgid "Preferences locale"
-msgstr "환경설정 로케일"
+msgstr "ภาษาของการตั้งค่า"
 
 #: invenio_userprofiles/validators.py:17
 msgid ""
 "Username must start with a letter, be at least three characters long and "
 "only contain alphanumeric characters, dashes and underscores."
 msgstr ""
-"사용자명은 글자로 시작해야하며, 최소 3글자 이상이어야 합니다. 알파벳, 숫자, 대시(-) 와 밑줄(_) 만 포함할 수 있습니다."
+"ชื่อผู้ใช้ต้องขึ้นต้นด้วยตัวอักษร มีความยาวอย่างน้อยสามตัวอักษร "
+"และประกอบด้วยตัวอักษร ตัวเลข ขีดกลาง และขีดล่างเท่านั้น"
 
 #. NOTE: Flash message.
 #: invenio_userprofiles/views.py:108
 msgid "Verification email sent."
-msgstr "인증 이메일을 보냈습니다."
+msgstr "ส่งอีเมลยืนยันแล้ว"
 
 #. NOTE: Flash message after successful update of profile.
 #: invenio_userprofiles/views.py:131
@@ -134,44 +135,44 @@ msgstr "인증 이메일을 보냈습니다."
 msgid ""
 "Profile was updated. We have sent a verification email to %(email)s. Please "
 "check it."
-msgstr "프로필을 업데이트했습니다. %(email)s(으)로 인증 이메일을 보냈습니다. 확인해 주십시오."
+msgstr "อัปเดตโปรไฟล์แล้ว เราได้ส่งอีเมลยืนยันไปที่ %(email)s กรุณาตรวจสอบ"
 
 #. NOTE: Flash message after successful update of profile.
 #: invenio_userprofiles/views.py:139
 msgid "Profile was updated."
-msgstr "프로필을 업데이트했습니다."
+msgstr "อัปเดตโปรไฟล์แล้ว"
 
 #. NOTE: Flash message after successful update of profile.
 #: invenio_userprofiles/views.py:148
 msgid "Preferences were updated."
-msgstr "환경설정을 업데이트했습니다."
+msgstr "อัปเดตการตั้งค่าแล้ว"
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:9
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:9
 msgid "Profile"
-msgstr "프로필"
+msgstr "โปรไฟล์"
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:17
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:37
 msgid "You have not yet verified your email address."
-msgstr "아직 이메일 주소를 인증하지 않았습니다."
+msgstr "คุณยังไม่ได้ยืนยันที่อยู่อีเมลของคุณ"
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:37
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:59
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:98
 msgid "Cancel"
-msgstr "취소"
+msgstr "ยกเลิก"
 
 #: invenio_userprofiles/templates/invenio_userprofiles/settings/profile.html:38
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:63
 msgid "Update profile"
-msgstr "프로필 업데이트"
+msgstr "อัปเดตโปรไฟล์"
 
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:73
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:77
 msgid "Preferences"
-msgstr "환경설정"
+msgstr "การตั้งค่า"
 
 #: invenio_userprofiles/templates/semantic-ui/invenio_userprofiles/settings/profile.html:102
 msgid "Update preferences"
-msgstr "환경설정 업데이트"
+msgstr "อัปเดตการตั้งค่า"
