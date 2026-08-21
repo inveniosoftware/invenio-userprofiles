@@ -6,8 +6,7 @@
 # 
 # Translators:
 # Tibor Simko <tibor.simko@cern.ch>, 2022
-# Zacharias Zacharodimos <zacharias.zacharodimos@cern.ch>, 2022
-# Jesús Martín <jesusmartin@sallep.net>, 2025
+# Jesús Martín <jesusmartin@sallep.net>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -16,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2026-06-22 20:35+0000\n"
 "PO-Revision-Date: 2016-08-18 14:14+0000\n"
-"Last-Translator: Jesús Martín <jesusmartin@sallep.net>, 2025\n"
+"Last-Translator: Jesús Martín <jesusmartin@sallep.net>, 2026\n"
 "Language-Team: Spanish (https://app.transifex.com/inveniosoftware/teams/23537/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -90,7 +89,7 @@ msgstr "Visibilidad del perfil"
 
 #: invenio_userprofiles/forms.py:207 invenio_userprofiles/forms.py:220
 msgid "Public"
-msgstr "Publico"
+msgstr "Público"
 
 #: invenio_userprofiles/forms.py:208 invenio_userprofiles/forms.py:221
 msgid "Hidden"
