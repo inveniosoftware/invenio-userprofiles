@@ -229,7 +229,10 @@ class PreferencesForm(FlaskForm):
     locale = LocalProxy(
         lambda: SelectField(
             _("Preferences locale"),
-            choices=set(current_app.extensions["invenio-i18n"].get_locales()),
+            choices={
+                str(locale)
+                for locale in current_app.extensions["invenio-i18n"].get_locales()
+            },
         ),
     )
 
