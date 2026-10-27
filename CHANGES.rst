@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v7.0.3 (released 2026-10-27)
+
+- fix(forms): pass locale choices as strings
+
 Version v7.0.2 (released 2026-08-04)
 
 - fix(build): include mo files

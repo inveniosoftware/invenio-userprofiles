@@ -28,7 +28,7 @@ from .api import current_userprofile
 from .ext import InvenioUserProfiles
 from .models import UserProfile, UserProfileProxy
 
-__version__ = "7.0.2"
+__version__ = "7.0.3"
 
 __all__ = (
     "__version__",
