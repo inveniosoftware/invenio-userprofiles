@@ -7,6 +7,10 @@
 Changes
 =======
 
+Version v6.1.2 (released 2026-10-27)
+
+- fix(forms): pass locale choices as strings
+
 Version v6.1.1 (released 2026-08-27)
 
 - i18n: pulled translations
