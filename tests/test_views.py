@@ -52,7 +52,8 @@ def test_profile_in_registration(base_app):
     with app.test_request_context():
         user = User.query.filter_by(email="test_user@test.org").one()
         assert user.username == "TestUser"
-        assert user.user_profile["full_name"] == "Test C. User"
+        # Invenio-Accounts after v9.2.0 adds zero-width spaces before dots in names
+        assert user.user_profile["full_name"] in ["Test C. User", "Test C\u200b. User"]
         assert user.user_profile["affiliations"] == "Test Org"
 
     with app.test_client() as client:
