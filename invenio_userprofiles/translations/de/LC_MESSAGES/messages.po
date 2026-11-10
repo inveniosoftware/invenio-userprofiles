@@ -12,7 +12,6 @@
 # Sarah Wiechers, 2024
 # Mojib Wali <mojib.wali@tugraz.at>, 2025
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: invenio-userprofiles 4.0.0\n"
