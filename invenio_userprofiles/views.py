@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2018 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-FileCopyrightText: 2022 Northwestern University.
 # SPDX-FileCopyrightText: 2023-2024 Graz University of Technology.
 # SPDX-License-Identifier: MIT
@@ -18,6 +18,7 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from flask_security.confirmable import send_confirmation_instructions
+from invenio_accounts.reauth import is_reauth_fresh, reauth_redirect
 from invenio_db import db
 from invenio_i18n import lazy_gettext as _
 
@@ -74,6 +75,9 @@ def profile():
     if form:
         form.process(formdata=request.form)
         if form.validate_on_submit():
+            if form_name == "profile" and _email_changed(form):
+                if not is_reauth_fresh():
+                    return reauth_redirect(url_for(".profile"))
             handle_form(form)
             return redirect(url_for(".profile"), code=303)  # this endpoint
 
@@ -101,6 +105,14 @@ def profile_form_factory():
         )
 
 
+def _email_changed(form):
+    """Return whether the submitted profile form changes the user's email."""
+    return (
+        current_app.config["USERPROFILES_EMAIL_ENABLED"]
+        and form.email.data.lower() != current_user.email.lower()
+    )
+
+
 def handle_verification_form(form):
     """Handle email sending verification form."""
     send_confirmation_instructions(current_user)
@@ -113,10 +125,7 @@ def handle_profile_form(form):
     email_changed = False
     datastore = current_app.extensions["security"].datastore
     with db.session.begin_nested():
-        if (
-            current_app.config["USERPROFILES_EMAIL_ENABLED"]
-            and form.email.data.lower() != current_user.email.lower()
-        ):
+        if _email_changed(form):
             email_changed = True
         form.populate_obj(current_user)
         db.session.add(current_user)
