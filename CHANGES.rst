@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version v7.0.4 (released 2026-11-19)
+
+- fix(alembic): bind the values when moving the user profiles
+- fix(tests): allow sanitized full names in user profiles
+
 Version v7.0.3 (released 2026-10-27)
 
 - fix(forms): pass locale choices as strings
