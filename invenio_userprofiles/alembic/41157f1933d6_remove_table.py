@@ -35,21 +35,21 @@ def upgrade():
         }
         preferences = {"visibility": "restricted", "email_visibility": "restricted"}
 
-        query = (
-            "UPDATE accounts_user SET "
-            " username = '{username}', "
-            " displayname = '{displayname}', "
-            " profile = '{profile_data_string}', "
-            " preferences = '{preferences}' "
-            "WHERE accounts_user.id = {user_id};".format(
-                username=username,
-                displayname=displayname,
-                profile_data_string=json.dumps(profile_data),
-                preferences=json.dumps(preferences),
-                user_id=user_id,
-            )
+        # Bound parameters: names can contain quotes or colons, and None stays NULL
+        connection.execute(
+            text(
+                "UPDATE accounts_user SET username = :username, "
+                "displayname = :displayname, profile = :profile, "
+                "preferences = :preferences WHERE accounts_user.id = :user_id"
+            ),
+            {
+                "username": username,
+                "displayname": displayname,
+                "profile": json.dumps(profile_data),
+                "preferences": json.dumps(preferences),
+                "user_id": user_id,
+            },
         )
-        op.execute(query)
 
     op.drop_table("userprofiles_userprofile")
 
