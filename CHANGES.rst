@@ -7,6 +7,10 @@
 Changes
 =======
 
+Version v6.1.3 (released 2026-11-20)
+
+- fix(alembic): bind the values when moving the user profiles
+
 Version v6.1.2 (released 2026-10-27)
 
 - fix(forms): pass locale choices as strings
