@@ -5,17 +5,9 @@
 
 import re
 
-import pytest
 from flask import url_for
 from helpers import login, sign_up
 from invenio_accounts.models import User
-
-
-@pytest.fixture(scope="module")
-def app_config(app_config):
-    """Enable re-authentication."""
-    app_config["ACCOUNTS_REAUTH_ENABLED"] = True
-    return app_config
 
 
 def _profile_data(app, **kwargs):
@@ -57,7 +49,7 @@ def test_change_email_requires_reauth(app):
 
     with app.test_client() as client:
         sign_up(app, client)
-        login(app, client)
+        login(app, client, reauth=False)
 
         data = _profile_data(app, email="new@ex.org", email_repeat="new@ex.org")
         res = client.post(profile_url, data=data)
@@ -77,7 +69,7 @@ def test_profile_change_without_email_change_needs_no_reauth(app):
 
     with app.test_client() as client:
         sign_up(app, client)
-        login(app, client)
+        login(app, client, reauth=False)
 
         res = client.post(profile_url, data=_profile_data(app, full_name="New Name"))
         assert res.status_code == 303
