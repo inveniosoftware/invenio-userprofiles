@@ -1,9 +1,10 @@
-# SPDX-FileCopyrightText: 2015-2018 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Helper functions for tests."""
 
 from flask import url_for
+from invenio_accounts.testutils import reauth_user_via_session
 
 
 def sign_up(app, client, email=None, password=None):
@@ -22,8 +23,12 @@ def sign_up(app, client, email=None, password=None):
     assert res.status_code == 302  # redirect after signedup
 
 
-def login(app, client, email=None, password=None):
-    """Log the user in with the test client."""
+def login(app, client, email=None, password=None, reauth=True):
+    """Log the user in with the test client.
+
+    :param reauth: Also mark the user as freshly re-authenticated, so views
+        asking for a confirmation code can be used right away.
+    """
     with app.test_request_context():
         login_url = url_for("security.login")
 
@@ -35,3 +40,5 @@ def login(app, client, email=None, password=None):
         ),
     )
     assert res.status_code == 302  # redirect after login
+    if reauth:
+        reauth_user_via_session(client)
